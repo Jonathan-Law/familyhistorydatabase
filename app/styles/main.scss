@@ -1,6 +1,6 @@
 $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
 // bower:scss
-/*@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";*/
+@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
 @import "navaside.scss";
 
@@ -15,7 +15,6 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 body, html {
   height: 100%;
 }
-
 
 .container-fluid {
   padding-right: 0px;

@@ -183,11 +183,11 @@ module.exports = function (grunt) {
         generatedImagesDir: '.tmp/images/generated',
         imagesDir: '<%= yeoman.app %>/images',
         javascriptsDir: '<%= yeoman.app %>/scripts',
-        fontsDir: '<%= yeoman.app %>/styles/fonts',
         importPath: './bower_components',
         httpImagesPath: '/images',
         httpGeneratedImagesPath: '/images/generated',
-        httpFontsPath: '/styles/fonts',
+        fontsDir: grunt.option('appPath')? grunt.option('appPath') + '/fonts' : '<%= yeoman.app %>/fonts',
+        httpFontsPath: grunt.option('appPath')? grunt.option('appPath') + '/fonts' : '/fonts',
         relativeAssets: false,
         assetCacheBuster: false,
         raw: 'Sass::Script::Number.precision = 10\n'
@@ -344,9 +344,9 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
-            'images/{,*/}*.{webp}',
+            'images/{,*/}*',
             'fonts/*',
-            'styles/bootstrap-additions.min.css'
+            'styles/bootstrap-additions.min.css',
           ]
         }, {
           expand: true,
@@ -356,8 +356,13 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.',
-          src: 'bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/*',
-          dest: '<%= yeoman.dist %>'
+          src: [
+          './bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/*',
+          './bower_components/fontawesome/css/**/*',
+          './bower_components/fontawesome/fonts/**/*',
+          ],
+          dest: '<%= yeoman.dist %>/fonts/',
+          flatten: true
         }]
       },
       styles: {
