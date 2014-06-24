@@ -1,4 +1,6 @@
-<div ng-controller="NavCtrl">
+
+<!-- Asside version -->
+<!-- <div ng-controller="NavCtrl">
   <ul class="nav nav-pills">
     <li class="active"><a ng-href="#">Home</a></li>
     <li><a ng-href="#/about">About</a></li>
@@ -12,3 +14,138 @@
     </button>
   </div>
 </div>
+-->
+
+
+
+<nav class="navbar navbar-default" role="navigation" id="globalNav">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <form class="navbar-form navbar-left navLeft" role="search" id="">
+      <div class="form-group">
+        <button class="btn btn-default" id="menu-toggle"><i class="fa fa-bars"></i> Menu</button>
+      </div>
+    </form>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" id="navRightButton" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="navbarCenter">
+        <a class="navbar-brand" href="#">
+         <span class="fullWidth">
+          FamilyHistoryDatabase
+         </span>
+         <span class="notFullWidth">
+          F.H.D.
+         </span>
+       </a>
+     </div>
+   </div>
+    <div class="collapse navbar-collapse navRight" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="navUserName"> UserName <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+
+ </div><!-- /.container-fluid -->
+</nav>
+
+
+
+
+
+
+<!-- Side Menu Pop out version -->
+
+<div id="sidebar-wrapper-background" class="side-wrapper-nav">&nbsp;</div>
+<div id="sidebar-wrapper" class="side-wrapper-nav">
+  <ul class="sidebar-nav">
+    <!-- <a id="menu-close" href="javascript:void(0);" class="btn btn-default btn-lg pull-right toggle"><i class="fa fa-times"></i></a> -->
+    <li class="sidebar-brand"><!-- <a href="http://startbootstrap.com">Start Bootstrap</a> -->FamilyHistoryDatabase
+      <hr style="margin-top:-1px">
+    </li>
+    <li><a href="#top">Home</a>
+    </li>
+    <li><a href="#about">About</a>
+    </li>
+    <li><a href="#services">Services</a>
+    </li>
+    <li><a href="#portfolio">Portfolio</a>
+    </li>
+    <li><a href="#contact">Contact</a>
+    </li>
+  </ul>
+</div>
+<!-- /Side Menu -->
+
+
+<!-- JavaScript -->
+<!-- Custom JavaScript for the Side Menu -->
+<script>
+$("#menu-close").click(function(e) {
+  e.preventDefault();
+  $(".side-wrapper-nav").each(function() {
+    $(this).toggleClass("active");
+  });
+  $(this).toggleClass('close-left');
+  // $('#menu-toggle').toggleClass('hideToggle');
+});
+</script>
+<script>
+$(document).ready(function() {
+  $('#sidebar-wrapper').on('mouseleave', function(e) {
+    e.preventDefault();
+    $(".side-wrapper-nav").each(function() {
+      $(this).toggleClass("active");
+    });
+    // $("#menu-close").toggleClass('close-left');
+    // $('#menu-toggle').toggleClass('hideToggle');
+  });
+  $("#menu-toggle").on(/* 'click' */ 'mouseenter', function(e) {
+    e.preventDefault();
+    $(".side-wrapper-nav").each(function() {
+      $(this).toggleClass("active");
+    });
+    // $(this).toggleClass('hideToggle');
+    // $("#menu-close").toggleClass('close-left');
+  });
+
+  $("#navRightButton").on('click', function() {
+    e.stopPropagation();
+    $(".dropdown-toggle").dropdown('toggle');
+  })
+});
+</script>
+
+<!--  and Smooth Scrolling -->
+<script>
+    // $(function() {
+    //   $('a[href*=#]:not([href=#])').click(function() {
+    //     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
+
+    //       var target = $(this.hash);
+    //       target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+    //       if (target.length) {
+    //         $('html,body').animate({
+    //           scrollTop: target.offset().top
+    //         }, 1000);
+    //         return false;
+    //       }
+    //     }
+    //   });
+    // });
+</script>
