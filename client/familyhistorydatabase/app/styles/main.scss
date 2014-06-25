@@ -1,4 +1,4 @@
-$icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+/*$icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";*/
 // bower:scss
 @import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
@@ -22,6 +22,7 @@ body, html {
   margin-right: auto;
   margin-left: auto;
 }
+
 .notFullWidth {
   display:none;
 }
@@ -55,6 +56,7 @@ body, html {
     padding-right: 60px;
   }
   .navbar-header{
+    clear:both;
     float: right;
     margin-right: 0px !important;
     margin-left: 0px !important;

@@ -38,30 +38,30 @@
         <a class="navbar-brand" href="#">
          <span class="fullWidth">
           FamilyHistoryDatabase
-         </span>
-         <span class="notFullWidth">
+        </span>
+        <span class="notFullWidth">
           F.H.D.
-         </span>
-       </a>
-     </div>
-   </div>
-    <div class="collapse navbar-collapse navRight" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="navUserName"> UserName <b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
+        </span>
+      </a>
+    </div>
+  </div>
+  <div class="collapse navbar-collapse navRight" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="#">Link</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="navUserName"> UserName <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Action</a></li>
+          <li><a href="#">Another action</a></li>
+          <li><a href="#">Something else here</a></li>
+          <li class="divider"></li>
+          <li><a href="#">Separated link</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div><!-- /.navbar-collapse -->
 
- </div><!-- /.container-fluid -->
+</div><!-- /.container-fluid -->
 </nav>
 
 
@@ -110,24 +110,37 @@ $(document).ready(function() {
   $('#sidebar-wrapper').on('mouseleave', function(e) {
     e.preventDefault();
     $(".side-wrapper-nav").each(function() {
-      $(this).toggleClass("active");
+      $(this).removeClass("active");
     });
     // $("#menu-close").toggleClass('close-left');
     // $('#menu-toggle').toggleClass('hideToggle');
   });
-  $("#menu-toggle").on(/* 'click' */ 'mouseenter', function(e) {
-    e.preventDefault();
+  $("#menu-toggle").on( 'click, mouseenter', function(e) {
+    e.stopPropagation();
     $(".side-wrapper-nav").each(function() {
-      $(this).toggleClass("active");
+      $(this).addClass("active");
     });
     // $(this).toggleClass('hideToggle');
     // $("#menu-close").toggleClass('close-left');
   });
+  $(document).on('click', function(e) {
+    // if($('#sidebar-wrapper').attr('id') === $(e.target).attr('id')) {
+    //   e.stopPropagation();
+    // } else
+    if ($('#menu-toggle').attr('id') !== $(e.target).attr('id')) {
+      $(".side-wrapper-nav").each(function() {
+        $(this).removeClass("active");
+      })
+    } else {
+      e.stopPropagation();
+    }
+  });
+
 
   $("#navRightButton").on('click', function() {
     e.stopPropagation();
     $(".dropdown-toggle").dropdown('toggle');
-  })
+  });
 });
 </script>
 

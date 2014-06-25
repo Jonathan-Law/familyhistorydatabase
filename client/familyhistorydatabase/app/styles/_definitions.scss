@@ -1,0 +1,20 @@
+$green: rgba(102,102,76,0.95);
+$darkGray: rgb(85,85,85);
+$offwhite: #eee;
+$linkBlue: #1b7fcc;
+
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin transition($speed) {
+  -webkit-transition: all $speed ease 0s;
+  -moz-transition: all $speed ease 0s;
+  -ms-transition: all $speed ease 0s;
+  -o-transition: all $speed ease 0s;
+  transition: all $speed ease 0s;
+}
