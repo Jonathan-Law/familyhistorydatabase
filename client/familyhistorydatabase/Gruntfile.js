@@ -363,6 +363,14 @@ module.exports = function (grunt) {
           ],
           dest: '<%= yeoman.dist %>/fonts/',
           flatten: true
+        }, {
+          expand: true,
+          cwd: '.',
+          src: [
+          './bower_components/bootstrap/fonts/*',
+          ],
+          dest: '<%= yeoman.dist %>/styles/bootstrap/',
+          flatten: true
         }]
       },
       styles: {
