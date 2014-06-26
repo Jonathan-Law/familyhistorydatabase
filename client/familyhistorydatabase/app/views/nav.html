@@ -19,20 +19,18 @@
 
 
 <nav class="navbar navbar-default" role="navigation" id="globalNav">
-  <div class="container-fluid">
+  <div class="container-fluid"  id="globalNavDiv">
     <!-- Brand and toggle get grouped for better mobile display -->
-    <form class="navbar-form navbar-left navLeft" role="search" id="">
+    <form class="navbar-form navbar-left navLeft" role="search">
       <div class="form-group">
         <button class="btn btn-default" id="menu-toggle"><i class="fa fa-bars"></i> Menu</button>
       </div>
     </form>
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" id="navRightButton" data-target="#bs-example-navbar-collapse-1">
+      <button type="button" class="btn btn-default" data-toggle="collapse" id="navRightButton" data-target="#bs-example-navbar-collapse-1">
         <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
+        <i class="fa fa-user"></i>
       </button>
       <div class="navbarCenter">
         <a class="navbar-brand" href="#">
@@ -43,6 +41,14 @@
           F.H.D.
         </span>
       </a>
+      <div class="almostFullWidth">
+        <form class="navbar-form navbar-left" id="navSearch" role="search">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search">
+            <button class="input-group-addon btn btn-primary" type="submit" ><i class="fa fa-search"></i></button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
   <div class="collapse navbar-collapse navRight" id="bs-example-navbar-collapse-1">
@@ -77,6 +83,16 @@
     <!-- <a id="menu-close" href="javascript:void(0);" class="btn btn-default btn-lg pull-right toggle"><i class="fa fa-times"></i></a> -->
     <li class="sidebar-brand"><!-- <a href="http://startbootstrap.com">Start Bootstrap</a> -->FamilyHistoryDatabase
       <hr style="margin-top:-1px">
+    </li>
+    <li class="notAlmostFullWidth">
+      <div >
+        <form class="" id="sideSearch" role="search">
+          <div class="input-group">
+            <input type="text" class="form-control" id="sideNavSearch" placeholder="Search">
+            <button class="input-group-addon btn btn-primary" type="submit" ><i class="fa fa-search"></i></button>
+          </div>
+        </form>
+      </div>
     </li>
     <li><a href="#top">Home</a>
     </li>
@@ -127,7 +143,7 @@ $(document).ready(function() {
     // if($('#sidebar-wrapper').attr('id') === $(e.target).attr('id')) {
     //   e.stopPropagation();
     // } else
-    if ($('#menu-toggle').attr('id') !== $(e.target).attr('id')) {
+    if (('menu-toggle' !== $(e.target).attr('id')) && ( 'sideNavSearch' !== $(e.target).attr('id'))) {
       $(".side-wrapper-nav").each(function() {
         $(this).removeClass("active");
       })

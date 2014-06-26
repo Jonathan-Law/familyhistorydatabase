@@ -1,7 +1,7 @@
 /*$icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";*/
 // bower:scss
-/*@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";*/
 // endbower
+/*@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";*/
 @import "navaside.scss";
 
 .browsehappy {
@@ -27,13 +27,32 @@ body, html {
   display:none;
 }
 
+.navHeight{
+  height: 52px;
+}
 
-@media screen and (max-width: 767px) {
+@media (min-width: 768px){
+  #navRightButton{
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  #globalNavDiv{
+    margin-bottom: -5px;
+  }
+  .almostFullWidth{
+    display: none !important;
+  }
+  .notAlmostFullWidth{
+    display: inherit !important;
+  }
   .navRight {
     float: none !important;
     margin-left: 0px !important;
   }
   .navbar-form {
+    float: left;
     display: inline-block;
     padding: 8px 15px;
     margin-top: 0px;
@@ -56,15 +75,13 @@ body, html {
     padding-right: 60px;
   }
   .navbar-header{
-    clear:both;
-    float: right;
     margin-right: 0px !important;
     margin-left: 0px !important;
     padding-right: 0px;
     padding-left: 77px;
   }
 }
-@media screen and (max-width: 479px) {
+@media (max-width: 479px) {
   .fullWidth{
     display:none;
   }

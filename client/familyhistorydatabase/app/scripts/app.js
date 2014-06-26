@@ -9,6 +9,9 @@
 * Main module of the application.
 */
 
+/*global app:true*/
+/*exported app*/
+
 var app = angular
 .module('familyhistorydatabaseApp', [
   'ngAnimate',
