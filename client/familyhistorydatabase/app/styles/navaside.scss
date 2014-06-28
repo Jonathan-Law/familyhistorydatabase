@@ -124,6 +124,15 @@ hr {
   text-decoration: none;
 }
 
+.sidebar-nav li a:active{
+  margin-top: -1px;
+  margin-bottom: -1px;
+  border-top:1px solid $darkGray;
+  border-bottom:1px solid $darkGray;
+  background: $darken;
+  color: #84B645;
+}
+
 .sidebar-nav li a:active,
 .sidebar-nav li a:focus {
   text-decoration: none;
@@ -252,6 +261,7 @@ hr {
   border-bottom:1px solid $darkGray;
   background: $darken;
 }
+
 .sidebar-nav .dropdown.open:hover{
   margin-top: -1px;
   margin-bottom: -1px;
