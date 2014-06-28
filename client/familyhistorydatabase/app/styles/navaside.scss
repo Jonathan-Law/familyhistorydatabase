@@ -95,9 +95,17 @@ hr {
 }
 
 .sidebar-nav li {
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
   color: $offwhite;
   line-height: 40px;
   text-indent: 20px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .sidebar-nav li a {
@@ -175,11 +183,6 @@ hr {
   border-radius: 0px;
 }
 
-.navRight {
-  float: right !important;
-  margin-left: -200px !important;
-}
-
 .navLeft {
   margin-right: -110px !important;
   position: relative;
@@ -203,128 +206,74 @@ hr {
 .navbarCenter {
   width: 100%;
 }
+.navbarCenter .navbar-brand {
+  position: relative;
+  z-index: 5;
+}
+
+.navbar-brand{
+  margin-top: -5px;
+  margin-right: 15px;
+  height: 30px;
+}
 
 .navbar-header {
   text-align: center;
   width: 100%;
   padding-left: 107px;
-  padding-right: 200px;
+  padding-right: 250px;
   display: inline-block;
 }
 
-.navbarCenter {
-  height: 52px;
-}
-
-#navSearch .input-group, #navSearch .input-group input, #navSearch .input-group button{
-  display: inline-block;
-}
 
 #navSearch{
-  display: block;
-  margin: 0px;
-  margin-bottom: -10px;
   margin-top: 8px;
-  width: 100%;
-  margin-left: -215px;
 }
 
-#navSearch .input-group{
-  width: 100%;
-  padding-left: 215px;
+#sideSearch input, #sideSearch span{
+  line-height: 1.42857143;
+  text-indent: 0px;
 }
-
-#navSearch .input-group input{
-  width: 100% !important;
-  padding-right: 39px;
-}
-
-#navSearch .input-group button{
-  position: relative;
-  z-index: 1;
-  margin-left: -1px;
-  margin-right: -40px;
-}
-
-#navSearch .input-group-addon {
-  width: 39px;
-  color: #fff;
-  background-color: #a4ca42;
-  border-color: #97bd35;
-  margin-bottom: 0;
-  font-weight: normal;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.428571429;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-#navSearch .input-group-addon:hover {
-  color: white;
-  background-color: #8eb132;
-  border-color: #718e28;
-}
-
-#sideSearch{
-  margin-top: 5px;
-  width: 100%;
-}
-
-#sideSearch .input-group{
-  width: 100%;
-}
-
-#sideSearch .input-group input{
-  width: calc(100% - 40px);
+#sideSearch input, #sideSearch span, #sideSearch span button{
   border-radius: 0px;
-}
-#sideSearch .input-group button{
-  border-radius: 0px;
-}
-
-#sideSearch .input-group-addon:hover {
-  color: white;
-  background-color: #8eb132;
-  border-color: #718e28;
-  /*background-color: #3071a9;*/
-  /*border-color: #285e8e;*/
-}
-
-#sideSearch .input-group-addon{
-  width: 39px;
-  margin-top: -8px;
-  margin-left: -20px;
-  color: #fff;
-  /*background-color: #428bca;*/
-  background-color: #a4ca42;
-  border-color: #97bd35;
-  /*border-color: #357ebd;*/
-  margin-bottom: 0;
-  font-weight: normal;
-  text-align: center !important;
-  vertical-align: middle;
-  cursor: pointer;
-  background-image: none;
-  border: 1px solid transparent;
-  white-space: nowrap;
-  padding: 6px 12px !important;
-  font-size: 14px;
-  line-height: 1.428571429;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 #bs-example-navbar-collapse-1 {
-  margin-left: -180px;
+  float: right;
+  max-width: 250px;
+  margin-left: -250px;
+}
+
+
+.sidebar-nav .dropdown.open{
+  margin-top: -1px;
+  margin-bottom: -1px;
+  border-top:1px solid $darkGray;
+  border-bottom:1px solid $darkGray;
+  background: $darken;
+}
+.sidebar-nav .dropdown.open:hover{
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+.sidebar-nav li .dropdown.open a{
+  color: #84B645;
+}
+.sidebar-nav li .dropdown.open a:hover{
+  color: #428bca;
+}
+.sidebar-nav .dropdown.open .dropdown-menu {
+  width: 200px;
+  margin-left: 25px;
+  border-radius: 0px 0px 4px 4px;
+  margin-top: 0px;
+}
+.sidebar-nav .dropdown.open .dropdown-menu li a{
+  color: rgb(55,69,30);
+  font-weight: bold;
+}
+.sidebar-nav .dropdown.open .dropdown-menu li a:hover{
+  color: #428bca;
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
 }

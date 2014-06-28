@@ -31,21 +31,39 @@ body, html {
   height: 52px;
 }
 
+.imitateLink {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+
 @media (min-width: 768px){
   #navRightButton{
     display: none;
   }
+  .notAlmostFullWidth{
+    display: none ;
+  }
 }
 
 @media (max-width: 767px) {
+  #bs-example-navbar-collapse-1 {
+    max-width: 100%;
+  }
+
   #globalNavDiv{
     margin-bottom: -5px;
   }
   .almostFullWidth{
-    display: none !important;
+    display: none ;
   }
   .notAlmostFullWidth{
-    display: inherit !important;
+    display: inherit ;
   }
   .navRight {
     float: none !important;
@@ -65,8 +83,7 @@ body, html {
   .navbar-form .form-group {
     margin-bottom: 0px;
   }
-  .navbar-brand {
-  }
+
   .container-fluid {
     padding-right: 15px;
     padding-left: 15px;
@@ -79,6 +96,12 @@ body, html {
     margin-left: 0px !important;
     padding-right: 0px;
     padding-left: 77px;
+  }
+  .navbar-brand{
+    margin-top: 0px;
+  }
+  #logo {
+    margin-top: -2px !important;
   }
 }
 @media (max-width: 479px) {
