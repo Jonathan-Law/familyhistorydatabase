@@ -81,7 +81,7 @@
 <div id="sidebar-wrapper" class="side-wrapper-nav">
   <ul class="sidebar-nav">
     <!-- <a id="menu-close" href="javascript:void(0);" class="btn btn-default btn-lg pull-right toggle"><i class="fa fa-times"></i></a> -->
-    <li class="sidebar-brand"><a href="#home">FamilyHistoryDatabase</a>
+    <li class="sidebar-brand"><a class="imitateLink" id="sidebar-brand" >FamilyHistoryDatabase</a>
       <hr style="margin-top:-1px">
     </li>
     <li class="notAlmostFullWidth">
@@ -153,10 +153,13 @@ $(document).ready(function() {
     // if($('#sidebar-wrapper').attr('id') === $(e.target).attr('id')) {
     //   e.stopPropagation();
     // } else
-    if (('menu-toggle' !== $(e.target).attr('id')) && ( 'sideNavSearch' !== $(e.target).attr('id'))) {
+    if (('menu-toggle' !== $(e.target).attr('id'))
+      && ( 'sideNavSearch' !== $(e.target).attr('id'))
+      && ( 'sidebar-brand' !== $(e.target).attr('id'))) {
       $(".side-wrapper-nav").each(function() {
         $(this).removeClass("active");
       })
+      //
     } else {
       e.stopPropagation();
     }
