@@ -55,3 +55,11 @@ function isEmpty(obj) {
 
   return true;
 }
+
+var setupParallax = function() {
+  jQuery('#parallax .parallax-layer')
+  .parallax({
+    xparallax: '100px',
+    mouseport: jQuery('body')
+  });
+}

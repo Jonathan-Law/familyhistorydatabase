@@ -417,7 +417,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',
-      'newer:jshint',
+      // 'newer:jshint',
       'watch'
     ]);
   });

@@ -9,7 +9,6 @@
 * Main module of the application.
 */
 
-/*global app:true*/
 /*exported app*/
 
 var app = angular
@@ -42,4 +41,7 @@ var app = angular
     animation: 'am-fadeAndSlideLeft',
     placement: 'left'
   });
-});
+})
+.run(['$rootScope', function($rootScope) {
+  $rootScope.name = 'root';
+}]);
