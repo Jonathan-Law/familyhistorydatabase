@@ -122,54 +122,42 @@
 <!-- JavaScript -->
 <!-- Custom JavaScript for the Side Menu -->
 <script>
-$("#menu-close").click(function(e) {
-  e.preventDefault();
-  $(".side-wrapper-nav").each(function() {
-    $(this).toggleClass("active");
+var closeMenu = function() {
+  var menuItems = $('.side-wrapper-nav');
+  var dropdownItems = $('#sidebar-wrapper ul li .dropdown.open .dropdown-toggle')
+  menuItems.each(function() {
+    $(this).removeClass('active');
   });
-  $(this).toggleClass('close-left');
-  // $('#menu-toggle').toggleClass('hideToggle');
-});
-</script>
-<script>
+  dropdownItems.each(function() {
+    $(this).dropdown('toggle');
+  });
+}
+var openMenu = function() {
+  var menuItems = $('.side-wrapper-nav');
+  menuItems.each(function() {
+    $(this).addClass('active');
+  });
+}
+
 $(document).ready(function() {
   $('#sidebar-wrapper').on('mouseleave', function(e) {
-    e.preventDefault();
-    $(".side-wrapper-nav").each(function() {
-      $(this).removeClass("active");
-    });
-    // $("#menu-close").toggleClass('close-left');
-    // $('#menu-toggle').toggleClass('hideToggle');
+    closeMenu();
   });
   $("#menu-toggle").on( 'click, mouseenter', function(e) {
-    e.stopPropagation();
-    $(".side-wrapper-nav").each(function() {
-      $(this).addClass("active");
-    });
-    // $(this).toggleClass('hideToggle');
-    // $("#menu-close").toggleClass('close-left');
+    // e.stopPropagation();
+    openMenu();
   });
   $(document).on('click', function(e) {
-    // if($('#sidebar-wrapper').attr('id') === $(e.target).attr('id')) {
-    //   e.stopPropagation();
-    // } else
     if (('menu-toggle' !== $(e.target).attr('id'))
       && ( 'sideNavSearch' !== $(e.target).attr('id'))
       && ( 'sidebar-brand' !== $(e.target).attr('id'))) {
-      $(".side-wrapper-nav").each(function() {
-        $(this).removeClass("active");
-      })
+      closeMenu();
       //
     } else {
       e.stopPropagation();
     }
   });
 
-
-  $("#navRightButton").on('click', function() {
-    e.stopPropagation();
-    $(".dropdown-toggle").dropdown('toggle');
-  });
 });
 </script>
 

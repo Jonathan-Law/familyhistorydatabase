@@ -59,7 +59,11 @@ function isEmpty(obj) {
 var setupParallax = function() {
   jQuery('#parallax .parallax-layer')
   .parallax({
-    xparallax: '100px',
+    xparallax: '125px',
+    mouseport: jQuery('body')
+  },
+  {
+    xparallax: '50px',
     mouseport: jQuery('body')
   });
 }
