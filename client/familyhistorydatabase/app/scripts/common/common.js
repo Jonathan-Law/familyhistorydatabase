@@ -16,7 +16,7 @@
 'use strict';
 
 
-/* exported setupPopovers, setupTypeahead, toggleclass, setUpDropdown*/
+/* exported isEmpty, setupParallax*/
 
 /***************************************************************
 * Speed up calls to hasOwnProperty (somewhat of an hasOwnPropert override)
@@ -66,4 +66,4 @@ var setupParallax = function() {
     xparallax: '50px',
     mouseport: jQuery('body')
   });
-}
+};
