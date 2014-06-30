@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
   <link rel="stylesheet" type="text/css" href="styles/bootstrap-additions.min.css">
+  <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
 </head>
 <body ng-app="familyhistorydatabaseApp">
   <!--[if lt IE 9]>
@@ -32,14 +33,14 @@
 
   <div class="container-fluid" id="mainContent">
     <!-- <div class="header"> -->
-    <h3 class="text-muted">familyhistorydatabase</h3>
+    <!-- <h3 class="text-muted">familyhistorydatabase</h3> -->
     <!-- </div> -->
 
     <div ng-view=""></div>
 
-    <div class="footer">
-      <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p>
-    </div>
+    <!-- <div class="footer"> -->
+      <!-- <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p> -->
+    <!-- </div> -->
   </div>
 
   <div ng-include="'views/background.html'"></div>
@@ -94,16 +95,20 @@
 
   <!-- build:js({.tmp,app}) scripts/scripts.js -->
   <script type="text/javascript" src="scripts/app.js"></script>
+
   <script type="text/javascript" src="scripts/controllers/main.js"></script>
   <script type="text/javascript" src="scripts/controllers/about.js"></script>
+  <script type="text/javascript" src="scripts/controllers/nav.js"></script>
+  <script type="text/javascript" src="scripts/controllers/background.js"></script>
+
   <script type="text/javascript" src="scripts/common/sessionpolyfill.js"></script>
   <script type="text/javascript" src="scripts/common/common.js"></script>
   <script type="text/javascript" src="scripts/common/jquery.event.frame.js"></script>
   <script type="text/javascript" src="scripts/common/jquery.parallax.js"></script>
+
   <!-- <script type="text/javascript" src="scripts/common/raty.js"></script> -->
   <!-- <script type="text/javascript" src="scripts/common/ckeditor_config.js"></script> -->
-  <script type="text/javascript"  src="scripts/controllers/nav.js"></script>
-  <script src="scripts/controllers/background.js"></script>
+
   <!-- endbuild -->
 </body>
 </html>
