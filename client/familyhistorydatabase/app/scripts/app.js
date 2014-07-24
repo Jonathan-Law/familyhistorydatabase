@@ -22,7 +22,7 @@ var app = angular
   'ui.bootstrap',
   'mgcrea.ngStrap',
   ])
-.config(function ($routeProvider, $asideProvider) {
+.config(['$routeProvider', '$asideProvider', '$httpProvider', function ($routeProvider, $asideProvider, $httpProvider) {
   $routeProvider
   .when('/', {
     templateUrl: 'views/main.html',
@@ -41,7 +41,8 @@ var app = angular
     animation: 'am-fadeAndSlideLeft',
     placement: 'left'
   });
-})
+  $httpProvider.defaults.withCredentials = true;
+}])
 .run(['$rootScope', function($rootScope) {
   $rootScope.name = 'root';
 }]);

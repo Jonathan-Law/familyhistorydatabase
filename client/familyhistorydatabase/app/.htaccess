@@ -17,8 +17,17 @@
 # http://enable-cors.org/
 
 <IfModule mod_headers.c>
-  Header set Access-Control-Allow-Origin "*"
+# with AJAX withCredentials=true (cookies sent, SSL allowed...)
+    SetEnvIfNoCase ORIGIN (.*) ORIGIN=$1
+    Header always set Access-Control-Allow-Methods "POST, GET, PUT, OPTIONS, PATCH, DELETE"
+    Header always set Access-Control-Allow-Origin "http://127.0.0.1:9000"
+    Header always set Access-Control-Allow-Credentials "true"
+    Header always set Access-Control-Allow-Headers "X-Accept-Charset,X-Accept,Content-Type"
+    RewriteEngine On
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L,E=HTTP_ORIGIN:%{HTTP:ORIGIN}]]
 </IfModule>
+
 
 # ------------------------------------------------------------------------------
 # | CORS-enabled images                                                        |
@@ -29,14 +38,14 @@
 # http://blog.chromium.org/2011/07/using-cross-domain-images-in-webgl-and.html
 # http://hacks.mozilla.org/2011/11/using-cors-to-load-webgl-textures-from-cross-domain-images/
 
-<IfModule mod_setenvif.c>
-    <IfModule mod_headers.c>
-        <FilesMatch "\.(gif|ico|jpe?g|png|svg|svgz|webp)$">
-            SetEnvIf Origin ":" IS_CORS
-            Header set Access-Control-Allow-Origin "*" env=IS_CORS
-        </FilesMatch>
-    </IfModule>
-</IfModule>
+# <IfModule mod_setenvif.c>
+#    <IfModule mod_headers.c>
+#        <FilesMatch "\.(gif|ico|jpe?g|png|svg|svgz|webp)$">
+#            #SetEnvIf Origin ":" IS_CORS
+#            #Header set Access-Control-Allow-Origin "*" env=IS_CORS
+#        </FilesMatch>
+#    </IfModule>
+# </IfModule>
 
 # ------------------------------------------------------------------------------
 # | Web fonts access                                                           |
@@ -44,11 +53,11 @@
 
 # Allow access from all domains for web fonts
 
-<IfModule mod_headers.c>
-    <FilesMatch "\.(eot|font.css|otf|ttc|ttf|woff)$">
-        Header set Access-Control-Allow-Origin "*"
-    </FilesMatch>
-</IfModule>
+# <IfModule mod_headers.c>
+#    <FilesMatch "\.(eot|font.css|otf|ttc|ttf|woff)$">
+#        #Header set Access-Control-Allow-Origin "*"
+#    </FilesMatch>
+# </IfModule>
 
 
 # ##############################################################################
@@ -213,6 +222,9 @@ AddDefaultCharset utf-8
   # Options +SymLinksIfOwnerMatch
     RewriteEngine On
   # RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule api/v1/(.*)$ api/v1/MyAPI.php?request=$1 [QSA,NC,L]
 </IfModule>
 
 # ------------------------------------------------------------------------------

@@ -28,7 +28,7 @@
   <![endif]-->
   <!-- Add your site or application content here -->
 
-  <div ng-include="'views/nav.html'"></div>
+  <div ng-controller="NavCtrl" ng-include="'views/nav.html'"></div>
 
 
   <div class="container-fluid" id="mainContent">
@@ -43,7 +43,7 @@
     <!-- </div> -->
   </div>
 
-  <div ng-include="'views/background.html'"></div>
+  <!-- <div ng-include="'views/background.html'"></div> -->
 
 
   <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
@@ -100,6 +100,12 @@
   <script type="text/javascript" src="scripts/controllers/about.js"></script>
   <script type="text/javascript" src="scripts/controllers/nav.js"></script>
   <script type="text/javascript" src="scripts/controllers/background.js"></script>
+
+  <script type="text/javascript" src="scripts/services/localcache.js"></script>
+  <script type="text/javascript" src="scripts/services/business.js"></script>
+  <script type="text/javascript" src="scripts/services/user.js"></script>
+
+  <script type="text/javascript" src="scripts/directives/enterevent.js"></script>
 
   <script type="text/javascript" src="scripts/common/sessionpolyfill.js"></script>
   <script type="text/javascript" src="scripts/common/common.js"></script>

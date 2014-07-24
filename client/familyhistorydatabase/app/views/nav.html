@@ -61,7 +61,7 @@
             <li><a href="#">Another action</a></li>
             <li><a href="#">Something else here</a></li>
             <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
+            <li><a href="javascript:void(0);" ng-click="logout()">logout</a></li>
           </ul>
         </li>
       </ul>
@@ -128,9 +128,9 @@ var closeMenu = function() {
   menuItems.each(function() {
     $(this).removeClass('active');
   });
-  dropdownItems.each(function() {
-    $(this).dropdown('toggle');
-  });
+  // dropdownItems.each(function() {
+  //   $(this).dropdown('toggle');
+  // });
 }
 var openMenu = function() {
   var menuItems = $('.side-wrapper-nav');
