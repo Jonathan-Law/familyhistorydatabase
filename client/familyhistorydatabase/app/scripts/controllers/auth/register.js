@@ -21,5 +21,8 @@ app.controller('AuthRegisterCtrl', ['$scope', 'business', function ($scope, Busi
         $scope.error = true;
       }
     });
-  }
+  };
+  $scope.cancel = function() {
+    $scope.$emit('$triggerEvent', '$triggerModalClose');
+  };
 }]);

@@ -43,7 +43,7 @@
 *     ]
 *   }
 *************************************************/
-app.directive('myModal', [ function () {
+app.directive('myModal', ['$timeout', function ($timeout) {
   return {
     restrict: 'AE',
     scope: {},
@@ -57,8 +57,17 @@ app.directive('myModal', [ function () {
 
       scope.id = 'globalModal';
 
+      scope.nav = null;
+
       scope.$on('$triggerModal', function (event, content) {
         if (content) {
+          $('#'+scope.id).modal('show');
+          if (content.showFooter === false) {
+            scope.showFooter = false;
+          }
+          if (content.classes){
+            scope.classes = content.classes.join(" ");
+          }
           if (content.nav) {
             scope.nav = content.nav
           } else {
@@ -69,13 +78,6 @@ app.directive('myModal', [ function () {
               scope.modalBody = content.modalBody
             }
           }
-          if (content.showFooter === false) {
-            scope.showFooter = false;
-          }
-          if (content.classes){
-            scope.classes = content.classes.join(" ");
-          }
-          $('#'+scope.id).modal('show');
         } else {
           console.error('A Content object is required for the modal to work');
         }
@@ -83,6 +85,21 @@ app.directive('myModal', [ function () {
       scope.$on('$triggerModalClose', function (event) {
         $('#'+scope.id).modal('hide');
       });
+
+      scope.$on('$includeContentLoaded', function() {
+        $timeout(function () {
+          element.find('[autofocus]').focus();
+        });
+      });
+
+      $timeout(function(){
+        $('#'+scope.id).on('shown.bs.modal', function(){
+          $timeout(function () {
+            element.find('[autofocus]').focus();
+          });
+        });
+      })
+
     }
   };
 }]);

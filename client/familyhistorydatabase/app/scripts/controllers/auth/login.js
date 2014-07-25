@@ -21,5 +21,8 @@ app.controller('AuthLoginCtrl', ['$scope', 'business', function ($scope, Busines
         $scope.error = true;
       }
     });
-  }
+  };
+  $scope.cancel = function() {
+    $scope.$emit('$triggerEvent', '$triggerModalClose');
+  };
 }]);

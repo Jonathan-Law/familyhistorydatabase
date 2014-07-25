@@ -5,7 +5,7 @@
         <span style="width: 75px; display: inline-block; text-align:right;">
           Username:&nbsp;
         </span>
-        <input class="form-control" style="width: auto; display:inline-block;" type="text" ng-model="username" placeholder="Username" required/>
+        <input class="form-control" style="width: auto; display:inline-block;" type="text" ng-model="username" placeholder="Username" required autofocus/>
       </label>
       <label style="display: block;">
         <span style="width: 75px; display: inline-block; text-align:right;">
@@ -56,5 +56,6 @@
       </div>
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
+    <button type="button" ng-click="cancel()" class="btn btn-primary">Cancel</button>
   </form>
 </div>
