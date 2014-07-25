@@ -19,7 +19,6 @@ var app = angular
   'ngRoute',
   'ngSanitize',
   'ngTouch',
-  'ui.bootstrap',
   'mgcrea.ngStrap',
   ])
 .config(['$routeProvider', '$asideProvider', '$httpProvider', function ($routeProvider, $asideProvider, $httpProvider) {
@@ -43,6 +42,27 @@ var app = angular
   });
   $httpProvider.defaults.withCredentials = true;
 }])
-.run(['$rootScope', function($rootScope) {
+.run(['$rootScope', 'business', '$q', function($rootScope, Business, $q) {
   $rootScope.name = 'root';
+
+  $rootScope.$on('$triggerEvent', function (event, eventtrigger, content){
+    $rootScope.$broadcast(eventtrigger, content);
+  });
+  $rootScope.$on('$loggedIn', function (event, user){
+    $rootScope.user = user;
+  });
+  $rootScope.$on('$loggedOut', function (event){
+    $rootScope.user = null;
+  });
+
+  $rootScope.checkLogin = function() {
+    return Business.user.checkLoggedIn();
+  }
+
+  $rootScope.checkLogin().then(function(response){
+    if (response) {
+      $rootScope.user = response;
+    }
+  });
+
 }]);

@@ -97,14 +97,35 @@
     if ($this->method === 'POST') {
       if ($this->verb === 'login') {
         $result = getStream();
-        $result = login($result->username, $result->password);
+        $result = login(isset($result->username)? $result->username: null,
+                        isset($result->password)? $result->password: null);
         return $result;
-      }
-      if ($this->verb === 'logout') {
+      } else if ($this->verb === 'logout') {
         return $session->logout();
+      } else if ($this->verb === 'register') {
+        $result = getStream();
+        $result->username = isset($result->username)? $result->username: null;
+        $result->password = isset($result->password)? $result->password: null;
+        $result->email = isset($result->email)? $result->email: null;
+        $result->first = isset($result->first)? $result->first: null;
+        $result->last = isset($result->last)? $result->last: null;
+        $result->gender = isset($result->gender)? $result->gender: null;
+
+        $result = register($result);
+        return $result;
       }
     }
     if ($this->method === 'GET') {
+      if ($this->verb === 'validate') {
+        $id = getRequest('id');
+        $value = getRequest('validate');
+        return validate($id, $value);
+      }
+      if ($this->verb === 'isLoggedIn') {
+        $user = User::current_user();
+        unset($user->password);
+        return $user;
+      }
       $user = User::current_user();
       unset($user->password);
       return $user;

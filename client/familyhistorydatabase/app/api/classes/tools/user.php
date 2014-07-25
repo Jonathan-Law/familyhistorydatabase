@@ -27,14 +27,14 @@ class User{
    public $gender;
    public $company_position;
 
-   
+
    // This funciton tests the connection to the database.
    public function test()
    {
       $database = cbSQLConnect::connect('object');
       if (isset($database))
       {
-            // $data = $this->fetch_assoc->QuerySingle("SELECT * FROM `user`"); 
+            // $data = $this->fetch_assoc->QuerySingle("SELECT * FROM `user`");
          $data = $database->QuerySingle("SELECT * FROM `user`");
 
             // $data = $this->fetch_lazy->QuerySingle("SELECT * FROM `user`");
@@ -45,12 +45,12 @@ class User{
    }
 
    public function full_name()
-   { 
+   {
       if(isset($this->first_name) && isset($this->last_name))
       {
          return $this->first_name . " " . $this->last_name;
-      } 
-      else 
+      }
+      else
       {
          return "";
       }
@@ -58,11 +58,11 @@ class User{
 
    public function gender()
    {
-      if (isset($this->gender)) 
+      if (isset($this->gender))
       {
          return $this->gender;
-      } 
-      else 
+      }
+      else
       {
          $database = cbSQLConnect::connect('object');
          if (isset($database))
@@ -70,7 +70,7 @@ class User{
             $name = self::$table_name;
             $tempId = $this->id;
             $data = $database->Query("SELECT `gender` FROM :table WHERE `username` = :value LIMIT 1;",
-             array(array(':value' => $tempId, ':table' => $name)));
+              array(array(':value' => $tempId, ':table' => $name)));
             echo($data);
             $this->gender = $data['gender'];
          }
@@ -96,7 +96,12 @@ class User{
          array_unshift($params, '');
          unset($params[0]);
          $results_array = $database->QueryForObject($sql, $params);
-         return !empty($results_array) ? array_shift($results_array) : false;
+         $user = !empty($results_array) ? array_shift($results_array) : false;
+         if ($user) {
+            $user = recast('User', $user);
+            $user->displayableName = $user->displayName();
+         }
+         return $user;
       }
    }
 
@@ -109,7 +114,12 @@ class User{
       if (isset($database))
       {
          $name = self::$table_name;
-         return $database->getObjectById($name, $user_id);
+         $user = $database->getObjectById($name, $user_id);
+         if ($user) {
+            $user = recast('User', $user);
+            $user->displayableName = $user->displayName();
+         }
+         return $user;
       }
    }
 
@@ -135,68 +145,88 @@ class User{
       }
    }
 
-   public static function getUserById($user_id = null)
-   {
-      $database = cbSQLConnect::connect('object');
-      if (isset($database) && $user_id)
-      {
-         $name = self::$table_name;
-         return $database->getObjectById($name, $user_id);
-      }
-   }
-
-
-   public static function get_all_something($thing)
+   public static function getUserByCred($email = null, $username = null)
    {
       $database = cbSQLConnect::connect('object');
       if (isset($database))
       {
-         $users = $database->QuerySingle("SELECT $thing FROM `user` WHERE `valid`='1' AND `status`='current' ORDER BY `id`");
+         $sql = "SELECT *  ";
+         $sql .= "FROM  `user`  ";
+         $sql .= "WHERE (";
+         $sql .= "`username` =  :username ";       //
+         $sql .= "OR  `email` =  :email";       //
+         $sql .= ") ";                             //
+$sql .= "AND  `valid` =  '1';";
+$params = array(':username' => $username, ':email' => $email);
+array_unshift($params, '');
+unset($params[0]);
+$results_array = $database->QueryForObject($sql, $params);
+return !empty($results_array) ? array_shift($results_array) : false;
+}
+}
 
-         $data = array();
-         foreach($users as $user)
-         {
-            $data[] = strtolower($user->{$thing});
-         }
-         return $data;
+public static function getUserById($user_id = null)
+{
+   $database = cbSQLConnect::connect('object');
+   if (isset($database) && $user_id)
+   {
+      $name = self::$table_name;
+      return $database->getObjectById($name, $user_id);
+   }
+}
+
+
+public static function get_all_something($thing)
+{
+   $database = cbSQLConnect::connect('object');
+   if (isset($database))
+   {
+      $users = $database->QuerySingle("SELECT $thing FROM `user` WHERE `valid`='1' AND `status`='current' ORDER BY `id`");
+
+      $data = array();
+      foreach($users as $user)
+      {
+         $data[] = strtolower($user->{$thing});
       }
+      return $data;
    }
+}
 
-   public function displayName()
-   {
-      $name = $this->first_name." ";
-      $name .= $this->last_name;
-      return $name;
-   }
+public function displayName()
+{
+   $name = $this->first_name." ";
+   $name .= $this->last_name;
+   return $name;
+}
 
 
-   public function save()
-   {
+public function save()
+{
       // return $this->id;
-      return isset($this->id) ? $this->update() : $this->create();
-   }
+   return isset($this->id) ? $this->update() : $this->create();
+}
 
    // create the object if it doesn't already exits.
    // create the object if it doesn't already exits.
-   protected function create()
+protected function create()
+{
+   $database = cbSQLConnect::connect('object');
+   if (isset($database))
    {
-      $database = cbSQLConnect::connect('object');
-      if (isset($database))
+      $fields = self::$db_fields;
+      $data = array();
+      foreach($fields as $key)
       {
-         $fields = self::$db_fields;
-         $data = array();
-         foreach($fields as $key)
+         if ($this->{$key})
          {
-            if ($this->{$key})
-            {
-               $data[$key] = $this->{$key};
-            }
-            else
-               $data[$key] = NULL;
-
+            $data[$key] = $this->{$key};
          }
-         array_unshift($params, '');
-         unset($params[0]);
+         else
+            $data[$key] = NULL;
+
+      }
+         // array_unshift($params, '');
+         // unset($params[0]);
          // return $data;
          $insert = $database->SQLInsert($data, "user"); // return true if sucess or false
          if ($insert)

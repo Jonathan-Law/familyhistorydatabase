@@ -7,6 +7,7 @@ function login($username, $password){
   {
     $user = User::current_user();
     unset($user->password);
+    // return 0;
     return $user;
     exit;
   }
@@ -15,277 +16,137 @@ function login($username, $password){
   // $page = $_REQUEST['page'];
   $password = sha1($password);
 
-  // $result = new stdClass();
-  // $result->username = $username;
-  // $result->password = $password;
-  // return $result;
-// Check if user has been found in database
+  // Check if user has been found in database
   $found_user = User::authenticate($username,$password);
 
   if($found_user)
   {
-// If User is found recast it as a user
-    $found_user = recast('User', $found_user);
-
-// log them in
+    // log them in
     $session->login($found_user);
 
-// grab the account status
+    // grab the account status
     $profile_status = $found_user->status;
 
     if($profile_status != 'current')
     {
-// their account isn't set up so log them out send them to the login page.
+      // their account isn't set up so log them out send them to the login page.
       $session->logout();
-      return -1;
+      return false;
       exit;
     }
     else
     {
       unset($found_user->password);
+      // return 1;
       return $found_user;
       exit;
     }
   }
   else
   {
-// If User Not Found
-    return -1;
+    // If User Not Found
+    return false;
   }
   exit;
 
 }
 
+function register($info = null){
+  $session = mySession::getInstance();
+  if ($session->isLoggedIn())
+  {
+    $session->logout();
+  }
+  if ($info !== null) {
+    //check email and username they have to be unique
+    $check = User::getUserByCred($info->email, $info->username);
+    if (!$check) {
+      $temp_user = new User();
+      $temp_user->username   = $info->username;
+      $temp_user->email      = $info->email;
+      $temp_user->password   = sha1($info->password);
+      $temp_user->first_name = $info->first;
+      $temp_user->last_name  = $info->last;
+      $temp_user->gender     = $info->gender;
+      $temp_user->rights     = 'normal';
+      $temp_user->status     = 'current';
+      $temp_user->valid      = 1;
+      $temp_user->save();
+      $found_user = User::authenticate($temp_user->username,$temp_user->password);
+      if($found_user)
+      {
+        // log them in
+        $session->login($found_user);
 
-// ////////////////////////////////////////////////////////////////////////////////
-// // 888      .d88888b.   .d8888b.  8888888 888b    888
-// // 888     d88P" "Y88b d88P  Y88b   888   8888b   888
-// // 888     888     888 888    888   888   88888b  888
-// // 888     888     888 888          888   888Y88b 888
-// // 888     888     888 888  88888   888   888 Y88b888
-// // 888     888     888 888    888   888   888  Y88888
-// // 888     Y88b. .d88P Y88b  d88P   888   888   Y8888
-// // 88888888 "Y88888P"   "Y8888P88 8888888 888    Y888
-// //
-// /////////////////////////////////// Login User /////////////////////////////////
-// if($action == "login")
-// {
-//    if ($session->isLoggedIn())
-//    {
-//       echo "failure";
-//       exit;
-//    }
-//    $username = val_string($_REQUEST['username']);
-//    $password = val_string($_REQUEST['password']);
-//    $page = $_REQUEST['page'];
-//    $password = sha1($password);
+        // grab the account status
+        $profile_status = $found_user->status;
 
+        if($profile_status != 'current')
+        {
+          // their account isn't set up so log them out send them to the login page.
+          $session->logout();
+          $session->message("Creating your user profile failed");
+          return false;
+        }
+        else
+        {
+          // send verification email.
+          $to = $found_user->email;
+          $check = substr($found_user->password, -12);
+          $subject = "familyhistorydatabase.org verification email";
+          $message = "You are now registered at familyhistorydatabase.org.\n";
+          $message = $message."\nTo verify your membership click on the link below.\nIf you weren't requesting membership, please ignore this email, and we send our appologies!";
+          $message = $message."\n".APIURL."user/validate/?id=".$found_user->id."&validate=$check";
 
-//    // Check if user has been found in database
-//    $found_user = User::authenticate($username,$password);
+          $from = "noreply@familyhistorydatabase.org";
+          $headers = "From:" . $from;
+          mail($to,$subject,$message,$headers);
 
-//    if($found_user)
-//    {
-//       // If User is found recast it as a user
-//       $found_user = recast('User', $found_user);
+          unset($found_user->password);
+          return $found_user;
+        }
+      }
+    }
+    else
+    {
+      // If User Not Found
+      return false;
+    }
+  }
+  else
+  {
+    // If User Not Found
+    return false;
+  }
+  exit;
+}
 
-//       // log them in
-//       $session->login($found_user);
+function validate($id = null, $value = null) {
+  $session = mySession::getInstance();
+  if ((isset($id) && $id !== null) && (isset($value) && $value !== null)) {
+    $user = User::getUserById($id);
+    $user = recast('User', $user);
+    if ($value ===  substr($user->password, -12))
+    {
+      $user->rights = "medium";
+      $user->save();
+      $session->login($user);
+      redirect_home();
+      exit;
+    }
+    else
+    {
+      return "The Validation Failed. Please try the link from your email one more time.\n If this issue persists, contact the site owner.";
+    }
 
-//       // grab the account status
-//       $profile_status = $found_user->status;
+  }
+  else
+  {
+    return "The Validation Failed. Please try the link from your email one more time.\n If this issue persists, contact the site owner.";
+  }
+  exit;
+}
 
-//       if($profile_status != 'current')
-//       {
-//          // their account isn't set up so log them out send them to the login page.
-//          $session->logout();
-//          $session->message("Your account status is expired, please talk to a system administrator");
-//          echo "failure";
-//          exit;
-//       }
-//       else
-//       {
-//          // log the user in, take care of any session messages and send them home
-//          // log_action("Login","{$found_user->full_name()}({$found_user->email}) Logged In.","log.txt");
-//          // echo "<pre>";
-//          // print_r($_COOKIE);
-//          // // print_r($GLOBALS);
-//          //             //echo ;
-//          // echo "</pre>";
-//          // exit;
-
-//          $session->message("Welcome to Family History Database!");
-//          echo "Success";
-//          exit;
-//       }
-//    }
-//    else
-//    {
-//       // If User Not Found
-//       $session->message("Invalid Username or Password");
-//       echo "failure";
-//    }
-//    exit;
-
-// }
-// else
-// {
-//    // Form has not been submitted.
-//    $username = "";
-//    $password = "";
-
-// }
-
-
-// /////////////////////////////////////////////////////////////////////////////////////////
-// // 8888888b.  8888888888 .d8888b.  8888888 .d8888b. 88888888888 8888888888 8888888b.
-// // 888   Y88b 888       d88P  Y88b   888  d88P  Y88b    888     888        888   Y88b
-// // 888    888 888       888    888   888  Y88b.         888     888        888    888
-// // 888   d88P 8888888   888          888   "Y888b.      888     8888888    888   d88P
-// // 8888888P"  888       888  88888   888      "Y88b.    888     888        8888888P"
-// // 888 T88b   888       888    888   888        "888    888     888        888 T88b
-// // 888  T88b  888       Y88b  d88P   888  Y88b  d88P    888     888        888  T88b
-// // 888   T88b 8888888888 "Y8888P88 8888888 "Y8888P"     888     8888888888 888   T88b
-// /////////////////////////////////// Register User ///////////////////////////////////////
-// if($action == "register")
-// {
-//    echo $_POST['gender'];
-//    if ($session->isLoggedIn())
-//    {
-//       redirect_home();
-//    }
-//    $password = sha1($_POST['password']);
-//    $temp_user = new User();
-//    $temp_user->username   = $_POST['username'];
-//    $temp_user->email      = $_POST['email'];
-//    $temp_user->password   = $password;
-//    $temp_user->first_name = $_POST['first'];
-//    $temp_user->last_name  = $_POST['last'];
-//    $temp_user->rights     = 'normal';
-//    $temp_user->status     = 'current';
-//    $temp_user->valid      = 1;
-//    $temp_user->gender     = $_POST['gender'] != "anonymous"? $_POST['gender']: null;
-//    $temp_user->save();
-//    $found_user = User::authenticate($temp_user->username,$temp_user->password);
-//    $found_user = recast('User', $found_user);
-//    if($found_user)
-//    {
-//       // log them in
-//       $session->login($found_user);
-
-//       // grab the account status
-//       $profile_status = $found_user->status;
-
-//       if($profile_status != 'current')
-//       {
-//          // their account isn't set up so log them out send them to the login page.
-//          $session->logout();
-//          $session->message("Creating your user profile failed");
-//          echo "Failure";
-//       }
-//       else
-//       {
-//          // log the user in, take care of any session messages and send them home
-//          // log_action("Login","{$found_user->full_name()}({$found_user->email}) Logged In.","log.txt");
-//          // send verification email.
-//          $to = $found_user->email;
-//          $check = substr($found_user->password, -12);
-//          $subject = "familyhistorydatabase.org verification email";
-//          $message = "You are now registered at familyhistorydatabase.org.\n";
-//          $message = $message."\nTo verify your membership click on the link below.\nIf you weren't requesting membership, please ignore this email, and we send our appologies!";
-//          $message = $message."\n".URL."/?controller=user&action=validate&id=".$found_user->id."&validate=$check";
-
-//          $from = "noreply@familyhistorydatabase.org";
-//          $headers = "From:" . $from;
-//          mail($to,$subject,$message,$headers);
-
-
-
-
-//          $session->message("Welcome! You are now registered with Family History Database.org!<br/><br/>Please check your email for a verification request!<br/><span style='font-size:10px !important;'>(Click <a href='".URL."pages/benefits.php'>here</a> to see what you gain by verifying your email address)</span>");
-//          echo "Success";
-//          // redirect_home();
-//       }
-//    }
-//    else
-//    {
-//       // If User Not Found
-//       $session->message("Creating your user profile failed.");
-//       echo "Failure";
-//       // include_page("register.php");
-//    }
-//    exit;
-
-// }
-// else
-// {
-//    // Form has not been submitted.
-//    $username = "";
-//    $password = "";
-
-// }
-
-
-
-// //////////////////////////////// Logout User ///////////////////////////////////
-// if($action == "logout")
-// {
-//    // grab the session
-//    $session = mySession::getInstance();
-
-//    // log them out and send them home.
-//    $session->logout();
-//    echo "Success";
-//    exit;
-// }
-
-
-// /////////////////////////////////////////////////////////////////////////////////////////
-// // 888     888     d8888 888      8888888 8888888b.        d8888 88888888888 8888888888
-// // 888     888    d88888 888        888   888  "Y88b      d88888     888     888
-// // 888     888   d88P888 888        888   888    888     d88P888     888     888
-// // Y88b   d88P  d88P 888 888        888   888    888    d88P 888     888     8888888
-// //  Y88b d88P  d88P  888 888        888   888    888   d88P  888     888     888
-// //   Y88o88P  d88P   888 888        888   888    888  d88P   888     888     888
-// //    Y888P  d8888888888 888        888   888  .d88P d8888888888     888     888
-// //     Y8P  d88P     888 88888888 8888888 8888888P" d88P     888     888     8888888888
-// /////////////////////////////////// Validate User ///////////////////////////////////////
-// if($action == "validate")
-// {
-//    if (isset($_REQUEST['id']))
-//    {
-//       $id = $_REQUEST['id'];
-//    }
-//    else
-//    {
-//       redirect_home();
-//       exit;
-//    }
-
-//    if (isset($_REQUEST['validate']))
-//    {
-//       $user = User::getUserById($id);
-//       $user = recast('User', $user);
-//       $validate = $_REQUEST['validate'];
-//       if ($validate ===  substr($user->password, -12))
-//       {
-//          $user->rights = "medium";
-//          $user->save();
-//          $session->message("The account validation was successful.");
-//          redirect_home();
-//          exit;
-//       }
-//       else
-//       {
-//          $session->message("The account validation failed.");
-//          redirect_home();
-//          exit;
-//       }
-//    }
-//    $session->message("The account validation failed.");
-//    redirect_home();
-//    exit;
-// }
 
 // ////////////////////////////////////////////////////////////////////////////////
 // // 8888888b.  8888888b.   .d88888b.  8888888888 8888888 888      8888888888

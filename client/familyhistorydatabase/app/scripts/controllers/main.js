@@ -13,7 +13,4 @@ app.controller('MainCtrl', ['$scope', 'business', function ($scope, Business) {
   'AngularJS',
   'Karma'
   ];
-
-  Business.user.login();
-
 }]);

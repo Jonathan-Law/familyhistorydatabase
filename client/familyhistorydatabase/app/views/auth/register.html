@@ -1,0 +1,60 @@
+<div ng-controller="AuthRegisterCtrl" style="text-align: center">
+  <form role="form" ng-submit="submitRegister()">
+    <div class="form-group" style="display: inline-block;">
+      <label style="display: block;">
+        <span style="width: 75px; display: inline-block; text-align:right;">
+          Username:&nbsp;
+        </span>
+        <input class="form-control" style="width: auto; display:inline-block;" type="text" ng-model="username" placeholder="Username" required/>
+      </label>
+      <label style="display: block;">
+        <span style="width: 75px; display: inline-block; text-align:right;">
+          Password:&nbsp;
+        </span>
+        <input class="form-control" style="width: auto; display:inline-block;" type="password" ng-model="password" placeholder="Password" required/>
+      </label>
+      <label style="display: block;">
+        <span style="width: 75px; display: inline-block; text-align:right;">
+          Email:&nbsp;
+        </span>
+        <input class="form-control" style="width: auto; display:inline-block;" type="email" ng-model="email" placeholder="Email" required/>
+      </label>
+      <label style="display: block;">
+        <span style="width: 75px; display: inline-block; text-align:right;">
+          First:&nbsp;
+        </span>
+        <input class="form-control" style="width: auto; display:inline-block;" type="text" ng-model="first" placeholder="First"/>
+      </label>
+      <label style="display: block;">
+        <span style="width: 75px; display: inline-block; text-align:right;">
+          Last:&nbsp;
+        </span>
+        <input class="form-control" style="width: auto; display:inline-block;" type="text" ng-model="last" placeholder="Last"/>
+      </label>
+    </div>
+    <br>
+    <div>
+      <label>
+        <span style="width: 75px; display: inline-block; text-align:right; position: relative; top: -20px;">
+          gender:&nbsp;
+        </span>
+      </label>
+      <div class="radio" style="display: inline-block; width: auto;">
+        <label>
+          <input type="radio" ng-model="gender" value="male"/>male
+        </label>
+      </div>
+      <div class="radio" style="display: inline-block; width: auto;">
+        <label>
+          <input type="radio" ng-model="gender" value="female"/>female
+        </label>
+      </div>
+      <div class="radio" style="display: inline-block; width: auto;">
+        <label>
+          <input type="radio" ng-model="gender" value="anonymous"/>anonymous
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+  </form>
+</div>

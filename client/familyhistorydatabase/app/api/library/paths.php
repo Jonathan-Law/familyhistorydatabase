@@ -5,9 +5,10 @@
 **/
 // Core Paths - Server Root - For PHP
 defined('DS')         ? null : define('DS', '/');
-defined('ROOT')       ? null : define('ROOT', $_SERVER['DOCUMENT_ROOT'].DS);
-defined('APIROOT')    ? null : define('APIROOT', ROOT.'/v2/api'.DS);
-defined('URL')        ? null : define('URL', 'http://'.$_SERVER['SERVER_NAME'].DS);
+defined('ROOT')       ? null : define('ROOT', $_SERVER['DOCUMENT_ROOT'].DS.'v2'.DS);
+defined('APIROOT')    ? null : define('APIROOT', ROOT.'api'.DS);
+defined('URL')        ? null : define('URL', 'http://'.$_SERVER['SERVER_NAME'].DS.'v2'.DS);
+defined('APIURL')     ? null : define('APIURL', URL.'api/v1'.DS);
 // Core Relative Paths
 defined('LIBRARY')    ? null : define('LIBRARY', APIROOT.'library'.DS);
 defined('CLASSES')    ? null : define('CLASSES', APIROOT.'classes'.DS);

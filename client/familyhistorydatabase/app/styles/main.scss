@@ -1,8 +1,8 @@
-/*$icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";*/
-// bower:scss
-// endbower
-/*@import "bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";*/
+@import "bootstrap/bootstrap.scss";
 @import "navaside.scss";
+@import "includes/mymodal.scss";
+@import "fonts/icomoon.scss";
+@import "fonts/fontello.scss";
 
 .browsehappy {
   margin: 0.2em 0;

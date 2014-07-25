@@ -1437,6 +1437,7 @@ class mySession
       $this->delete('user_id', null);
       unset($_COOKIE['MYPHPSESSID']);
       session_destroy();
+      session_start();
       return true;
    }
    public function isLoggedIn()

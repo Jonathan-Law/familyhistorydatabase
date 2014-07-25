@@ -15,11 +15,12 @@
 */
 'use strict';
 
-app.factory('business', ['localCache', '$http', '$q', 'userService', function (localCache, $http, $q, UserService) { /*jshint unused: false*/
+app.factory('business', ['localCache', '$http', '$q', 'userService', 'authService', function (localCache, $http, $q, UserService, AuthService) { /*jshint unused: false*/
   // 60 seconds until expiration
   var expireTime = 60 * 1000;
   var business = {};
   business.user = UserService;
+  business.auth = AuthService;
 
 
   // var get_cookie = function (cname) {

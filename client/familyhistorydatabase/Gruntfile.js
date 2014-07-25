@@ -34,7 +34,7 @@ module.exports = function (grunt) {
         tasks: ['wiredep']
       },
       js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+        files: ['<%= yeoman.app %>/scripts/**/*.js'],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -45,7 +45,7 @@ module.exports = function (grunt) {
         tasks: ['newer:jshint:test', 'karma']
       },
       compass: {
-        files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+        files: ['<%= yeoman.app %>/styles/**/*.{scss,sass}'],
         tasks: ['compass:server', 'autoprefixer']
       },
       gruntfile: {
@@ -56,9 +56,9 @@ module.exports = function (grunt) {
           livereload: '<%= connect.options.livereload %>'
         },
         files: [
-          '<%= yeoman.app %>/{,*/}*.html',
-          '.tmp/styles/{,*/}*.css',
-          '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+          '<%= yeoman.app %>/**/*.html',
+          '.tmp/styles/**/*.css',
+          '<%= yeoman.app %>/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
     },
@@ -353,25 +353,27 @@ module.exports = function (grunt) {
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
           src: ['generated/*']
-        }, {
-          expand: true,
-          cwd: '.',
-          src: [
-          './bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/*',
-          './bower_components/fontawesome/css/**/*',
-          './bower_components/fontawesome/fonts/**/*',
-          ],
-          dest: '<%= yeoman.dist %>/fonts/',
-          flatten: true
-        }, {
-          expand: true,
-          cwd: '.',
-          src: [
-          './bower_components/bootstrap/fonts/*',
-          ],
-          dest: '<%= yeoman.dist %>/styles/bootstrap/',
-          flatten: true
-        }]
+        }
+        //, {
+        //   expand: true,
+        //   cwd: '.',
+        //   src: [
+        //   './bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/*',
+        //   './bower_components/fontawesome/css/**/*',
+        //   './bower_components/fontawesome/fonts/**/*',
+        //   ],
+        //   dest: '<%= yeoman.dist %>/fonts/',
+        //   flatten: true
+        // }, {
+        //   expand: true,
+        //   cwd: '.',
+        //   src: [
+        //   './bower_components/bootstrap/fonts/*',
+        //   ],
+        //   dest: '<%= yeoman.dist %>/styles/bootstrap/',
+        //   flatten: true
+        //}
+        ]
       },
       styles: {
         expand: true,
