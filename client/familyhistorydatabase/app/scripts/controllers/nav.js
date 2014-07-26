@@ -9,9 +9,10 @@
 */
 app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', function ($rootScope, $scope, $aside, Business) { /*jshint unused:false*/
 
-  $scope.user = $rootScope.user;
+  $scope.user       = $rootScope.user;
+  $scope.searchKey  = null;
 
-  $scope.loggedIn = false;
+  $scope.loggedIn   = false;
 
   $scope.aside = {
     'title': 'Title',
@@ -52,6 +53,12 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', functio
       $scope.loggedIn = true;
     } else {
       $scope.loggedIn = false;
+    }
+  });
+
+  $scope.$watch('searchKey', function() {
+    if (typeof $scope.searchKey === 'object' && $scope.searchKey){
+      console.log('Typeahead Item Found: ', $scope.searchKey);
     }
   });
 

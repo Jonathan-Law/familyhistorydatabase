@@ -17,111 +17,112 @@
 -->
 
 
-
-<nav class="navbar navbar-default" role="navigation" id="globalNav">
-  <div class="container-fluid"  id="globalNavDiv">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <form class="navbar-form navbar-left navLeft" role="search">
-      <div class="form-group">
-        <button class="btn btn-default" id="menu-toggle"><i class="fa fa-bars"></i> Menu</button>
-      </div>
-    </form>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="navbar-header">
-      <button type="button" class="btn btn-default" data-toggle="collapse" id="navRightButton" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <!-- <i class="fa fa-user"></i> -->
-        <i class="glyphicon glyphicon-user"></i>
-      </button>
-      <div class="navbarCenter">
-        <a class="navbar-brand" href="#">
-          <span class="fullWidth"><img id="logo" src="images/title.png" style="width: 215px; margin-right: -15px; margin-top: -5px;" />
-          </span>
-          <span class="notFullWidth">
-            F.H.D.
-          </span>
-        </a>
-        <div class="almostFullWidth">
-          <div class="input-group" id="navSearch">
-            <input type="text" class="form-control">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+<div ng-controller="NavCtrl">
+  <nav class="navbar navbar-default" role="navigation" id="globalNav">
+    <div class="container-fluid"  id="globalNavDiv">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <form class="navbar-form navbar-left navLeft" role="search">
+        <div class="form-group">
+          <button class="btn btn-default" id="menu-toggle"><i class="fa fa-bars"></i> Menu</button>
+        </div>
+      </form>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="navbar-header">
+        <button type="button" class="btn btn-default" data-toggle="collapse" id="navRightButton" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <!-- <i class="fa fa-user"></i> -->
+          <i class="glyphicon glyphicon-user"></i>
+        </button>
+        <div class="navbarCenter">
+          <a class="navbar-brand" href="#">
+            <span class="fullWidth"><img id="logo" src="images/title.png" style="width: 215px; margin-right: -15px; margin-top: -5px;" />
             </span>
-          </div><!-- /input-group -->
+            <span class="notFullWidth">
+              F.H.D.
+            </span>
+          </a>
+          <div class="almostFullWidth">
+            <div class="input-group" id="navSearch">
+              <input type="text" ng-model="searchKey" typeahead="individual as individual.typeahead for individual in getTypeahead($viewValue)" class="form-control" placeholder="Search">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+              </span>
+            </div><!-- /input-group -->
+          </div>
         </div>
       </div>
-    </div>
-    <div class="collapse navbar-collapse navRight" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-        <li ng-show="!loggedIn">
-          <a href="javascript:void(0);" ng-click="login()">Login/Register</a>
-        </li>
-        <li ng-show="loggedIn" class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="navUserName">{{user.displayableName}}&nbsp;<b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li class="divider"></li>
-            <li>
-              <a href="javascript:void(0);" ng-click="logout()">logout</a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div><!-- /.navbar-collapse -->
-
-  </div><!-- /.container-fluid -->
-</nav>
-
-
-
-
-
-
-<!-- Side Menu Pop out version -->
-
-<div id="sidebar-wrapper-background" class="side-wrapper-nav">&nbsp;</div>
-<div id="sidebar-wrapper" class="side-wrapper-nav">
-  <ul class="sidebar-nav">
-    <!-- <a id="menu-close" href="javascript:void(0);" class="btn btn-default btn-lg pull-right toggle"><i class="fa fa-times"></i></a> -->
-    <li class="sidebar-brand"><a class="imitateLink" id="sidebar-brand" >FamilyHistoryDatabase</a>
-      <hr style="margin-top:-1px">
-    </li>
-    <li class="notAlmostFullWidth">
-      <div class="input-group" id="sideSearch">
-        <input id="sideNavSearch" type="text" class="form-control">
-        <span class="input-group-btn">
-          <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
-        </span>
-      </div><!-- /input-group -->
-    </li>
-    <li><a href="#about">People</a>
-    </li>
-    <li><a class="imitateLink">Places</a>
-    </li>
-    <li><a href="#contact">Cemeteries</a>
-    </li>
-    <li><a href="#contact">Mayflower</a>
-    </li>
-    <li>
-      <div class="dropdown">
-        <a class="dropdown-toggle imitateLink" type="button" id="dropdownMenu1" data-toggle="dropdown">
-          About
-          <span class="caret"></span>
-        </a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Contact Info</a></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">More Info</a></li>
-          <!-- <li role="presentation" class="divider"></li>
-          <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li> -->
+      <div class="collapse navbar-collapse navRight" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Link</a></li>
+          <li ng-show="!loggedIn">
+            <a href="javascript:void(0);" ng-click="login()">Login/Register</a>
+          </li>
+          <li ng-show="loggedIn" class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="navUserName">{{user.displayableName}}&nbsp;<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li>
+                <a href="javascript:void(0);" ng-click="logout()">logout</a>
+              </li>
+            </ul>
+          </li>
         </ul>
-      </div>
-    </li>
-  </ul>
+      </div><!-- /.navbar-collapse -->
+
+    </div><!-- /.container-fluid -->
+  </nav>
+
+
+
+
+
+
+  <!-- Side Menu Pop out version -->
+
+  <div id="sidebar-wrapper-background" class="side-wrapper-nav">&nbsp;</div>
+  <div id="sidebar-wrapper" class="side-wrapper-nav">
+    <ul class="sidebar-nav">
+      <!-- <a id="menu-close" href="javascript:void(0);" class="btn btn-default btn-lg pull-right toggle"><i class="fa fa-times"></i></a> -->
+      <li class="sidebar-brand"><a class="imitateLink" id="sidebar-brand" >FamilyHistoryDatabase</a>
+        <hr style="margin-top:-1px">
+      </li>
+      <li class="notAlmostFullWidth">
+        <div class="input-group" id="sideSearch">
+          <input id="sideNavSearch" type="text" class="form-control">
+          <span class="input-group-btn">
+            <button class="btn btn-primary" type="button"><i class="fa fa-search"></i></button>
+          </span>
+        </div><!-- /input-group -->
+      </li>
+      <li><a href="#about">People</a>
+      </li>
+      <li><a class="imitateLink">Places</a>
+      </li>
+      <li><a href="#contact">Cemeteries</a>
+      </li>
+      <li><a href="#contact">Mayflower</a>
+      </li>
+      <li>
+        <div class="dropdown">
+          <a class="dropdown-toggle imitateLink" type="button" id="dropdownMenu1" data-toggle="dropdown">
+            About
+            <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Contact Info</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">More Info</a></li>
+            <!-- <li role="presentation" class="divider"></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li> -->
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!-- /Side Menu -->
 </div>
-<!-- /Side Menu -->
 
 
 <!-- JavaScript -->

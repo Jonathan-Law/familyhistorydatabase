@@ -15,13 +15,30 @@
 */
 'use strict';
 
-app.factory('business', ['localCache', '$http', '$q', 'userService', 'authService', function (localCache, $http, $q, UserService, AuthService) { /*jshint unused: false*/
+app.factory('business', ['localCache', '$http', '$q', 'userService', 'authService','individualService', function (localCache, $http, $q, UserService, AuthService, IndividualService) { /*jshint unused: false*/
   // 60 seconds until expiration
   var expireTime = 60 * 1000;
   var business = {};
   business.user = UserService;
   business.auth = AuthService;
-
+  business.individual = IndividualService;
+  business.getTypeahead = function(val) {
+    return $http.get('http://familyhistorydatabase.org/v2/api/v1/typeahead/', {
+      params: {
+        typeahead: val,
+        sensor: false
+      }
+    }).then(function(res){
+      if (res.data !== 'false') {
+        var typeahead = [];
+        _.each(res.data, function(item){
+          typeahead.push(item);
+        });
+        return typeahead;
+      }
+      return [];
+    });
+  }
 
   // var get_cookie = function (cname) {
   //   var name = cname + "=";

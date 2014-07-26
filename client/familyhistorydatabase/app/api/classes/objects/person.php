@@ -6,12 +6,12 @@ require_once(TOOLS."cbSQLConnectVar.php");
 require_once(TOOLS."cbSQLConnectConfig.php");
 
 
-class Person 
+class Person
 {
 
    protected static $table_name = "person";
    protected static $db_fields = array('id', 'firstName', 'middleName', 'lastName', 'yearBorn', 'yearDead', 'yearB', 'yearD', 'relationship','profile_pic', 'sex');
-   public static function get_db_fields() 
+   public static function get_db_fields()
    {
       $fields = array('id', 'firstName', 'middleName', 'lastName', 'yearBorn', 'yearDead', 'yearB', 'yearD', 'relationship','profile_pic', 'sex');
       return $fields;
@@ -79,6 +79,33 @@ class Person
          }
       }
    }
+
+    //
+    public static function getSearchInd($search = null)
+    {
+      $database = cbSQLConnect::connect('object');
+      $result = array();
+      if (isset($database)) {
+        $finalTarget = '';
+        $target = explode(' ', $search);
+        $target = '+'.implode(' +', $target);
+        $people = $database->QuerySingle("SELECT *, MATCH(firstName, middleName, lastName) AGAINST('".$target."*' IN BOOLEAN MODE) AS score FROM `person` WHERE MATCH(firstName, middleName, lastName) AGAINST('".$target."*' IN BOOLEAN MODE) ORDER BY score DESC LIMIT 0, 10"); // ORDER BY `lastName`
+        if ($people) {
+          foreach($people as $aperson) {
+            $aperson = recast("Person", $aperson);
+            $aperson->displayableName = $aperson->displayName();
+            $aperson->selectableName = $aperson->selectName();
+            $aperson->typeahead = $aperson->selectName()." (".$aperson->yearBorn.")";
+            $result[] = $aperson;
+          }
+          return $result;
+        } else {
+          return false;
+        }
+      }
+    }
+
+
    public static function getNumPics()
    {
       $database = cbSQLConnect::connect('object');
@@ -113,7 +140,7 @@ class Person
       if (isset($database))
       {
          $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."%' GROUP BY `lastName`");
-         if (count($data) == 0) 
+         if (count($data) == 0)
          {
             return NULL;
          }
@@ -130,7 +157,7 @@ class Person
       if (isset($database))
       {
          $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."%' ORDER BY `firstName`");
-         if (count($data) == 0) 
+         if (count($data) == 0)
          {
             return NULL;
          }
@@ -298,7 +325,7 @@ class Person
          }
       }
    }
-   
+
    // update the object if it does already exist.
    protected function update()
    {

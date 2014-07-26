@@ -20,6 +20,7 @@ var app = angular
   'ngSanitize',
   'ngTouch',
   'mgcrea.ngStrap',
+  'ui.bootstrap'
   ])
 .config(['$routeProvider', '$asideProvider', '$httpProvider', function ($routeProvider, $asideProvider, $httpProvider) {
   $routeProvider
@@ -57,6 +58,9 @@ var app = angular
 
   $rootScope.checkLogin = function() {
     return Business.user.checkLoggedIn();
+  }
+  $rootScope.getTypeahead = function(val) {
+    return Business.getTypeahead(val);
   }
 
   $rootScope.checkLogin().then(function(response){

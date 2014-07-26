@@ -134,6 +134,16 @@
       return "Only accepts GET requests";
     }
   }
+
+  protected function typeahead($args) {
+    if ($this->method === 'GET') {
+      $value = getRequest('typeahead');
+      $list = Person::getSearchInd($value);
+      return $list;
+    }else {
+      return "Only accepts GET requests";
+    }
+  }
 }
 
 
