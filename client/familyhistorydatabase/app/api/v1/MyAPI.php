@@ -1,49 +1,49 @@
 <?php
 
 /* /////////////////////////////////////////////////////////////////////////
-                Essential Files to Include
+Essential Files to Include
 ///////////////////////////////////////////////////////////////////////// */
-                error_reporting(E_ALL);
-                ini_set("display_errors", 1);
-                require_once("../library/paths.php");
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+require_once("../library/paths.php");
 
 // Load the Config File
-                require_once(LIBRARY."config.php");
+require_once(LIBRARY."config.php");
 
 // Load the functions so that everything can use them
-                require_once(LIBRARY."functions.php");
+require_once(LIBRARY."functions.php");
 
 // Load the core objects
 // require_once(CLASSES."mysqli_database.php");
 
-                require_once(OBJECTS."birth.php");
-                require_once(OBJECTS."death.php");
-                require_once(OBJECTS."burial.php");
-                require_once(OBJECTS."parents.php");
-                require_once(OBJECTS."person.php");
-                require_once(OBJECTS."spouse.php");
-                require_once(OBJECTS."place.php");
-                require_once(OBJECTS."file.php");
-                require_once(OBJECTS."connections.php");
+require_once(OBJECTS."birth.php");
+require_once(OBJECTS."death.php");
+require_once(OBJECTS."burial.php");
+require_once(OBJECTS."parents.php");
+require_once(OBJECTS."person.php");
+require_once(OBJECTS."spouse.php");
+require_once(OBJECTS."place.php");
+require_once(OBJECTS."file.php");
+require_once(OBJECTS."connections.php");
 
 
-                require_once(TOOLS."user.php");
-                require_once(TOOLS."favorites.php");
-                require_once(TOOLS."pagination.php");
-                require_once(TOOLS."url.php");
-                require_once(TOOLS."mySession.conf.php");
-                require_once(TOOLS."mySession.class.php");
-                require_once(TOOLS."cbSQLConnect.class.php");
+require_once(TOOLS."user.php");
+require_once(TOOLS."favorites.php");
+require_once(TOOLS."pagination.php");
+require_once(TOOLS."url.php");
+require_once(TOOLS."mySession.conf.php");
+require_once(TOOLS."mySession.class.php");
+require_once(TOOLS."cbSQLConnect.class.php");
 
-                $session = mySession::getInstance();
-                require_once 'api.php';
-                class MyAPI extends API
-                {
+$session = mySession::getInstance();
+require_once 'api.php';
+class MyAPI extends API
+{
 
-                  protected $User;
+  protected $User;
 
-                  public function __construct($request, $origin) {
-                    parent::__construct($request);
+  public function __construct($request, $origin) {
+    parent::__construct($request);
 
     // Abstracted out for example
     // $APIKey = new Models\APIKey();
@@ -59,8 +59,8 @@
     //   throw new Exception('Invalid User Token');
     // }
 
-                    $this->User->name = "Jonathan";
-                  }
+    $this->User->name = "Jonathan";
+  }
 
   /**
   * Example of an Endpoint (where we grab the verbs and arguments and then do
@@ -89,16 +89,14 @@
     }
   }
 
-  /**
-  * Example of an Endpoint
-  */
+
   protected function user($args) {
     require_once(APIROOT.'controller/user.php');
     if ($this->method === 'POST') {
       if ($this->verb === 'login') {
         $result = getStream();
         $result = login(isset($result->username)? $result->username: null,
-                        isset($result->password)? $result->password: null);
+          isset($result->password)? $result->password: null);
         return $result;
       } else if ($this->verb === 'logout') {
         return $session->logout();
@@ -137,15 +135,20 @@
 
   protected function typeahead($args) {
     if ($this->method === 'GET') {
+      $session = mySession::getInstance();
+      // if ($session->isLoggedIn()) {
       $value = getRequest('typeahead');
       $list = Person::getSearchInd($value);
       return $list;
+      // } else {
+      // return false;
+      // }
     }else {
       return "Only accepts GET requests";
     }
   }
 }
-
+// End Class
 
 if (!array_key_exists('HTTP_ORIGIN', $_SERVER)) {
   $_SERVER['HTTP_ORIGIN'] = $_SERVER['SERVER_NAME'];

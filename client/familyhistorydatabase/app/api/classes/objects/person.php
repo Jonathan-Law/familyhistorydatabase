@@ -9,400 +9,404 @@ require_once(TOOLS."cbSQLConnectConfig.php");
 class Person
 {
 
-   protected static $table_name = "person";
-   protected static $db_fields = array('id', 'firstName', 'middleName', 'lastName', 'yearBorn', 'yearDead', 'yearB', 'yearD', 'relationship','profile_pic', 'sex');
-   public static function get_db_fields()
-   {
-      $fields = array('id', 'firstName', 'middleName', 'lastName', 'yearBorn', 'yearDead', 'yearB', 'yearD', 'relationship','profile_pic', 'sex');
-      return $fields;
-   }
-   public static function nameMe()
-   {
-      return "Person";
-   }
+  protected static $table_name = "person";
+  protected static $db_fields = array('id', 'firstName', 'middleName', 'lastName', 'yearBorn', 'yearDead', 'yearB', 'yearD', 'relationship','profile_pic', 'sex');
+  public static function get_db_fields()
+  {
+    $fields = array('id', 'firstName', 'middleName', 'lastName', 'yearBorn', 'yearDead', 'yearB', 'yearD', 'relationship','profile_pic', 'sex');
+    return $fields;
+  }
+  public static function nameMe()
+  {
+    return "Person";
+  }
 
-   // Attributes in person table
-   public $id;
-   public $firstName;
-   public $middleName;
-   public $lastName;
-   public $yearBorn;
-   public $yearDead;
-   public $yearB;
-   public $yearD;
-   public $relationship;
-   public $profile_pic;
-   public $sex;
-
-
-   public static function dropByPerson($temp_id = NULL)
-   {
-      $database = cbSQLConnect::adminConnect('both');
-      if (isset($database))
-      {
-         return $database->SQLDelete('person', 'id', $temp_id);
-      }
-   }
+  // Attributes in person table
+  public $id;
+  public $firstName;
+  public $middleName;
+  public $lastName;
+  public $yearBorn;
+  public $yearDead;
+  public $yearB;
+  public $yearD;
+  public $relationship;
+  public $profile_pic;
+  public $sex;
 
 
-
-
-   public static function getIndividuals()
-   {
-      $database = cbSQLConnect::connect('object');
-      $result = array();
-      if (isset($database))
-      {
-         $people = $database->QuerySingle("SELECT * FROM `person` ORDER BY `lastName`");
-         if ($people)
-         {
-            foreach($people as $aperson)
-            {
-               $temp = array();
-               $aperson = recast("Person", $aperson);
-               $aperson->displayName = $aperson->displayName();
-               $aperson->selectName = $aperson->selectName();
-               $temp[] = $aperson->firstName;
-               $temp[] = $aperson->lastName;
-               $temp[] = $aperson->yearBorn;
-               $temp[] = $aperson->yearDead;
-               $temp[] = $aperson->id;
-               $temp[] = $aperson->middleName;
-               $temp['data'] = $aperson;
-               $result[] = $temp;
-            }
-            return $result;
-         }
-         else
-         {
-            return "none";
-         }
-      }
-   }
-
-    //
-    public static function getSearchInd($search = null)
+  public static function dropByPerson($temp_id = NULL)
+  {
+    $database = cbSQLConnect::adminConnect('both');
+    if (isset($database))
     {
-      $database = cbSQLConnect::connect('object');
-      $result = array();
-      if (isset($database)) {
-        $finalTarget = '';
-        $target = explode(' ', $search);
-        $target = '+'.implode(' +', $target);
-        $people = $database->QuerySingle("SELECT *, MATCH(firstName, middleName, lastName) AGAINST('".$target."*' IN BOOLEAN MODE) AS score FROM `person` WHERE MATCH(firstName, middleName, lastName) AGAINST('".$target."*' IN BOOLEAN MODE) ORDER BY score DESC LIMIT 0, 10"); // ORDER BY `lastName`
-        if ($people) {
-          foreach($people as $aperson) {
-            $aperson = recast("Person", $aperson);
-            $aperson->displayableName = $aperson->displayName();
-            $aperson->selectableName = $aperson->selectName();
-            $aperson->typeahead = $aperson->selectName()." (".$aperson->yearBorn.")";
-            $result[] = $aperson;
-          }
-          return $result;
-        } else {
-          return false;
-        }
-      }
+      return $database->SQLDelete('person', 'id', $temp_id);
     }
+  }
 
 
-   public static function getNumPics()
-   {
-      $database = cbSQLConnect::connect('object');
-      $result = array();
-      if (isset($database))
+
+
+  public static function getIndividuals()
+  {
+    $database = cbSQLConnect::connect('object');
+    $result = array();
+    if (isset($database))
+    {
+      $people = $database->QuerySingle("SELECT * FROM `person` ORDER BY `lastName`");
+      if ($people)
       {
-         $num_pics = $database->QuerySingle("SELECT * FROM person WHERE `profile_pic` IS NOT NULL;");
-         if ($num_pics)
-         {
-            $result[0] = "success";
-            $result[1] = count($num_pics);
-            $result[2] = array();
-            $count = 0;
-            foreach ($num_pics as $individual)
-            {
-               $result[2][$count] = File::getById($individual->profile_pic);
-               $result[2][$count]->individual_id = $individual->id;
-               $count++;
-            }
-            return $result;
-         }
-         else
-         {
-            return null;
-         }
-      }
-   }
-
-   public static function getLastNames($letter)
-   {
-      $database = cbSQLConnect::connect('array');
-      if (isset($database))
-      {
-         $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."%' GROUP BY `lastName`");
-         if (count($data) == 0)
-         {
-            return NULL;
-         }
-         else
-         {
-            return $data;
-         }
-      }
-   }
-
-   public static function getFirstNames($lastname)
-   {
-      $database = cbSQLConnect::connect('array');
-      if (isset($database))
-      {
-         $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."%' ORDER BY `firstName`");
-         if (count($data) == 0)
-         {
-            return NULL;
-         }
-         else
-         {
-            return $data;
-         }
-      }
-   }
-
-   public static function getById($id = NULL)
-   {
-      if ($id)
-      {
-         $database = cbSQLConnect::connect('object');
-         if (isset($database))
-         {
-            $name = self::$table_name;
-            return $database->getObjectById($name, $id);
-         }
+        foreach($people as $aperson)
+        {
+          $temp = array();
+          $aperson = recast("Person", $aperson);
+          $aperson->displayName = $aperson->displayName();
+          $aperson->selectName = $aperson->selectName();
+          $temp[] = $aperson->firstName;
+          $temp[] = $aperson->lastName;
+          $temp[] = $aperson->yearBorn;
+          $temp[] = $aperson->yearDead;
+          $temp[] = $aperson->id;
+          $temp[] = $aperson->middleName;
+          $temp['data'] = $aperson;
+          $result[] = $temp;
+        }
+        return $result;
       }
       else
-         return NULL;
-   }
-
-   public function displayName()
-   {
-      $name = $this->firstName." ";
-      if ($this->middleName)
       {
-         $name .= $this->middleName." ";
+        return "none";
       }
-      $name .= $this->lastName;
-      return $name;
-   }
+    }
+  }
 
-   public function selectName()
-   {
-      $name = $this->lastName.", ";
-      $name .= $this->firstName." ";
-      if ($this->middleName)
+  public static function getSearchInd($search = null)
+  {
+    $database = cbSQLConnect::connect('object');
+    $result = array();
+    if (isset($database)) {
+      $finalTarget = '';
+      $target = explode(' ', $search);
+      $target = '+'.implode(' +', $target).'*';
+
+      // Here we have to prepare the statment using PDO 'quote'... Apparently the AGAINST
+      // must have a constant string to work with or it breaks... so we can't prepare the statement...
+      $target = $database->prepareQuote($target);
+
+      $people = $database->QuerySingle("SELECT *, MATCH(firstName, middleName, lastName) AGAINST(".$target." IN BOOLEAN MODE) AS score FROM `person` WHERE MATCH(firstName, middleName, lastName) AGAINST(".$target." IN BOOLEAN MODE) ORDER BY score DESC LIMIT 0, 10");
+      if ($people) {
+        foreach($people as $aperson) {
+          $aperson = recast("Person", $aperson);
+          $aperson->displayableName = $aperson->displayName();
+          $aperson->selectableName = $aperson->selectName();
+          $aperson->typeahead = $aperson->selectName()." (".$aperson->yearBorn.")";
+          $result[] = $aperson;
+        }
+        return $result;
+      } else {
+        return false;
+      }
+    }
+  }
+
+
+  public static function getNumPics()
+  {
+    $database = cbSQLConnect::connect('object');
+    $result = array();
+    if (isset($database))
+    {
+      $num_pics = $database->QuerySingle("SELECT * FROM person WHERE `profile_pic` IS NOT NULL;");
+      if ($num_pics)
       {
-         $name .= $this->middleName;
+        $result[0] = "success";
+        $result[1] = count($num_pics);
+        $result[2] = array();
+        $count = 0;
+        foreach ($num_pics as $individual)
+        {
+          $result[2][$count] = File::getById($individual->profile_pic);
+          $result[2][$count]->individual_id = $individual->id;
+          $count++;
+        }
+        return $result;
       }
-      return $name;
-   }
+      else
+      {
+        return null;
+      }
+    }
+  }
 
+  public static function getLastNames($letter)
+  {
+    $database = cbSQLConnect::connect('array');
+    if (isset($database))
+    {
+      $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."%' GROUP BY `lastName`");
+      if (count($data) == 0)
+      {
+        return NULL;
+      }
+      else
+      {
+        return $data;
+      }
+    }
+  }
 
-   public function getParents()
-   {
+  public static function getFirstNames($lastname)
+  {
+    $database = cbSQLConnect::connect('array');
+    if (isset($database))
+    {
+      $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."%' ORDER BY `firstName`");
+      if (count($data) == 0)
+      {
+        return NULL;
+      }
+      else
+      {
+        return $data;
+      }
+    }
+  }
 
+  public static function getById($id = NULL)
+  {
+    if ($id)
+    {
       $database = cbSQLConnect::connect('object');
       if (isset($database))
       {
-         $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `child`='".$this->id."' ORDER BY `gender`");
-         return $data;
+        $name = self::$table_name;
+        return $database->getObjectById($name, $id);
       }
+    }
+    else
+      return NULL;
+  }
 
-   }
-   public static function getParentsById($id = NULL)
-   {
+  public function displayName()
+  {
+    $name = $this->firstName." ";
+    if ($this->middleName)
+    {
+      $name .= $this->middleName." ";
+    }
+    $name .= $this->lastName;
+    return $name;
+  }
 
-      $database = cbSQLConnect::connect('object');
-      if (isset($database))
+  public function selectName()
+  {
+    $name = $this->lastName.", ";
+    $name .= $this->firstName." ";
+    if ($this->middleName)
+    {
+      $name .= $this->middleName;
+    }
+    return $name;
+  }
+
+
+  public function getParents()
+  {
+
+    $database = cbSQLConnect::connect('object');
+    if (isset($database))
+    {
+      $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `child`='".$this->id."' ORDER BY `gender`");
+      return $data;
+    }
+
+  }
+  public static function getParentsById($id = NULL)
+  {
+
+    $database = cbSQLConnect::connect('object');
+    if (isset($database))
+    {
+      $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `child`='".$id."' ORDER BY `gender`");
+      return $data;
+    }
+
+  }
+
+  public function getChildren()
+  {
+
+    $database = cbSQLConnect::connect('object');
+    if (isset($database))
+    {
+      $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `parent_id`='".$this->id."' ORDER BY `gender`");
+      return $data;
+    }
+
+  }
+
+  public static function getChildrenById($id = NULL)
+  {
+
+    $database = cbSQLConnect::connect('object');
+    if (isset($database))
+    {
+      $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `parent_id`='".$id."' ORDER BY `gender`");
+      return $data;
+    }
+
+  }
+
+  public function getSpouse()
+  {
+
+    $database = cbSQLConnect::connect('object');
+    if (isset($database))
+    {
+      $data = $database->QuerySingle("SELECT * FROM `spouse` WHERE `personId`='".$this->id."'");
+      return $data;
+    }
+
+  }
+
+  public static function getSpouseById($id = NULL)
+  {
+
+    $database = cbSQLConnect::connect('object');
+    if (isset($database))
+    {
+      $data = $database->QuerySingle("SELECT * FROM `spouse` WHERE `personId`='".$id."'");
+      return $data;
+    }
+
+  }
+
+  public function save()
+  {
+    // return $this->id;
+    return isset($this->id) ? $this->update() : $this->create();
+  }
+
+  public function setProfilePic($pic_id)
+  {
+    $database = cbSQLConnect::connect('object');
+    if (isset($database))
+    {
+      $this->profile_pic = $pic_id;
+      return $this->save();
+    }
+  }
+
+  // create the object if it doesn't already exits.
+  protected function create()
+  {
+    $database = cbSQLConnect::connect('object');
+    if (isset($database))
+    {
+      $fields = self::$db_fields;
+      $data = array();
+      foreach($fields as $key)
       {
-         $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `child`='".$id."' ORDER BY `gender`");
-         return $data;
+        if ($this->{$key})
+        {
+          $data[$key] = $this->{$key};
+        }
+        else
+          $data[$key] = NULL;
+
       }
 
-   }
-
-   public function getChildren()
-   {
-
-      $database = cbSQLConnect::connect('object');
-      if (isset($database))
+      // return $data;
+      // return true if sucess or false
+      $insert = $database->SQLInsert($data, "person");
+      if ($insert)
       {
-         $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `parent_id`='".$this->id."' ORDER BY `gender`");
-         return $data;
+        return $insert;
       }
-
-   }
-
-   public static function getChildrenById($id = NULL)
-   {
-
-      $database = cbSQLConnect::connect('object');
-      if (isset($database))
+      else
       {
-         $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `parent_id`='".$id."' ORDER BY `gender`");
-         return $data;
+        return "Insert didn't compute";
       }
+    }
+  }
 
-   }
-
-   public function getSpouse()
-   {
-
-      $database = cbSQLConnect::connect('object');
-      if (isset($database))
+  // update the object if it does already exist.
+  protected function update()
+  {
+    $database = cbSQLConnect::connect('object');
+    if (isset($database))
+    {
+      $fields = self::$db_fields;
+      foreach($fields as $key)
       {
-         $data = $database->QuerySingle("SELECT * FROM `spouse` WHERE `personId`='".$this->id."'");
-         return $data;
+        $flag = $database->SQLUpdate("person", $key, $this->{$key}, "id", $this->id);
+        if ($flag == "fail")
+        {
+          break;
+        }
       }
-
-   }
-
-   public static function getSpouseById($id = NULL)
-   {
-
-      $database = cbSQLConnect::connect('object');
-      if (isset($database))
+      if ($flag == "fail")
       {
-         $data = $database->QuerySingle("SELECT * FROM `spouse` WHERE `personId`='".$id."'");
-         return $data;
+        return false;
       }
+      else
+        return $this->id;
+    }
+  }
 
-   }
+  // Delete the object from the table.
+  public function delete()
+  {
+    $database = cbSQLConnect::connect('object');
+    if (isset($database))
+    {
+      return ($database->SQLDelete(self::$table_name, 'id', $this->id));
+    }
+  }
 
-   public function save()
-   {
-      // return $this->id;
-      return isset($this->id) ? $this->update() : $this->create();
-   }
 
-   public function setProfilePic($pic_id)
-   {
-      $database = cbSQLConnect::connect('object');
-      if (isset($database))
+
+  public static function createInstance($data = NULL)
+  {
+    $init = new Person();
+
+    $init->id          = NULL;
+    $init->firstName   = $data['fninput'];
+    $init->middleName  = $data['mninput'];
+    $init->lastName    = $data['lninput'];
+    if ($data['birth_date'])
+    {
+      $date = $data['birth_date'];
+      $date = explode("/", $date);
+      $init->yearBorn = $date[2];
+      if (isset($data['birth_date_overide']))
       {
-         $this->profile_pic = $pic_id;
-         return $this->save();
+        $init->yearB = false;
       }
-   }
-
-   // create the object if it doesn't already exits.
-   // create the object if it doesn't already exits.
-   protected function create()
-   {
-      $database = cbSQLConnect::connect('object');
-      if (isset($database))
+      else
       {
-         $fields = self::$db_fields;
-         $data = array();
-         foreach($fields as $key)
-         {
-            if ($this->{$key})
-            {
-               $data[$key] = $this->{$key};
-            }
-            else
-               $data[$key] = NULL;
-
-         }
-
-         // return $data;
-         $insert = $database->SQLInsert($data, "person"); // return true if sucess or false
-         if ($insert)
-         {
-            return $insert;
-         }
-         else
-         {
-            return "Insert didn't compute";
-         }
+        $init->yearB = true;
       }
-   }
-
-   // update the object if it does already exist.
-   protected function update()
-   {
-      $database = cbSQLConnect::connect('object');
-      if (isset($database))
+    }
+    if ($data['death_date'] )
+    {
+      $date = $data['death_date'];
+      $date = explode("/", $date);
+      $init->yearDead = $date[2];
+      if (isset($data['death_date_overide']))
       {
-         $fields = self::$db_fields;
-         foreach($fields as $key)
-         {
-            $flag = $database->SQLUpdate("person", $key, $this->{$key}, "id", $this->id);
-            if ($flag == "fail")
-            {
-               break;
-            }
-         }
-         if ($flag == "fail")
-         {
-            return false;
-         }
-         else
-            return $this->id;
+        $init->yearD = true;
       }
-   }
-
-   // Delete the object from the table.
-   public function delete()
-   {
-      $database = cbSQLConnect::connect('object');
-      if (isset($database))
+      else
       {
-         return ($database->SQLDelete(self::$table_name, 'id', $this->id));
+        $init->yearD = false;
       }
-   }
+    }
+    $init->sex = $data['sex'];
+    $init->relationship = $data['relationship_to_michele'];
 
-
-
-   public static function createInstance($data = NULL)
-   {
-      $init = new Person();
-
-      $init->id          = NULL;
-      $init->firstName   = $data['fninput'];
-      $init->middleName  = $data['mninput'];
-      $init->lastName    = $data['lninput'];
-      if ($data['birth_date'])
-      {
-         $date = $data['birth_date'];
-         $date = explode("/", $date);
-         $init->yearBorn = $date[2];
-         if (isset($data['birth_date_overide']))
-         {
-            $init->yearB = false;
-         }
-         else
-         {
-            $init->yearB = true;
-         }
-      }
-      if ($data['death_date'] )
-      {
-         $date = $data['death_date'];
-         $date = explode("/", $date);
-         $init->yearDead = $date[2];
-         if (isset($data['death_date_overide']))
-         {
-            $init->yearD = true;
-         }
-         else
-         {
-            $init->yearD = false;
-         }
-      }
-      $init->sex = $data['sex'];
-      $init->relationship = $data['relationship_to_michele'];
-
-      return $init;
-   }
+    return $init;
+  }
 
 
 }

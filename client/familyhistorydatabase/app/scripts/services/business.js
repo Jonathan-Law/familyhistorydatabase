@@ -30,12 +30,15 @@ app.factory('business', ['localCache', '$http', '$q', 'userService', 'authServic
       }
     }).then(function(res){
       if (res.data !== 'false') {
+        console.log('res', res);
+
         var typeahead = [];
         _.each(res.data, function(item){
           typeahead.push(item);
         });
         return typeahead;
       }
+      console.log('res', res);
       return [];
     });
   }
