@@ -1,0 +1,99 @@
+{
+  "firstName": "Jonathan",
+  "id": "850",
+  "lastName": "Law",
+  "middleName": "Quinn",
+  "profile_pic": "100",
+  "relationship": "Son",
+  "score": "1",
+  "sex": "male",
+  "yearB": "0",
+  "yearBorn": "0",
+  "yearD": "1",
+  "yearDead": "0",
+  "displayableName": "Jonathan Quinn Law",
+  "selectableName": "Law, Jonathan Quinn",
+  "typeahead": "Law, Jonathan Quinn (0)",
+  "birth": {
+    "id": "848",
+    "year": "0",
+    "month": "0",
+    "day": "0",
+    "place": "2997",
+    "yearB": "0",
+    "personId": "850",
+    "birthPlace": {
+      "id": "2997",
+      "town": "Salt Lake City",
+      "county": "Salt Lake County",
+      "state": "Utah",
+      "country": "United States",
+      "cemetary": "NULL",
+      "ft_name": "birth",
+      "fkey": "848"
+    }
+  },
+  "death": {
+    "id": "848",
+    "year": "0",
+    "month": "0",
+    "day": "0",
+    "place": "2998",
+    "yearD": "0",
+    "personId": "850",
+    "deathPlace": {
+      "id": "2998",
+      "town": "",
+      "county": "",
+      "state": "",
+      "country": "",
+      "cemetary": "NULL",
+      "ft_name": "death",
+      "fkey": "848"
+    }
+  },
+  "parents": [
+    {
+      "id": "1313",
+      "parent_id": "6",
+      "gender": "father",
+      "child": "850"
+    },
+    {
+      "id": "1314",
+      "parent_id": "3",
+      "gender": "mother",
+      "child": "850"
+    }
+  ],
+  "children": [
+    {
+      "id": "",
+      "parent_id": "850",
+      "gender": "father",
+      "child": ""
+    }
+  ],
+  "spouse": [
+    {
+      "id": "392",
+      "spouse": "149",
+      "personId": "850",
+      "year": "2013",
+      "month": "1",
+      "day": "12",
+      "place": "3000",
+      "yearM": "1",
+      "maraigePlace": {
+        "id": "3000",
+        "town": "Draper",
+        "county": "Salt Lake County",
+        "state": "Utah",
+        "country": "United States",
+        "cemetary": "NULL",
+        "ft_name": "spouse",
+        "fkey": "392"
+      }
+    }
+  ]
+}

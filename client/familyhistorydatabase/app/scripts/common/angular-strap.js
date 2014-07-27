@@ -3727,6 +3727,8 @@ angular.module('mgcrea.ngStrap.typeahead', [
           evt.stopPropagation();
         };
         $typeahead.$onKeyDown = function (evt) {
+          console.log('AHHH');
+
           if (!/(38|40|13)/.test(evt.keyCode))
             return;
           evt.preventDefault();

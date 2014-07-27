@@ -180,11 +180,22 @@ class Person
       if (isset($database))
       {
         $name = self::$table_name;
-        return $database->getObjectById($name, $id);
+        $person = $database->getObjectById('person', $id);
+        if ($person) {
+          $person = recast('Person', $person);
+        }
+        return $person;
       }
     }
     else
       return NULL;
+  }
+
+  public function appendNames()
+  {
+    $this->displayableName = $this->displayName();
+    $this->selectableName = $this->selectName();
+    $this->typeahead = $this->selectName()." (".$this->yearBorn.")";
   }
 
   public function displayName()
@@ -201,10 +212,10 @@ class Person
   public function selectName()
   {
     $name = $this->lastName.", ";
-    $name .= $this->firstName." ";
+    $name .= $this->firstName;
     if ($this->middleName)
     {
-      $name .= $this->middleName;
+      $name .= " ".$this->middleName;
     }
     return $name;
   }
@@ -239,7 +250,7 @@ class Person
     $database = cbSQLConnect::connect('object');
     if (isset($database))
     {
-      $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `parent_id`='".$this->id."' ORDER BY `gender`");
+      $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `parentId`='".$this->id."' ORDER BY `gender`");
       return $data;
     }
 
@@ -251,7 +262,7 @@ class Person
     $database = cbSQLConnect::connect('object');
     if (isset($database))
     {
-      $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `parent_id`='".$id."' ORDER BY `gender`");
+      $data = $database->QuerySingle("SELECT * FROM `parents` WHERE `parentId`='".$id."' ORDER BY `gender`");
       return $data;
     }
 

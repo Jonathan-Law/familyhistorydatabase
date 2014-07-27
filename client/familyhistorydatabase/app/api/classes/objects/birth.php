@@ -13,7 +13,7 @@ class Birth
 
    protected static $table_name = "birth";
    protected static $db_fields = array('id', 'year', 'month', 'day', 'place', 'personId', 'yearB');
-   public static function get_db_fields() 
+   public static function get_db_fields()
    {
       $fields = array('id', 'year', 'month', 'day', 'place', 'personId', 'yearB');
       return $fields;
@@ -48,7 +48,7 @@ class Birth
       if (isset($database))
       {
          $data = $database->QuerySingle("SELECT $thing FROM `birth` WHERE `personId`=$person ORDER BY `id` LIMIT 1");
-         if (count($data) == 0) 
+         if (count($data) == 0)
          {
             return NULL;
          }
@@ -157,11 +157,11 @@ class Birth
          $date = explode("/", $date);
          $init->year = $date[2];
          $init->month = $date[1];
-         $init->day = $date[0];         
+         $init->day = $date[0];
          if (isset($data['birth_date_overide']))
          {
             $init->yearB = false;
-         }   
+         }
          else
          {
             $init->yearB = true;

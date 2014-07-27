@@ -9,10 +9,10 @@ class Parents
 {
 
   protected static $table_name = "parents";
-  protected static $db_fields = array('id', 'parent_id', 'gender', 'child');
+  protected static $db_fields = array('id', 'parentId', 'gender', 'child');
   public static function get_db_fields()
   {
-    $fields = array('id', 'parent_id', 'gender', 'child');
+    $fields = array('id', 'parentId', 'gender', 'child');
     return $fields;
   }
   public static function nameMe()
@@ -22,7 +22,7 @@ class Parents
 
   // Attributes in parents table
   public $id;
-  public $parent_id;
+  public $parentId;
   public $gender;
   public $child;
 
@@ -36,6 +36,28 @@ class Parents
   }
 
 
+  public static function getParentsOf($id)
+  {
+    $database = cbSQLConnect::connect('object');
+    if (isset($database)) {
+      $sql = "SELECT * FROM `parents` WHERE `child`= :id";
+      $params = array(':id' => $id);
+      $results_array = $database->QueryForObject($sql, $params);
+      return !empty($results_array) ? $results_array : false;
+    }
+  }
+
+  public static function getChildrenOf($id)
+  {
+    $database = cbSQLConnect::connect('object');
+    if (isset($database)) {
+      $sql = "SELECT * FROM `parents` WHERE `parentId`= :id";
+      $params = array(':id' => $id);
+      $results_array = $database->QueryForObject($sql, $params);
+      return !empty($results_array) ? $results_array : false;
+    }
+  }
+
   public static function dropById($temp_id = NULL)
   {
     $database = cbSQLConnect::adminConnect('both');
@@ -45,16 +67,16 @@ class Parents
     }
   }
 
-  public static function getByField($parent_id = NULL, $temp_id = NULL)
+  public static function getByField($parentId = NULL, $temp_id = NULL)
   {
-    if ($temp_id && $parent_id)
+    if ($temp_id && $parentId)
     {
       $database = cbSQLConnect::connect('object');
       if (isset($database))
       {
         $name = self::$table_name;
-        $sql = "SELECT * FROM $name WHERE `parent_id`=:parent_id AND `child`= :id";
-        $params = array( ':parent_id' => $parent_id, ':id' => $temp_id);
+        $sql = "SELECT * FROM $name WHERE `parentId`=:parentId AND `child`= :id";
+        $params = array( ':parentId' => $parentId, ':id' => $temp_id);
         array_unshift($params, '');
         unset($params[0]);
         $results_array = $database->QueryForObject($sql, $params);
@@ -153,15 +175,15 @@ class Parents
     }
   }
 
-  public static function createInstance($parent_id = NULL, $gender = NULL, $child = NULL)
+  public static function createInstance($parentId = NULL, $gender = NULL, $child = NULL)
   {
-    $temp = Parents::getByField($parent_id, $child);
+    $temp = Parents::getByField($parentId, $child);
     // return $temp;
     if (!$temp)
     {
       $init = new Parents();
       $init->id = null;
-      $init->parent_id = $parent_id;
+      $init->parentId = $parentId;
       if ($gender == 'male')
       {
         $init->gender = 'father';
@@ -175,7 +197,7 @@ class Parents
     }
     else
     {
-      $temp->parent_id = $parent_id;
+      $temp->parentId = $parentId;
       if ($gender == 'male')
       {
         $temp->gender = 'father';

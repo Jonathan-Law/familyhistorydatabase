@@ -107,8 +107,8 @@ public function QuerySingle($query, $class = 'stdClass'){
 
 public function getObjectById($table, $id)
 {
-  $sql = "SELECT * FROM :table WHERE `id`= :id LIMIT 1";
-  $params = array(':table' => $table, ':id' => $id);
+  $sql = "SELECT * FROM $table WHERE `id`= :id LIMIT 1";
+  $params = array(':id' => $id);
   array_unshift($params, '');
   unset($params[0]);
   $results_array = $this->QueryForObject($sql, $params);

@@ -22,30 +22,30 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', functio
   $scope.logout = function() {
     Business.user.logout();
     $scope.$emit('$loggedOut');
-  }
+  };
 
   $scope.login = function() {
     $scope.$emit('$triggerEvent', '$triggerModal',   {
-      "nav": {
-        "bars": [
+      'nav': {
+        'bars': [
         {
-          "title": "Login",
-          "include": "views/auth/login.html"
+          'title': 'Login',
+          'include': 'views/auth/login.html'
         },
         {
-          "title": "Register",
-          "include": "views/auth/register.html"
+          'title': 'Register',
+          'include': 'views/auth/register.html'
         }
         ],
-        "current": "Login"
+        'current': 'Login'
       },
-      "showFooter": false,
-      "classes": [
-      "hasNav",
-      "darkTheme"
+      'showFooter': false,
+      'classes': [
+      'hasNav',
+      'darkTheme'
       ]
     });
-  }
+  };
 
   $rootScope.$watch('user', function() {
     $scope.user = $rootScope.user;
@@ -56,11 +56,17 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', functio
     }
   });
 
-  $scope.$watch('searchKey', function() {
+
+  $scope.onSelect = function(item, model, something) {
     if (typeof $scope.searchKey === 'object' && $scope.searchKey){
-      console.log('Typeahead Item Found: ', $scope.searchKey);
+      Business.individual.getIndData($scope.searchKey.id).then(function(result) {
+        // console.log('Typeahead Item Found: ', $scope.searchKey);
+        // console.log('Individual: ', result);
+      });
+    } else {
+      // console.log('searchKey', $scope.searchKey);
     }
-  });
+  };
 
   $scope.checkLogin().then(function(response){
     if (response) {

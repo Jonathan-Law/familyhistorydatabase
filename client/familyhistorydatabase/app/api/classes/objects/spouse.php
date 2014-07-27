@@ -11,7 +11,7 @@ class Spouse
 
    protected static $table_name = "spouse";
    protected static $db_fields = array('id', 'spouse', 'personId', 'year', 'month', 'day', 'place', 'yearM');
-   public static function get_db_fields() 
+   public static function get_db_fields()
    {
       $fields = array('id', 'spouse', 'personId', 'year', 'month', 'day', 'place', 'yearM');
       return $fields;
@@ -59,7 +59,8 @@ class Spouse
          if (isset($database))
          {
             $name = self::$table_name;
-            $sql = "SELECT * FROM $name WHERE `spouse`=:id OR `personId`= :id";
+            $sql = "SELECT * FROM $name WHERE `spouse`=:id";
+            // $sql = "SELECT * FROM $name WHERE `spouse`=:id OR `personId`= :id";
             $params = array( ':id' => $id);
             array_unshift($params, '');
             unset($params[0]);

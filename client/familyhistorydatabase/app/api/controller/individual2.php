@@ -221,7 +221,7 @@ if (isset($action) && $action != null)
          $spouse   = Person::getSpouseById($id);
          foreach ($parents as $key ) 
          {
-            $temp_person = Person::getById($key->parent_id);
+            $temp_person = Person::getById($key->parentId);
             if ($temp_person->sex == 'male')
             {
                $data["response"]["parents"]["father"][] = $temp_person;
@@ -244,7 +244,7 @@ if (isset($action) && $action != null)
          $mother = Person::getParentsById($data["response"]["parents"]["mother"][0]->id);
          foreach ($father as $key) 
          {
-            $temp_person = Person::getById($key->parent_id);
+            $temp_person = Person::getById($key->parentId);
             if ($temp_person->sex == 'male')
             {
                $data["response"]["fparents"]["father"][] = $temp_person;
@@ -256,7 +256,7 @@ if (isset($action) && $action != null)
          }
          foreach ($mother as $key) 
          {
-            $temp_person = Person::getById($key->parent_id);
+            $temp_person = Person::getById($key->parentId);
             if ($temp_person->sex == 'male')
             {
                $data["response"]["mparents"]["father"][] = $temp_person;
@@ -272,7 +272,7 @@ if (isset($action) && $action != null)
          $mmother = Person::getParentsById($data["response"]["mparents"]["mother"][0]->id);
          foreach ($mfather as $key) 
          {
-            $temp_person = Person::getById($key->parent_id);
+            $temp_person = Person::getById($key->parentId);
             if ($temp_person->sex == 'male')
             {
                $data["response"]["mfparents"]["father"][] = $temp_person;
@@ -284,7 +284,7 @@ if (isset($action) && $action != null)
          }
          foreach ($mmother as $key) 
          {
-            $temp_person = Person::getById($key->parent_id);
+            $temp_person = Person::getById($key->parentId);
             if ($temp_person->sex == 'male')
             {
                $data["response"]["mmparents"]["father"][] = $temp_person;
@@ -296,7 +296,7 @@ if (isset($action) && $action != null)
          }
          foreach ($ffather as $key) 
          {
-            $temp_person = Person::getById($key->parent_id);
+            $temp_person = Person::getById($key->parentId);
             if ($temp_person->sex == 'male')
             {
                $data["response"]["ffparents"]["father"][] = $temp_person;
@@ -308,7 +308,7 @@ if (isset($action) && $action != null)
          }
          foreach ($fmother as $key) 
          {
-            $temp_person = Person::getById($key->parent_id);
+            $temp_person = Person::getById($key->parentId);
             if ($temp_person->sex == 'male')
             {
                $data["response"]["fmparents"]["father"][] = $temp_person;

@@ -21,7 +21,9 @@ app.factory('business', ['localCache', '$http', '$q', 'userService', 'authServic
   var business = {};
   business.user = UserService;
   business.auth = AuthService;
+
   business.individual = IndividualService;
+
   business.getTypeahead = function(val) {
     return $http.get('http://familyhistorydatabase.org/v2/api/v1/typeahead/', {
       params: {
@@ -30,18 +32,15 @@ app.factory('business', ['localCache', '$http', '$q', 'userService', 'authServic
       }
     }).then(function(res){
       if (res.data !== 'false') {
-        console.log('res', res);
-
         var typeahead = [];
         _.each(res.data, function(item){
           typeahead.push(item);
         });
         return typeahead;
       }
-      console.log('res', res);
       return [];
     });
-  }
+  };
 
   // var get_cookie = function (cname) {
   //   var name = cname + "=";

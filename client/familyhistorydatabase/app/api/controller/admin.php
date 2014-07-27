@@ -381,7 +381,7 @@ if (isset($action))
          {
             $temp = array();
             $temp[0] = 'parent';
-            $temp_person = Person::getById($pops->parent_id);
+            $temp_person = Person::getById($pops->parentId);
             $temp[1] = "".$temp_person->lastName.", ".$temp_person->firstName." ".$temp_person->middleName." || Born: ".$temp_person->yearBorn.", Death: ".$temp_person->yearDead." || ".$temp_person->id;
             $parents[] = $temp;
          }

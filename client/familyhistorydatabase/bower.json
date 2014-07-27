@@ -15,8 +15,7 @@
     "angular-route": "1.2.16",
     "angular-motion": "~0.3.2",
     "fontawesome": "~4.1.0",
-    "underscore": "~1.6.0",
-    "angular-bootstrap": "~0.11.0"
+    "underscore": "~1.6.0"
   },
   "devDependencies": {
     "angular-mocks": "1.2.16",

@@ -147,6 +147,42 @@ class MyAPI extends API
       return "Only accepts GET requests";
     }
   }
+
+  protected function individual($args) {
+    if ($this->method === 'GET') {
+      $id = intval(array_shift($args));
+      if ($id && is_numeric($id)) {
+        $session = mySession::getInstance();
+        if ($id > -1) {
+          $person = Person::getById($id);
+          if ($person) {
+            $person->appendNames();
+            $person->birth = Birth::getById($id);
+            if ($person->birth) {
+              $person->birth->birthPlace = Place::getById($person->birth->place);
+            }
+            $person->death = Death::getById($id);
+            if ($person->death) {
+              $person->death->deathPlace = Place::getById($person->death->place);
+            }
+            $person->parents = Parents::getParentsOf($id);
+            $person->children = Parents::getChildrenOf($id);
+            $person->spouse = Spouse::getById($id);
+            return $person;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+      // } else {
+      // return false;
+      // }
+    }else {
+      return "Only accepts GET requests";
+    }
+  }
 }
 // End Class
 
