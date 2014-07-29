@@ -19,8 +19,10 @@ var app = angular
   'ngRoute',
   'ngSanitize',
   'ngTouch',
+  'ui.bootstrap',
   'mgcrea.ngStrap',
-  'ui.bootstrap'
+  'mgcrea.ngStrap.helpers.dateParser',
+  'mgcrea.ngStrap.tooltip',
   ])
 .config(['$routeProvider', '$asideProvider', '$httpProvider', function ($routeProvider, $asideProvider, $httpProvider) {
   $routeProvider
@@ -58,6 +60,9 @@ var app = angular
 
   $rootScope.checkLogin = function() {
     return Business.user.checkLoggedIn();
+  }
+  $rootScope.log = function(message, variable) {
+    console.log(message, variable);
   }
   $rootScope.getTypeahead = function(val) {
     return Business.getTypeahead(val);

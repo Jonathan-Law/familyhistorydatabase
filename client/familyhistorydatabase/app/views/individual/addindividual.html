@@ -1,0 +1,81 @@
+<div ng-controller="IndividualAddindividualCtrl">
+  <div class="container-fluid">
+    <form name="addAPersonForm" role="form" ng-submit="savePerson()" class="">
+      <div class="form-group row">
+        <div class="col-sm-6 initial">
+          <label for="Name">Name Stuff: </label>
+          <input style="width: auto;" class="form-control" ng-model="firstName" id="Name" placeholder="First Name" required/>
+          <input style="width: auto;" class="form-control" ng-model="middleName" id="Name" placeholder="Middle Name" />
+          <input style="width: auto;" class="form-control" ng-model="lastName" id="Name" placeholder="Last Name" required/>
+        </div>
+        <div class="col-sm-6 birth">
+          <label for="Birth">Birth stuff: {{birthDate}}</label>
+          <label>
+            <input type="checkbox" ng-model="exactBirthDate" ng-clicked="exactBirthDate"> Exact Date
+          </label>
+          <div ng-if="exactBirthDate">
+            <div class="input-group" ng-class="{'has-error': addAPersonForm.birthDate.$invalid}">
+              <label class="input-group-addon" for="birthDatePicker"><i class="fa fa-calendar"></i></label>
+              <input type="text" id="birthDatePicker" class="form-control" ng-model="birthDate" name="birthDate" data-date-format="MM-dd-yyyy" data-max-date="{{maxBirth}}" data-start-view="2" data-autoclose="1" bs-datepicker placeholder="Birth Date (1-31-1700)" required>
+            </div>
+          </div>
+          <div ng-if="!exactBirthDate">
+            <div class="input-group" ng-class="{'has-error': addAPersonForm.birthDate.$invalid}">
+              <label class="input-group-addon" for="birthDatePicker"><i class="fa fa-calendar"></i></label>
+              <input type="text" id="birthDatePicker" class="form-control" ng-model="birthDate" name="birthDate" data-date-format="yyyy" data-max-date="{{maxBirth}}" data-start-view="2" min-view="2" data-autoclose="1" bs-datepicker placeholder="Birth Date (1-31-1700)" required>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-6 death">
+          <label for="Death">Death stuff: </label>
+          <label>
+            <input type="checkbox" ng-model="exactDeathDate" ng-clicked="exactDeathDate"> Exact Date
+          </label>
+          <div ng-if="exactDeathDate">
+            <div class="input-group" ng-class="{'has-error': addAPersonForm.deathDate.$invalid}">
+              <label class="input-group-addon" for="deathDatePicker"><i class="fa fa-calendar"></i></label>
+              <input type="text" id="deathDatePicker" class="form-control" ng-model="deathDate" name="deathDate" data-date-format="MM-dd-yyyy" data-min-date="{{minDeath}}" data-max-date="today" data-start-view="2" data-autoclose="1" bs-datepicker placeholder="Death Date (1-31-1700)" required>
+            </div>
+          </div>
+          <div ng-if="!exactDeathDate">
+            <div class="input-group" ng-class="{'has-error': addAPersonForm.deathDate.$invalid}">
+              <label class="input-group-addon" for="deathDatePicker"><i class="fa fa-calendar"></i></label>
+              <input type="text" id="deathDatePicker" class="form-control" ng-model="deathDate" name="deathDate" data-date-format="yyyy" data-min-date="{{minDeath}}" data-max-date="today" data-start-view="2" min-view="2" data-autoclose="1" bs-datepicker placeholder="Death Date (1-31-1700)" required>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 burial">
+          <label for="Burial">Burial stuff: </label>
+          <label>
+            <input type="checkbox" ng-model="exactBurialDate" ng-clicked="exactBurialDate"> Exact Date
+          </label>
+          <div ng-if="exactBurialDate">
+            <div class="input-group" ng-class="{'has-error': addAPersonForm.burialDate.$invalid}">
+              <label class="input-group-addon" for="exactBurialDate"><i class="fa fa-calendar"></i></label>
+              <input type="text" id="exactBurialDate" class="form-control" ng-model="burialDate" name="burialDate" data-date-format="MM-dd-yyyy" data-max-date="today" data-min-date="{{minBurial}}" data-start-view="2" data-autoclose="1" bs-datepicker placeholder="Burial Date (1-31-1700)">
+            </div>
+          </div>
+          <div ng-if="!exactBurialDate">
+            <div class="input-group" ng-class="{'has-error': addAPersonForm.burialDate.$invalid}">
+              <label class="input-group-addon" for="exactBurialDate"><i class="fa fa-calendar"></i></label>
+              <input type="text" id="exactBurialDate" class="form-control" ng-model="burialDate" name="burialDate" data-date-format="yyyy" data-max-date="today" data-min-date="{{minBurial}}" data-start-view="2" min-view="2" data-autoclose="1" bs-datepicker placeholder="Burial Date (1-31-1700)">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-sm-6 parent">
+          <label for="Parents">Parents Stuff: </label>
+          <input style="width: auto;" class="form-control" id="Parents" placeholder="Parents Stuff" />
+        </div>
+        <div class="col-sm-6 spouse">
+          <label for="Spouse">Spouse Stuff: </label>
+          <input style="width: auto;" class="form-control" id="Spouse" placeholder="Spouse Stuff" />
+        </div>
+      </div>
+      <button class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</div>

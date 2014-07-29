@@ -980,7 +980,7 @@ angular.module('mgcrea.ngStrap.datepicker', [
         var weekDaysMin = $locale.DATETIME_FORMATS.SHORTDAY;
         var weekDaysLabels = weekDaysMin.slice(options.startWeek).concat(weekDaysMin.slice(0, options.startWeek));
         var weekDaysLabelsHtml = $sce.trustAsHtml('<th class="dow text-center">' + weekDaysLabels.join('</th><th class="dow text-center">') + '</th>');
-        var startDate = picker.$date || new Date();
+        var startDate = picker.$date || new Date('');
         var viewDate = {
             year: startDate.getFullYear(),
             month: startDate.getMonth(),
@@ -1129,8 +1129,8 @@ angular.module('mgcrea.ngStrap.datepicker', [
             {
               name: 'year',
               format: 'yyyy',
-              split: 4,
-              steps: { year: 12 },
+              split: 5,
+              steps: { year: 50 },
               update: function (date, force) {
                 if (!this.built || force || parseInt(date.getFullYear() / 20, 10) !== parseInt(viewDate.year / 20, 10)) {
                   angular.extend(viewDate, {
@@ -1151,7 +1151,7 @@ angular.module('mgcrea.ngStrap.datepicker', [
               build: function () {
                 var firstYear = viewDate.year - viewDate.year % (this.split * 3);
                 var years = [], year;
-                for (var i = 0; i < 12; i++) {
+                for (var i = 0; i < 50; i++) {
                   year = new Date(firstYear + i, 0, 1);
                   years.push({
                     date: year,
