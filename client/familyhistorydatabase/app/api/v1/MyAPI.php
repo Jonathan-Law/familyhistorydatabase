@@ -129,7 +129,7 @@ class MyAPI extends API
       return $user;
       // return "This is a test";
     } else {
-      return "Only accepts GET requests";
+      return "Only accepts GET AND POSTS requests";
     }
   }
 

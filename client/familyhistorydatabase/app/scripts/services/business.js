@@ -42,6 +42,21 @@ app.factory('business', ['localCache', '$http', '$q', 'userService', 'authServic
     });
   };
 
+  business.getLocation = function(val) {
+    return $http.get('http://maps.googleapis.com/maps/api/geocode/json', {
+      params: {
+        address: val,
+        sensor: false
+      }
+    }).then(function(res){
+      var addresses = [];
+      angular.forEach(res.data.results, function(item){
+        addresses.push(item.formatted_address);
+      });
+      return addresses;
+    });
+  };
+
   // var get_cookie = function (cname) {
   //   var name = cname + "=";
   //   var ca = document.cookie.split(';');

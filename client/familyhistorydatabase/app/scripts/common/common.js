@@ -67,3 +67,100 @@ var setupParallax = function() {
     mouseport: jQuery('body')
   });
 };
+
+
+/***************************************************************
+* Hide an alert
+* params: uid -- the unique id of the alert box
+* params: delay -- How fast you want the alert to fade out
+***************************************************************/
+var hideAlert = function(uid, delay) {
+  $('#alert_holder_'+uid).css('visiblility', 'hidden');
+  $('#alert_holder_'+uid).stop(true, true).fadeOut(delay, function() {
+    $('#alert_holder_'+uid).remove();
+  });
+};
+
+
+/***************************************************************
+* Trigger an alert
+* params: text -- The text that will fill the alert box
+* params: uid -- the unique id for the alert box
+* params: id -- the id of the element to attach the alert box to
+* params: delay -- how long you want the alert to stay
+***************************************************************/
+var triggerAlert = function(text, uid, id, delay) {
+  delay = delay || 5000;
+  if (!text || !uid){
+    console.error('TRIGGER-ALERT Failed because the text or uid fields were not set');
+    return;
+  }
+  if (text !== 'fail') {
+    if ($(id).length === 0) {
+      id = 'body';
+    }
+    $('#alert_holder_'+uid).remove();
+    $(id).append('<div class="alert ng-scope centerAlert am-fade alert-customDI2E" id="alert_holder_'+uid+'"><button type="button" class="close" id="close_alert_'+uid+'" onclick="hideAlert(\''+uid+'\', 300)">×</button><span id="alert_holder_'+uid+'_span">'+text+'</span></div>');
+
+    // this will hide the alert on any action outside the alert box.
+    // $(document).on('click keypress', function(event) {
+    //   //this condition makes it so that if you click on the span, it won't close
+    //   //the alert. If you want it to close, we need to set it to false.
+    //   if ($(event.target).attr('id') !== 'alert_holder_'+uid && $(event.target).attr('id') !== 'alert_holder_'+uid+'_span' ) {
+    //     if ($('#alert_holder_'+uid).is(':visible')) {
+    //       if ( event.which === 13 ) {
+    //         event.preventDefault();
+    //       }
+    //       hideAlert(uid, 300);
+    //     }
+    //   }
+    // });
+    //
+    setTimeout(function() {
+      hideAlert(uid, 1000);
+    }, delay);
+  }
+};
+
+
+/***************************************************************
+* This funciton gets rid of input error styling
+* params: id -- the id of the element that should be cleaned up
+***************************************************************/
+var removeError = function(id) {
+  $('#'+id).tooltip('destroy');
+  $('#'+id).removeClass('errorOnInput');
+};
+
+/***************************************************************
+* This function adds a tooltip and styling to an input element
+* when the serve responds with an error. This expects an error object
+* params: errorObj -- the object that contains an errors array
+*  {
+*    'success': false,
+*    'errors': [
+*      {
+*        'mainSearchBar' : 'Your input was invalid. Please try again.'
+*      },
+*      {
+*        'element_id' : 'Error message to be displayed in the tooltip'
+*      }
+*    ]
+*  };
+***************************************************************/
+var triggerError = function(errorObj) {
+  var errors = errorObj.errors;
+
+  _.each(errors, function(item) {
+    for (var i in item) {
+      $('#'+i).addClass('errorOnInput');
+      $('#'+i).tooltip({
+        container: 'body',
+        html: 'true',
+        placement: 'top',
+        trigger: 'focus',
+        title: item[i]
+      });
+    }
+  });
+};

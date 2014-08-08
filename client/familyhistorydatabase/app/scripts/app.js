@@ -43,7 +43,7 @@ var app = angular
     animation: 'am-fadeAndSlideLeft',
     placement: 'left'
   });
-  $httpProvider.defaults.withCredentials = true;
+  // $httpProvider.defaults.withCredentials = true;
 }])
 .run(['$rootScope', 'business', '$q', function($rootScope, Business, $q) {
   $rootScope.name = 'root';

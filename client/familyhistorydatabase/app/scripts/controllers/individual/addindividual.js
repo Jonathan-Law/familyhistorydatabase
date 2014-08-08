@@ -15,6 +15,11 @@ app.controller('IndividualAddindividualCtrl', ['$scope', '$timeout', function ($
   $scope.exactBirthDate = false;
   $scope.exactDeathDate = false;
   $scope.exactBurialDate = false;
+
+  $scope.biHasChanged = -1;
+  $scope.deHasChanged = -1;
+  $scope.buHasChanged = -1;
+
   var convertDate = function (v) {
     var d = v? new Date(v): new Date();
     var curr_date  = d.getDate();
@@ -25,6 +30,7 @@ app.controller('IndividualAddindividualCtrl', ['$scope', '$timeout', function ($
 
   $scope.$watch('birthDate', function() {
     console.log('birth');
+    $scope.biHasChanged++;
 
     $timeout(function() {
       var d = $scope.birthDate;
@@ -43,9 +49,12 @@ app.controller('IndividualAddindividualCtrl', ['$scope', '$timeout', function ($
         $scope.birthDate = null;
       }
     });
+    console.log('Change', !!$scope.biHasChanged);
+
   }, true);
 
   $scope.$watch('deathDate', function() {
+    $scope.deHasChanged++;
     $timeout(function() {
       var d = $scope.deathDate;
       if ( Object.prototype.toString.call(d) === "[object Date]" ) {
@@ -64,9 +73,12 @@ app.controller('IndividualAddindividualCtrl', ['$scope', '$timeout', function ($
         $scope.deathDate = null;
       }
     });
+    console.log('Change', !!$scope.deHasChanged);
+
   }, true);
 
   $scope.$watch('burialDate', function(d) {
+    $scope.buHasChanged++;
     $timeout(function() {
       var d = $scope.burialDate;
       if ( Object.prototype.toString.call(d) === "[object Date]" ) {
@@ -85,7 +97,9 @@ app.controller('IndividualAddindividualCtrl', ['$scope', '$timeout', function ($
         $scope.burialDate = null;
       }
     });
-  });
+    console.log('Change', !!$scope.buHasChanged);
+
+  }, true);
 
 
   $scope.savePerson = function() {
@@ -95,6 +109,5 @@ app.controller('IndividualAddindividualCtrl', ['$scope', '$timeout', function ($
     console.log('firstName', $scope.firstName);
     console.log('middleName', $scope.middleName);
     console.log('lastName', $scope.lastName);
-
   }
 }]);
