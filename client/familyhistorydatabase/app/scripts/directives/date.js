@@ -24,14 +24,15 @@ app.directive('date',['$timeout', function ($timeout) {
       autoClose: '=',
       placeHolder: '=',
       form: '=',
-      hasError: '='
+      hasError: '=',
+      isRequire: '='
     },
     templateUrl: getTemplate,
     restrict: 'E',
-    controller: function($scope){
+    controller: ['$scope', function($scope){
       $scope.exact = false;
       $scope.date = {};
-    },
+    }],
     link: function postLink(scope, element, attrs) {
 
       scope.id = 'date_' + uniqueId++;

@@ -11,7 +11,7 @@ app.directive('editIndividual', ['business', function (Business) {
     scope: {
       id: '='
     },
-    templateUrl: 'views/individual/addIndividual.html',
+    templateUrl: 'views/individual/addindividual.html',
     restrict: 'E',
     link: function postLink(scope, element, attrs) {
       if (scope.id) {

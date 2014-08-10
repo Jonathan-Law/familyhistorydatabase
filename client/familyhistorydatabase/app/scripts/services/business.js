@@ -51,7 +51,7 @@ app.factory('business', ['localCache', '$http', '$q', 'userService', 'authServic
     }).then(function(res){
       var addresses = [];
       angular.forEach(res.data.results, function(item){
-        addresses.push(item.formatted_address);
+        addresses.push(item);
       });
       return addresses;
     });

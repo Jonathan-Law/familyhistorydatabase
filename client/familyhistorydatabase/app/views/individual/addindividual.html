@@ -10,31 +10,34 @@
         </div>
         <div class="col-sm-6 birth">
           <label for="Birth">Birth stuff: </label>
+          <br>
 
-          <date exact="exactBirthDate" ng-model="result.birthDate" start-view="2" has-error="false" max-date="maxBirth" auto-close="1" place-holder="'Birth Date'">
+          <date exact="exactBirthDate" ng-model="result.birthDate" is-required="true" start-view="2" has-error="false" max-date="maxBirth" auto-close="1" place-holder="'Birth Date'">
           </date>
 
-          <place style="display:block;" ng-model="result.testThis"></place>
+          <place style="display:block;" is-custom="result.birthPlace.isCustom" ng-model="result.birthPlace"></place>
 
         </div>
       </div>
       <div class="form-group row">
         <div class="col-sm-6 death">
           <label for="Death">Death stuff: </label>
+          <br>
 
-          <date exact="exactDeathDate" ng-model="result.deathDate" start-view="2" has-error="false" max-date="today" min-date="minDeath" auto-close="1" place-holder="'Death Date'">
+          <date exact="exactDeathDate" ng-model="result.deathDate" is-required="true" start-view="2" has-error="false" max-date="today" min-date="minDeath" auto-close="1" place-holder="'Death Date'">
           </date>
 
-          <place style="display:block;" ng-model="result.testThis"></place>
+          <place style="display:block;" is-custom="result.deathPlace.isCustom" ng-model="result.deathPlace"></place>
 
         </div>
         <div class="col-sm-6 burial">
           <label for="Burial">Burial stuff: </label>
+          <br>
 
           <date exact="exactBurialDate" ng-model="result.burialDate" start-view="2" has-error="false" max-date="today" min-date="minBurial" auto-close="1" place-holder="'Burial Date'">
           </date>
 
-          <place style="display:block;" ng-model="result.testThis"></place>
+          <place style="display:block;" is-custom="result.burialPlace.isCustom" ng-model="result.burialPlace"></place>
 
         </div>
       </div>
@@ -47,6 +50,7 @@
           <label for="Parents">Male:
             <input type="radio" ng-model="result.sex" name="gender" value="male" style="width: auto;" id="Parents" placeholder="Parents Stuff" />
           </label>
+          <br>
           <label for="Parents">Female:
             <input type="radio" ng-model="result.sex" name="gender" value="female" style="width: auto;" id="Parents" placeholder="Parents Stuff" />
           </label>

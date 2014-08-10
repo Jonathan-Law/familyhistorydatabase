@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('enterEvent', function () {
+app.directive('enterEvent', [function () {
   return function(scope, element, attrs) {
     element.bind('keydown keypress', function(event) {
       if(event.which === 13) {
@@ -12,4 +12,4 @@ app.directive('enterEvent', function () {
       }
     });
   };
-});
+}]);

@@ -9,9 +9,11 @@
 app.directive('place', ['business', function (Business) {
   var uniqueId = 1;
   return {
-    scope: {},
+    scope: {
+      ngModel: '=',
+    },
     require: 'ngModel',
-    template: '<div class="input-group"  style="width:100%;"><label class="input-group-addon" for="{{placeId}}" style="width:38px;"><i class="fa fa-map-marker"></i></label><input class="form-control" type="text" id="{{placeId}}" ng-model="searchKey" typeahead-on-select="onSelect($item, $model, $label)" typeahead="address for address in getLocation($viewValue)" class="form-control" placeholder="Search"></div>',
+    templateUrl: 'views/place/default.html',
     restrict: 'E',
     link: function postLink(scope, element, attrs) {
       scope.placeId = 'place_' + uniqueId++;
