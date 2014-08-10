@@ -1,0 +1,9 @@
+<!-- {{date.dateValue}}
+{{getType('date.dateValue')}} -->
+<label>
+  <input type="checkbox" ng-model="exact" ng-clicked="exact"> Exact Date
+</label>
+<div class="input-group" ng-class="hasError? 'error':''">
+  <label class="input-group-addon" for="{{id}}"><i class="fa fa-calendar"></i></label>
+  <div ng-include="exactPath"></div>
+</div>

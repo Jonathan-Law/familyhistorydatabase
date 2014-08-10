@@ -7,18 +7,24 @@
 * # IndividualAddindividualCtrl
 * Controller of the familyhistorydatabaseApp
 */
-app.controller('IndividualAddindividualCtrl', ['$scope', '$timeout', function ($scope, $timeout) {
+app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout', function ($rootScope, $scope, $timeout) {
 
-  $scope.birthDate = moment('1700-1-1').toDate();
-  $scope.deathDate = moment('1700-1-1').toDate();
-  $scope.burialDate = moment('1700-1-1').toDate();
+  // $scope.birthDate = moment('1700-1-1').toDate();
+  // $scope.deathDate = moment('1700-1-1').toDate();
+  // $scope.burialDate = moment('1700-1-1').toDate();
   $scope.exactBirthDate = false;
   $scope.exactDeathDate = false;
   $scope.exactBurialDate = false;
+  $scope.parents  = null;
+  $scope.spouse  = null;
+
 
   $scope.biHasChanged = -1;
   $scope.deHasChanged = -1;
   $scope.buHasChanged = -1;
+
+
+  $scope.getTypeahead = $rootScope.getTypeahead;
 
   var convertDate = function (v) {
     var d = v? new Date(v): new Date();
@@ -29,7 +35,6 @@ app.controller('IndividualAddindividualCtrl', ['$scope', '$timeout', function ($
   };
 
   $scope.$watch('birthDate', function() {
-    console.log('birth');
     $scope.biHasChanged++;
 
     $timeout(function() {
@@ -49,8 +54,6 @@ app.controller('IndividualAddindividualCtrl', ['$scope', '$timeout', function ($
         $scope.birthDate = null;
       }
     });
-    console.log('Change', !!$scope.biHasChanged);
-
   }, true);
 
   $scope.$watch('deathDate', function() {
@@ -73,8 +76,6 @@ app.controller('IndividualAddindividualCtrl', ['$scope', '$timeout', function ($
         $scope.deathDate = null;
       }
     });
-    console.log('Change', !!$scope.deHasChanged);
-
   }, true);
 
   $scope.$watch('burialDate', function(d) {
@@ -97,9 +98,32 @@ app.controller('IndividualAddindividualCtrl', ['$scope', '$timeout', function ($
         $scope.burialDate = null;
       }
     });
-    console.log('Change', !!$scope.buHasChanged);
-
   }, true);
+
+
+
+  $scope.onSelectParent = function(item, model, something) {
+    if (typeof $scope.searchKey === 'object' && $scope.searchKey){
+      Business.individual.getIndData($scope.searchKey.id).then(function(result) {
+        // console.log('Typeahead Item Found: ', $scope.searchKey);
+        // console.log('Individual: ', result);
+      });
+    } else {
+      // console.log('searchKey', $scope.searchKey);
+    }
+  };
+  $scope.onSelectSpouse = function(item, model, something) {
+    if (typeof $scope.searchKey === 'object' && $scope.searchKey){
+      Business.individual.getIndData($scope.searchKey.id).then(function(result) {
+        // console.log('Typeahead Item Found: ', $scope.searchKey);
+        // console.log('Individual: ', result);
+      });
+    } else {
+      // console.log('searchKey', $scope.searchKey);
+    }
+  };
+
+
 
 
   $scope.savePerson = function() {

@@ -19,6 +19,11 @@ limitations under the License.
   </div>
 </div>
 <div ng-if="!nav.bars.length">
-  <div ng-include="modalBody">
+  <div ng-if="modalBody">
+    <div ng-include="modalBody">
+    </div>
+  </div>
+  <div ng-if="!modalBody && modalBodyContent">
+    <div dynamichtml="modalBodyContent"></div>
   </div>
 </div>

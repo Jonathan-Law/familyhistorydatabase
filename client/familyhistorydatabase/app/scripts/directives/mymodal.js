@@ -76,6 +76,8 @@ app.directive('myModal', ['$timeout', function ($timeout) {
             }
             if (content.modalBody) {
               scope.modalBody = content.modalBody;
+            } else if (content.modalBodyContent) {
+              scope.modalBodyContent = content.modalBodyContent;
             }
           }
         } else {

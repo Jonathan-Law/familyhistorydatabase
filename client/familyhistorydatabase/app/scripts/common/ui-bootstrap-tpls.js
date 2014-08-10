@@ -3551,7 +3551,7 @@ angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position', 'ui.bootstrap
           var onCurrentRequest = (inputValue === modelCtrl.$viewValue);
           if (onCurrentRequest && hasFocus) {
             // if matches is undefined, you're not sending an array like you should be...
-            if (matches.length > 0) {
+            if (matches && matches.length > 0) {
 
               scope.activeIdx = -1;
               scope.matches.length = 0;
