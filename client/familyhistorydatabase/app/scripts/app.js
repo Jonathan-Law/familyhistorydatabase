@@ -68,6 +68,22 @@ var app = angular
     return Business.getTypeahead(val);
   }
 
+
+  $rootScope.editIndividual = function(id) {
+    var content = '<edit-individual id="'+id+'"></edit-individual>';
+    var body = {
+      'modalTitle': 'Add an Individual',
+      'modalBodyContent': content,
+      'showFooter': false,
+      'classes': [
+      'fullmodal',
+      'darkTheme'
+      ]
+    }
+    $rootScope.$emit('$triggerEvent', '$triggerModal', body);
+  }
+
+
   $rootScope.checkLogin().then(function(response){
     if (response) {
       $rootScope.user = response;

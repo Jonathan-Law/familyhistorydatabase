@@ -18,15 +18,4 @@ app.controller('MainCtrl', ['$scope', 'business', function ($scope, Business) {
   };
   $scope.newDate = moment('1700-1-1').toDate();
 
-  $scope.dostuff = function() {
-    $scope.$emit('$triggerEvent', '$triggerModal',   {
-      "modalTitle": "Add an Individual",
-      "modalBodyContent": "<edit-individual></edit-individual>",
-      "showFooter": false,
-      "classes": [
-      "fullmodal",
-      "darkTheme"
-      ]
-    });
-  }
 }]);

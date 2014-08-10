@@ -6,11 +6,19 @@
 * @description
 * # individual/editIndividual
 */
-app.directive('editIndividual', function () {
+app.directive('editIndividual', ['business', function (Business) {
   return {
+    scope: {
+      id: '='
+    },
     templateUrl: 'views/individual/addIndividual.html',
     restrict: 'E',
     link: function postLink(scope, element, attrs) {
+      if (scope.id) {
+        Business.individual.getIndData(scope.id).then(function(result){
+          scope.person = result;
+        });
+      }
     }
   };
-});
+}]);

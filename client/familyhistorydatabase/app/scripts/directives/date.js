@@ -54,11 +54,40 @@ app.directive('date',['$timeout', function ($timeout) {
       })
 
 
+
+      var convertDate = function (v) {
+        var d = v? new Date(v): new Date();
+        var curr_date  = d.getDate();
+        var curr_month = d.getMonth() + 1; //Months are zero based
+        var curr_year  = d.getFullYear();
+        return curr_month + "/" + curr_date + "/" + curr_year;
+      };
+
+      var checkDate = function(d){
+        if ( Object.prototype.toString.call(d) === "[object Date]" ) {
+          // it is a date
+          if ( isNaN( d.getTime() ) ) {  // d.valueOf() could also work
+            // date is not valid
+            return null;
+          }
+          else {
+            return d;
+          }
+        }
+        else {
+          // not a date
+          return null;
+        }
+      }
+
       scope.$watch(function() {
         return scope.ngModel? scope.ngModel: scope.ngModel !== undefined;
       }, function(){
-        scope.dateValue = scope.ngModel;
-      });
+        var d = checkDate(scope.ngModel);
+        if (d) {
+          scope.date.dateValue = scope.ngModel;
+        }
+      }, true);
 
 
       scope.getType = function(key) {
