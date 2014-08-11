@@ -11,7 +11,7 @@ class Place
 
    protected static $table_name = "place";
    protected static $db_fields = array('id', 'town', 'county', 'state', 'country', 'cemetary', 'ft_name', 'fkey');
-   public static function get_db_fields() 
+   public static function get_db_fields()
    {
       $fields = array('id', 'town', 'county', 'state', 'country', 'cemetary', 'ft_name', 'fkey');
       return $fields;
@@ -57,7 +57,7 @@ class Place
       if (isset($database))
       {
          $data = $database->QuerySingle("SELECT $thing FROM `place` WHERE `fkey`=$lookup AND `ft_name`='{$table}' ORDER BY `id` LIMIT 1");
-         if (count($data) == 0) 
+         if (count($data) == 0)
          {
             return NULL;
          }
@@ -134,7 +134,7 @@ class Place
          }
          else
          {
-            return "Insert didn't compute";
+            return false;
          }
       }
    }

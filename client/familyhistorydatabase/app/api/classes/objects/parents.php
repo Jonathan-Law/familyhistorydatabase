@@ -136,7 +136,8 @@ class Parents
       }
       else
       {
-        return "Insert didn't compute";
+        // return "Insert didn't compute";
+        return false;
       }
     }
   }

@@ -139,7 +139,7 @@ class Spouse
          }
          else
          {
-            return "Insert didn't compute";
+            return false;
          }
       }
    }

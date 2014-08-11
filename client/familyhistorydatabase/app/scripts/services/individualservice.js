@@ -29,5 +29,25 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     return deferred.promise;
   };
 
+  service.updateIndData = function (data){
+    var deferred = $q.defer();
+    if (data) {
+      $http({
+        method: 'post',
+        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/',
+        data: data
+      }).success(function(data, status, headers, config) {
+        if (data !== "false") {
+          deferred.resolve(data);
+        } else {
+          deferred.resolve(false);
+        }
+      });
+    } else {
+      deferred.resolve(false);
+    }
+    return deferred.promise;
+  };
+
   return service;
 }]);

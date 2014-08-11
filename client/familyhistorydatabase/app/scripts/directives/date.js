@@ -41,9 +41,9 @@ app.directive('date',['$timeout', function ($timeout) {
       scope.$watch('exact', function(val) {
         if (val) {
           scope.exactPath = 'views/date/full.html'
-          scope.placeHolderText = '(1-31-1700)';
+          scope.placeHolderText = '(MM-DD-YYYY Make sure to use dashes "-")';
         } else {
-          scope.placeHolderText = '(1700)';
+          scope.placeHolderText = '(YYYY)';
           scope.exactPath = 'views/date/partial.html'
         }
       })

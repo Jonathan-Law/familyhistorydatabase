@@ -7,12 +7,12 @@ require_once(TOOLS."cbSQLConnectConfig.php");
 require_once(OBJECTS."place.php");
 // Require the Database
 
-class Burial 
+class Burial
 {
 
    protected static $table_name = "burial";
    protected static $db_fields = array('id', 'year', 'month', 'day', 'place', 'personId', 'yearB');
-   public static function get_db_fields() 
+   public static function get_db_fields()
    {
       $fields = array('id', 'year', 'month', 'day', 'place', 'personId', 'yearB');
       return $fields;
@@ -47,7 +47,7 @@ class Burial
       if (isset($database))
       {
          $data = $database->QuerySingle("SELECT $thing FROM `burial` WHERE `personId`=$person ORDER BY `id` LIMIT 1");
-         if (count($data) == 0) 
+         if (count($data) == 0)
          {
             return NULL;
          }
@@ -105,7 +105,7 @@ class Burial
          }
          else
          {
-            return "Insert didn't compute";
+            return false;
          }
       }
    }

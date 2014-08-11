@@ -165,6 +165,10 @@ class MyAPI extends API
             if ($person->death) {
               $person->death->deathPlace = Place::getById($person->death->place);
             }
+            $person->burial = Burial::getById($id);
+            if ($person->burial) {
+              $person->burial->burialPlace = Place::getById($person->burial->place);
+            }
             $person->parents = Parents::getParentsOf($id);
             $person->children = Parents::getChildrenOf($id);
             $person->spouse = Spouse::getById($id);
@@ -179,8 +183,62 @@ class MyAPI extends API
       // } else {
       // return false;
       // }
-    }else {
-      return "Only accepts GET requests";
+    } else if ($this->method === 'POST'){
+      $result = getStream();
+      if (empty($result) || empty($result->person) || empty($result->birth) || empty($result->death)) {
+        return false;
+      }
+      $person = recast('Person', $result->person);
+      if (!empty($person)) {
+        $personId = $person->save();
+      } else {
+        return false;
+      }
+      $birth = recast('Birth', $result->birth);
+      $birth->personId = $personId;
+      $birthId = $birth->save();
+      $birth->id = $birthId;
+      $death = recast('Death', $result->death);
+      $death->personId = $personId;
+      $deathId = $death->save();
+      $death->id = $deathId;
+      $burial = recast('Burial', $result->burial);
+      $burial->personId = $personId;
+      $burialId = $burial->save();
+      $burial->id = $burialId;
+      if (empty($personId) || empty($birthId) || empty($deathId)) {
+        return false;
+      }
+      if ($result->birthPlace) {
+        $birthPlace = recast('Place', $result->birthPlace);
+        $birthPlace->ft_name = "birth";
+        $birthPlace->fkey = $birthId;
+        $birth->place = $birthPlace->save();
+        $birth->save();
+      } else {
+        $birthPlace = null;
+      }
+      if ($result->deathPlace) {
+        $deathPlace = recast('Place', $result->deathPlace);
+        $deathPlace->ft_name = "death";
+        $deathPlace->fkey = $deathId;
+        $death->place = $deathPlace->save();
+        $death->save();
+      } else {
+        $deathPlace = null;
+      }
+      if ($result->burialPlace) {
+        $burialPlace = recast('Place', $result->burialPlace);
+        $burialPlace->ft_name = "burial";
+        $burialPlace->fkey = $burialId;
+        $burial->place = $burialPlace->save();
+        $burial->save();
+      } else {
+        $burialPlace = null;
+      }
+      return true;
+    } else {
+      return "Only accepts POST and GET requests";
     }
   }
 }

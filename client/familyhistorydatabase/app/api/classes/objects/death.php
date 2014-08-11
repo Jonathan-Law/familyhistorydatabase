@@ -8,12 +8,12 @@ require_once(OBJECTS."place.php");
 
 // Require the Database
 
-class Death 
+class Death
 {
 
    protected static $table_name = "death";
    protected static $db_fields = array('id', 'year', 'month', 'day', 'place', 'personId', 'yearD');
-   public static function get_db_fields() 
+   public static function get_db_fields()
    {
       $fields = array('id', 'year', 'month', 'day', 'place', 'personId', 'yearD');
       return $fields;
@@ -48,7 +48,7 @@ class Death
       if (isset($database))
       {
          $data = $database->QuerySingle("SELECT $thing FROM `death` WHERE `personId`=$person ORDER BY `id` LIMIT 1");
-         if (count($data) == 0) 
+         if (count($data) == 0)
          {
             return NULL;
          }
@@ -106,7 +106,7 @@ class Death
          }
          else
          {
-            return "Insert didn't compute";
+            return false;
          }
       }
    }

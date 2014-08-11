@@ -336,7 +336,7 @@ class Person
       }
       else
       {
-        return "Insert didn't compute";
+        return false;
       }
     }
   }
