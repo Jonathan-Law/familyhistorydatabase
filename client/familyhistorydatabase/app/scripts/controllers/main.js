@@ -18,4 +18,16 @@ app.controller('MainCtrl', ['$scope', 'business', function ($scope, Business) {
   };
   $scope.newDate = moment('1700-1-1').toDate();
 
+  $scope.list = [];
+
+  for (var i = 1; i < 27; i++)
+  {
+    var current = String.fromCharCode(i + 96);
+    $scope.list.push({overlay: ''+ current + '.' + current + '.jpg', base: '' + current + '.jpg', letter: current});
+  }
+
+  $scope.clicked = function(letter) {
+    // go to letter page
+  }
+
 }]);

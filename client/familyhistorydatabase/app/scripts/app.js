@@ -23,6 +23,7 @@ var app = angular
   'mgcrea.ngStrap',
   'mgcrea.ngStrap.helpers.dateParser',
   'mgcrea.ngStrap.tooltip',
+  'angulartics.google.analytics'
   ])
 .config(['$routeProvider', '$asideProvider', '$httpProvider', function ($routeProvider, $asideProvider, $httpProvider) {
   $routeProvider

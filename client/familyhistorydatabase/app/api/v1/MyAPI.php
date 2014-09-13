@@ -94,14 +94,14 @@ class MyAPI extends API
     require_once(APIROOT.'controller/user.php');
     if ($this->method === 'POST') {
       if ($this->verb === 'login') {
-        $result = getStream();
+        $result = $this->file;
         $result = login(isset($result->username)? $result->username: null,
           isset($result->password)? $result->password: null);
         return $result;
       } else if ($this->verb === 'logout') {
         return $session->logout();
       } else if ($this->verb === 'register') {
-        $result = getStream();
+        $result = $this->file;
         $result->username = isset($result->username)? $result->username: null;
         $result->password = isset($result->password)? $result->password: null;
         $result->email = isset($result->email)? $result->email: null;
@@ -148,6 +148,28 @@ class MyAPI extends API
     }
   }
 
+  protected function profilePic($args){
+    if ($this->method === 'GET') {
+      if ($this->verb == "") {
+        $id = intval(array_shift($args));
+        if ($id && is_numeric($id)) {
+          $pic = File::getById($id);
+          return $pic;
+        }
+      } else if ($this->verb === 'person') {
+        $id = intval(array_shift($args));
+        if ($id && is_numeric($id)) {
+          $person = Person::getById($id);
+          if (!empty($person->profile_pic)) {
+            $pic = File::getById($person->profile_pic);
+            return $pic;
+          }
+        }
+      }
+    }
+    return $first;
+  }
+
   protected function individual($args) {
     if ($this->method === 'GET') {
       $id = intval(array_shift($args));
@@ -183,8 +205,8 @@ class MyAPI extends API
       // } else {
       // return false;
       // }
-    } else if ($this->method === 'POST'){
-      $result = getStream();
+    } else if ($this->method === 'POST' || $this->method === 'PUT'){
+      $result = $this->file;
       if (empty($result) || empty($result->person) || empty($result->birth) || empty($result->death)) {
         return false;
       }

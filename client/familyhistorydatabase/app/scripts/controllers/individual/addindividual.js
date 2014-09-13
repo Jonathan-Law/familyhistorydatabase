@@ -12,6 +12,7 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
   // $scope.result.birthDate = moment('1700-1-1').toDate();
   // $scope.result.deathDate = moment('1700-1-1').toDate();
   // $scope.result.burialDate = moment('1700-1-1').toDate();
+
   var convertDate = function (v) {
     var d = v? new Date(v): new Date();
     var curr_date  = d.getDate();
@@ -41,6 +42,15 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
   $scope.$parent.$watch('person', function(person){
     if (person) {
       $scope.person = $scope.$parent.person;
+      if ($scope.person.profile_pic && $scope.person.profile_pic !=="") {
+        Business.individual.getProfilePic($scope.person.profile_pic).then(function(result){
+          if (result) {
+            $scope.profile_pic = result;
+            console.log('result', result);
+            
+          }
+        })
+      }
       console.log('person', $scope.person);
     }
   })

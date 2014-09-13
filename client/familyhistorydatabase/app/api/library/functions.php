@@ -402,6 +402,6 @@ function objectToArray($d)
          return null;
    }
    function getStream() {
-    return json_decode(file_get_contents('php://input'));
+    return json_decode(file_get_contents("php://input"));
    }
    ?>

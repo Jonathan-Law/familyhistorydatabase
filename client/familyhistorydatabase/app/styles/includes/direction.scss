@@ -1,0 +1,79 @@
+.imageContainer{
+  overflow: hidden;
+}
+
+.imageContainer img{
+  position: relative;
+  left:-150px;
+}
+
+.in {
+  transition: all .2s ease-in-out;
+  -webkit-transition: all .2s ease-in-out; /** Chrome & Safari **/
+  -moz-transition: all .2s ease-in-out; /** Firefox **/
+  -o-transition: all .2s ease-in-out; /** Opera **/
+}
+
+.out {
+  transition: all .2s ease-out;
+  -webkit-transition: all .2s ease-out; /** Chrome & Safari **/
+  -moz-transition: all .2s ease-out; /** Firefox **/
+  -o-transition: all .2s ease-out; /** Opera **/
+}
+
+.top.in{
+  left:0px;
+  right:0px;
+  top: 150px;
+  bottom: 150px;
+  transform: translate3d(0px, -150px, 0px);
+}
+.top.out {
+  top:0px;
+  right:0px;
+  left:0px;
+  bottom:0px;
+  transform: translate3d(0px, -150px, 0px);
+}
+.bottom.in{
+  left:0px;
+  right:0px;
+  top: -150px;
+  bottom: -150px;
+  transform: translate3d(0px, 150px, 0px);
+}
+.bottom.out {
+  top:0px;
+  right:0px;
+  left:0px;
+  bottom:0px;
+  transform: translate3d(0px, 150px, 0px);
+}
+.left.in{
+  left: -150px;
+  right: -150px;
+  top: 0px;
+  bottom: 0px;
+  transform: translate3d(150px, 0px, 0px);
+}
+.left.out {
+  top:0px;
+  right:0px;
+  left:0px;
+  bottom:0px;
+  transform: translate3d(-150px, 0px, 0px);
+}
+.right.in{
+  left:150px;
+  right:150px;
+  top:0px;
+  bottom:0px;
+  transform: translate3d(-150px, 0px, 0px);
+}
+.right.out {
+  top:0px;
+  right:0px;
+  left:0px;
+  bottom:0px;
+  transform: translate3d(150px, 0px, 0px);
+}

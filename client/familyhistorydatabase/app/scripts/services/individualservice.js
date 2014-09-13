@@ -30,12 +30,51 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
   };
 
   service.updateIndData = function (data){
+    console.warn('data', data);
+    
     var deferred = $q.defer();
     if (data) {
       $http({
-        method: 'post',
+        method: 'POST',
         url: 'http://familyhistorydatabase.org/v2/api/v1/individual/',
         data: data
+      }).success(function(data, status, headers, config) {
+        if (data !== "false") {
+          deferred.resolve(data);
+        } else {
+          deferred.resolve(false);
+        }
+      });
+    } else {
+      deferred.resolve(false);
+    }
+    return deferred.promise;
+  };
+
+  service.getProfilePic = function (picId){
+    var deferred = $q.defer();
+    if (picId) {
+      $http({
+        method: 'GET',
+        url: 'http://familyhistorydatabase.org/v2/api/v1/profilePic/'+ picId,
+      }).success(function(data, status, headers, config) {
+        if (data !== "false") {
+          deferred.resolve(data);
+        } else {
+          deferred.resolve(false);
+        }
+      });
+    } else {
+      deferred.resolve(false);
+    }
+    return deferred.promise;
+  };
+  service.getProfilePicByPersonId = function (personId){
+    var deferred = $q.defer();
+    if (personId) {
+      $http({
+        method: 'GET',
+        url: 'http://familyhistorydatabase.org/v2/api/v1/profilePic/person/'+ personId,
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
           deferred.resolve(data);
