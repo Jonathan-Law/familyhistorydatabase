@@ -51,7 +51,7 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
           }
         })
       }
-      console.log('person', $scope.person);
+      // console.log('person', $scope.person);
     }
   })
 
@@ -271,7 +271,7 @@ $scope.onSelectParent = function(item, model, something) {
 
   $scope.savePerson = function() {
     var data = {};
-    console.log('person', $scope.person);
+    // console.log('person', $scope.person);
 
     data.person = {};
     if ($scope.person) {
@@ -317,6 +317,8 @@ $scope.onSelectParent = function(item, model, something) {
       data.person.yearBorn = data.birth.year;
       data.birth.yearB = $scope.exactBirthDate;
       delete data.birth.birthPlace;
+    }  else {
+      // return;
     }
     if ($scope.result.deathDate) {
       if ($scope.exactDeathDate) {
@@ -330,6 +332,8 @@ $scope.onSelectParent = function(item, model, something) {
       data.person.yearDead = data.death.year;
       data.death.yearD = $scope.exactDeathDate;
       delete data.death.deathPlace;
+    } else {
+      // return;
     }
     if ($scope.result.burialDate) {
       if ($scope.exactBurialDate) {
@@ -342,6 +346,8 @@ $scope.onSelectParent = function(item, model, something) {
       data.burial.year = $scope.result.burialDate.getFullYear();
       data.burial.yearB = $scope.exactBurialDate;
       delete data.burial.burialPlace;
+    } else {
+      data.burial = false;
     }
     if ($scope.result.birthPlace) {
       data.birthPlace.town = null;
@@ -365,6 +371,8 @@ $scope.onSelectParent = function(item, model, something) {
         data.birthPlace.state = list[2].trim();
         data.birthPlace.country = list[3].trim();
       }
+    } else {
+      data.birthPlace = false;
     }
     if ($scope.result.deathPlace) {
       data.deathPlace.town = null;
@@ -388,6 +396,8 @@ $scope.onSelectParent = function(item, model, something) {
         data.deathPlace.state = list[2].trim();
         data.deathPlace.country = list[3].trim();
       }
+    } else {
+      data.deathPlace = false;
     }
     if ($scope.result.burialPlace) {
       data.burialPlace.town = null;
@@ -411,6 +421,8 @@ $scope.onSelectParent = function(item, model, something) {
         data.burialPlace.state = list[2].trim();
         data.burialPlace.country = list[3].trim();
       }
+    } else {
+      data.burialPlace = false;
     }
     if ($scope.result.firstName) {
       data.person.firstName = $scope.result.firstName;

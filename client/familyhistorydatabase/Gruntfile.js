@@ -348,6 +348,7 @@ module.exports = function (grunt) {
             'images/{,*/}*',
             'fonts/*',
             'styles/bootstrap-additions.min.css',
+            'scripts/common/hoverdirModernizr.js'
           ]
         }, {
           expand: true,

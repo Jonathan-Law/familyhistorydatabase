@@ -224,10 +224,20 @@ class MyAPI extends API
       $death->personId = $personId;
       $deathId = $death->save();
       $death->id = $deathId;
-      $burial = recast('Burial', $result->burial);
-      $burial->personId = $personId;
-      $burialId = $burial->save();
-      $burial->id = $burialId;
+      if ($result->burial) {
+        $burial = recast('Burial', $result->burial);
+        $burial->personId = $personId;
+        $burialId = $burial->save();
+        $burial->id = $burialId;
+      } else {
+        $burial = Burial::getSomething('id', $person->id);
+        if ($burial) {
+          $burial = Burial::getById($burial);
+          if ($burial) {
+            $burial = recast('Burial', $burial);
+          }
+        }
+      }
       if (empty($personId) || empty($birthId) || empty($deathId)) {
         return false;
       }
@@ -238,6 +248,12 @@ class MyAPI extends API
         $birth->place = $birthPlace->save();
         $birth->save();
       } else {
+        if ($birth && $birth->birthPlace) {
+          $birthPlace = recast('Place', Place::getById($birth->birthPlace->id));
+          if ($birthPlace) {
+            $birthPlace->delete();
+          }
+        }
         $birthPlace = null;
       }
       if ($result->deathPlace) {
@@ -247,15 +263,29 @@ class MyAPI extends API
         $death->place = $deathPlace->save();
         $death->save();
       } else {
+        if ($death && $death->deathPlace) {
+          $deathPlace = recast('Place', Place::getById($death->deathPlace->id));
+          if ($deathPlace) {
+            $deathPlace->delete();
+          }
+        }
         $deathPlace = null;
       }
-      if ($result->burialPlace) {
+      if ($result->burial && $result->burialPlace) {
         $burialPlace = recast('Place', $result->burialPlace);
         $burialPlace->ft_name = "burial";
         $burialPlace->fkey = $burialId;
         $burial->place = $burialPlace->save();
         $burial->save();
       } else {
+        if ($burial && $burial->place) {
+          $burialPlace = recast('Place', Place::getById($burial->place));
+          if ($burialPlace) {
+            if ($burialPlace->delete()) {
+              $burial->delete();
+            }
+          }
+        } 
         $burialPlace = null;
       }
       return true;

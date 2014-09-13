@@ -66,7 +66,7 @@ class Burial
          if (isset($database))
          {
             $name = self::$table_name;
-            return $database->getOtherObjectById($name, $id);
+            return $database->getObjectById($name, $id);
          }
       }
       else
