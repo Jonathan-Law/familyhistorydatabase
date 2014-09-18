@@ -260,10 +260,15 @@ $scope.onSelectParent = function(item, model, something) {
 
 
   $scope.removeParent = function(id) {
-    console.log('Individual: ', id);
+    var check = _.find($scope.result.parentList, {'id': id});
+    var index = _.indexOf($scope.result.parentList, check);
+    $scope.result.parentList.splice(index, 1);
   };
+
   $scope.removeSpouse = function(id) {
-    console.log('Individual: ', id);
+    var check = _.find($scope.result.spouseList, {'id': id});
+    var index = _.indexOf($scope.result.spouseList, check);
+    $scope.result.spouseList.splice(index, 1);
   };
 
 
@@ -439,15 +444,17 @@ $scope.onSelectParent = function(item, model, something) {
     if ($scope.result.relationship) {
       data.person.relationship = $scope.result.relationship;
     }
-    if ($scope.result.parents) {
-      data.parents = $scope.result.parents;
+    if ($scope.result.parentList) {
+      data.parents = $scope.result.parentList;
     }
-    if ($scope.result.spouse) {
-      data.spouse = $scope.result.spouse;
+    if ($scope.result.spouseList) {
+      data.spouse = $scope.result.spouseList;
     }
       console.log('data', data);
     Business.individual.updateIndData(data).then(function(result){
-      console.log('data', result);
+      if (result) {
+        triggerAlert('Your individual\'s data was saved!!', 'addIndividual', '#globalModal', 5000);        
+      }
     })
 
   }

@@ -279,11 +279,14 @@ class MyAPI extends API
         $burial->save();
       } else {
         if ($burial && $burial->place) {
-          $burialPlace = recast('Place', Place::getById($burial->place));
+          $burialPlace = Place::getById($burial->place);
           if ($burialPlace) {
+            $burialPlace = recast('Place', Place::getById($burial->place));
             if ($burialPlace->delete()) {
               $burial->delete();
             }
+          } else {
+            $burial->delete();            
           }
         } 
         $burialPlace = null;

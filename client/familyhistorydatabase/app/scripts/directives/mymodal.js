@@ -64,13 +64,18 @@ app.directive('myModal', ['$timeout', function ($timeout) {
           $('#'+scope.id).modal('show');
           if (content.showFooter === false) {
             scope.showFooter = false;
+          } else {
+            scope.showFooter = true;
           }
           if (content.classes){
             scope.classes = content.classes.join(' ');
+          } else {
+            scope.classes = [];
           }
           if (content.nav) {
             scope.nav = content.nav;
           } else {
+            scope.nav = null;
             if (content.modalTitle) {
               scope.modalTitle = content.modalTitle;
             }

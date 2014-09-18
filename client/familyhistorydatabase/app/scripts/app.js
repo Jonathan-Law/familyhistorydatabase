@@ -81,7 +81,7 @@ var app = angular
       'darkTheme'
       ]
     }
-    $rootScope.$emit('$triggerEvent', '$triggerModal', body);
+    $rootScope.$broadcast('$triggerModal', body);
   }
 
 

@@ -76,7 +76,10 @@ var setupParallax = function() {
 ***************************************************************/
 var hideAlert = function(uid, delay) {
   $('#alert_holder_'+uid).css('visiblility', 'hidden');
-  $('#alert_holder_'+uid).stop(true, true).fadeOut(delay, function() {
+  $('#alert_holder_'+uid).animate({
+    top: '48%',
+    opacity: 0
+  }, delay, function() {
     $('#alert_holder_'+uid).remove();
   });
 };
@@ -101,7 +104,11 @@ var triggerAlert = function(text, uid, id, delay) {
     }
     $('#alert_holder_'+uid).remove();
     $(id).append('<div class="alert ng-scope centerAlert am-fade alert-customDI2E" id="alert_holder_'+uid+'"><button type="button" class="close" id="close_alert_'+uid+'" onclick="hideAlert(\''+uid+'\', 300)">×</button><span id="alert_holder_'+uid+'_span">'+text+'</span></div>');
-
+    $('#alert_holder_'+uid).animate({
+      top: '50%',
+      opacity: 1
+    }, 300, function() {
+    });
     // this will hide the alert on any action outside the alert box.
     // $(document).on('click keypress', function(event) {
     //   //this condition makes it so that if you click on the span, it won't close
@@ -117,7 +124,7 @@ var triggerAlert = function(text, uid, id, delay) {
     // });
     //
     setTimeout(function() {
-      hideAlert(uid, 1000);
+      hideAlert(uid, 300);
     }, delay);
   }
 };
