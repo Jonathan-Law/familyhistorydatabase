@@ -2,5 +2,5 @@
   <label class="input-group-addon" for="{{placeId}}" style="width:38px;">
     <i class="fa fa-map-marker"></i>
   </label>
-  <input class="form-control" type="text" id="{{placeId}}" ng-model="ngModel" typeahead-on-select="onSelect($item, $model, $label)" typeahead="address as address.formatted_address for address in getLocation($viewValue)" class="form-control" placeholder="Place">
+  <input class="form-control" type="text" id="{{placeId}}" ng-model="tempNgModel" typeahead-on-select="onSelect($item, $model, $label)" typeahead="address as address.formatted_address for address in getLocation($viewValue)" class="form-control" placeholder="Place (Town, County, State, Country)">
 </div>

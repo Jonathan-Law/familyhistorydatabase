@@ -30,8 +30,6 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
   };
 
   service.updateIndData = function (data){
-    console.warn('data', data);
-    
     var deferred = $q.defer();
     if (data) {
       $http({
@@ -75,6 +73,42 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
       $http({
         method: 'GET',
         url: 'http://familyhistorydatabase.org/v2/api/v1/profilePic/person/'+ personId,
+      }).success(function(data, status, headers, config) {
+        if (data !== "false") {
+          deferred.resolve(data);
+        } else {
+          deferred.resolve(false);
+        }
+      });
+    } else {
+      deferred.resolve(false);
+    }
+    return deferred.promise;
+  };
+  service.getSpouses = function (spouseId, individualId){
+    var deferred = $q.defer();
+    if (spouseId && individualId) {
+      $http({
+        method: 'GET',
+        url: 'http://familyhistorydatabase.org/v2/api/v1/spouses/' + spouseId + '/' + individualId,
+      }).success(function(data, status, headers, config) {
+        if (data !== "false") {
+          deferred.resolve(data);
+        } else {
+          deferred.resolve(false);
+        }
+      });
+    } else {
+      deferred.resolve(false);
+    }
+    return deferred.promise;
+  };  
+  service.getPlace = function (placeId){
+    var deferred = $q.defer();
+    if (placeId) {
+      $http({
+        method: 'GET',
+        url: 'http://familyhistorydatabase.org/v2/api/v1/place/' + placeId,
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
           deferred.resolve(data);

@@ -4,6 +4,16 @@
 	        		        //PHP Functions
 /////////////////////////////////////////////////////////////////////////
 
+function objectListContains($list, $field, $value) {
+  foreach ($list as $key) {
+    if (isset($key->$field)  && $key->$field === $value)
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
 function strip_zeros_from_date($marked_string="")
 {
    $no_zeros = str_replace('*0','',$marked_string);

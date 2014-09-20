@@ -1,0 +1,10 @@
+<span class="btn btn-primary">
+  {{ngModel.typeahead}}
+  <span class="btn btn-default btn-xs" ng-click="callback(ngModel.id)">
+    <i class="fa fa-times"></i>
+  </span>
+</span>
+<date exact="ngModel.exactMarriageDate" ng-model="ngModel.marriageDate" is-required="true" start-view="2" has-error="false" max-date="maxBirth" auto-close="1" place-holder="'Marriage Date'">
+</date>
+
+<place style="display:block;" is-custom="ngModel.marriagePlace.isCustom" ng-model="ngModel.marriagePlace"></place>

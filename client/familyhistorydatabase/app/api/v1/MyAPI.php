@@ -170,6 +170,33 @@ class MyAPI extends API
     return $first;
   }
 
+  protected function spouses($args){
+    if ($this->method === 'GET') {
+      if ($this->verb == "") {
+        $spouseId = intval(array_shift($args));
+        $individualId = intval(array_shift($args));
+        if (($spouseId && is_numeric($spouseId)) && ($individualId && is_numeric($individualId))) {
+          $spouses = Spouse::getByPair($spouseId, $individualId);
+          return $spouses;
+        }
+      } 
+    }
+    return false;
+  }
+
+  protected function place($args){
+    if ($this->method === 'GET') {
+      if ($this->verb == "") {
+        $placeId = intval(array_shift($args));
+        if ($placeId && is_numeric($placeId)) {
+          $place = Place::getById($placeId);
+          return $place;
+        }
+      } 
+    }
+    return false;
+  }
+
   protected function individual($args) {
     if ($this->method === 'GET') {
       $id = intval(array_shift($args));
@@ -249,10 +276,13 @@ class MyAPI extends API
         $birth->save();
       } else {
         if ($birth && $birth->birthPlace) {
-          $birthPlace = recast('Place', Place::getById($birth->birthPlace->id));
-          if ($birthPlace) {
-            $birthPlace->delete();
-          }
+          $birthPlace = Place::getById($birth->birthPlace->id);
+          if ($birthPlace){
+            $birthPlace = recast('Place', $birthPlace);
+            if ($birthPlace) {
+              $birthPlace->delete();
+            }
+          } 
         }
         $birthPlace = null;
       }
@@ -290,6 +320,93 @@ class MyAPI extends API
           }
         } 
         $burialPlace = null;
+      }
+      if ($result->parents) {
+        $parents = Parents::getParentsOf($person->id);
+        if ($parents) {
+          $missing = array();
+          foreach ($parents as $parent) {
+            if (!objectListContains($result->parents, 'id', $parent->parentId)) {
+              $missing[] = $parent;
+            }
+          }
+          foreach ($missing as $parent) {
+            $parent = recast('Parents', $parent);
+            $parent->delete();
+          }
+          foreach ($result->parents as $key) {
+            if (!objectListContains($parents, 'parentId', $key->id)) {
+              $newPadre = new Parents();
+              $newPadre->child = $person->id;
+              $newPadre->gender = ($key->sex === 'male')? 'father': 'mother';
+              $newPadre->parentId = $key->id;
+              $newPadre->save();
+            }
+          }
+        } else {
+          foreach ($result->parents as $key) {
+            $newPadre = new Parents();
+            $newPadre->child = $person->id;
+            $newPadre->gender = ($key->sex === 'male')? 'father': 'mother';
+            $newPadre->parentId = $key->id;
+            $newPadre->save();
+          }
+        } 
+      } else {
+        $parents = Parents::getParentsOf($person->id);
+        if ($parents) {
+          foreach ($parents as $parent) {
+            $parent = recast('Parents', $parent);
+            $parent->delete();
+          }
+        }
+      }
+      if ($result->spouse) {
+        $spouses = Spouse::getAllSpousesById($person->id);
+        if ($spouses) {
+          $missing = array();
+          foreach ($spouses as $spouse) {
+            if (!objectListContains($result->spouse, 'id', $spouse->spouse)) {
+              $missing[] = $spouse;
+            }
+          }
+          foreach ($missing as $spouse) {
+            $spouse = recast('Spouse', $spouse);
+            $place = Place::getById($spouse->place);
+            if ($place) {
+              $place = recast('Place', $place);
+              $place->delete();
+            }
+            $otherSpouse = Spouse::getByPair($spouse->personId, $spouse->spouse);
+            if ($otherSpouse) {
+              $otherSpouse = recast('Spouse', $otherSpouse);
+              $otherSpouse->delete();
+            }
+            $spouse->delete();
+          }
+          foreach ($result->spouse as $spouse) {
+            if (!objectListContains($spouses, 'spouse', $spouse->id)) {
+              Spouse::addSpouse($spouse, $person->id, $spouse->id);
+              Spouse::addSpouse($spouse, $spouse->id, $person->id);
+            } else {
+              Spouse::updateSpouse($spouse, $spouse->id, $person->id);
+              Spouse::updateSpouse($spouse, $person->id, $spouse->id);
+            }
+          }
+        } else {
+          foreach ($result->spouse as $spouse) {
+            Spouse::addSpouse($spouse, $person->id, $spouse->id);
+            Spouse::addSpouse($spouse, $spouse->id, $person->id);
+          }
+        }
+      } else {
+        $spouses = Spouse::getAllSpousesById($person->id);
+        if ($spouses){
+          foreach ($spouses as $spouse) {
+            $spouse = recast('Spouse', $spouse);
+            $spouse->delete();
+          }
+        }
       }
       return true;
     } else {

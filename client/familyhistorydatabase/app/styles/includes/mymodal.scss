@@ -8,3 +8,16 @@ my-modal .hasNav .modal-header .nav{
 my-modal .hasNav .modal-header{
   padding-bottom: 0px;
 }
+
+.fullmodal .modal-dialog{
+  /*width: 80%;*/
+  min-width: 50%;
+  width: 910px;
+}
+
+@media only screen and (max-width: 950px) {
+  .fullmodal .modal-dialog{
+    min-width: auto;
+    width: 100%;
+  }
+}

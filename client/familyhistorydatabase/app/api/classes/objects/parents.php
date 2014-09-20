@@ -169,11 +169,11 @@ class Parents
   // Delete the object from the table.
   public function delete()
   {
-    $database = cbSQLConnect::connect('object');
+    $database = cbSQLConnect::adminConnect('object');
     if (isset($database))
     {
-      return ($database->SQLDelete(self::$table_name, 'id', $this->id));
-    }
+     return ($database->SQLDelete(self::$table_name, 'id', $this->id));
+   }
   }
 
   public static function createInstance($parentId = NULL, $gender = NULL, $child = NULL)

@@ -138,7 +138,7 @@ class Birth
    // Delete the object from the table.
    public function delete()
    {
-      $database = cbSQLConnect::connect('object');
+      $database = cbSQLConnect::adminConnect('object');
       if (isset($database))
       {
          return ($database->SQLDelete(self::$table_name, 'id', $this->id));

@@ -106,6 +106,24 @@ class Spouse
       }
    }
 
+   public static function getByPair($spouseId = NULL, $individualId = NULL)
+   {
+      if ($spouseId && $individualId)
+      {
+         $database = cbSQLConnect::connect('object');
+         if (isset($database))
+         {
+            $name = self::$table_name;
+            $sql = "SELECT * FROM $name WHERE `personId`= :individual AND `spouse`= :spouse";
+            $params = array(':individual' => $individualId, ':spouse' => $spouseId);
+            array_unshift($params, '');
+            unset($params[0]);
+            $results_array = $database->QueryForObject($sql, $params);
+            return !empty($results_array) ? array_shift($results_array) : false;
+         }
+      }
+   }
+
    public function save()
    {
       // return $this->id;
@@ -144,6 +162,82 @@ class Spouse
       }
    }
 
+
+
+  public static function addSpouse($spouse, $individualId, $spouseId) {
+    $newSpouse = new Spouse();
+    $newSpouse->personId = $individualId;
+    $newSpouse->spouse = $spouseId;
+    $newSpouse->day = $spouse->marriageDate->day;
+    $newSpouse->month = $spouse->marriageDate->month;
+    $newSpouse->year = $spouse->marriageDate->year;
+    $newSpouse->yearM = $spouse->marriageDate->yearM;
+    $spouseId = $newSpouse->save();
+    if ($spouseId) {
+      $newSpouse->id = $spouseId;
+      $marriagePlace = new Place();
+      if ($spouse->marriagePlace && isset($spouse->marriagePlace->town)) {
+        $marriagePlace->town = $spouse->marriagePlace->town;
+      }
+      if ($spouse->marriagePlace && isset($spouse->marriagePlace->county)) {
+        $marriagePlace->county = $spouse->marriagePlace->county;
+      }
+      if ($spouse->marriagePlace && isset($spouse->marriagePlace->state)) {
+        $marriagePlace->state = $spouse->marriagePlace->state;
+      }
+      if ($spouse->marriagePlace && isset($spouse->marriagePlace->country)) {
+        $marriagePlace->country = $spouse->marriagePlace->country;
+      }
+      if ($spouse->marriagePlace && isset($spouse->marriagePlace->cemetary)) {
+        $marriagePlace->cemetary = $spouse->marriagePlace->cemetary;
+      }
+      $marriagePlace->ft_name = 'spouse';
+      $marriagePlace->fkey = $spouseId;
+      $marriageId = $marriagePlace->save();
+      if ($marriageId) {
+        $newSpouse->place = $marriageId;
+        $newSpouse->save();
+      }
+    }
+    return $newSpouse->id;
+  }
+
+  public static function updateSpouse($spouse, $spouseId, $individualId) {
+    $newSpouse = Spouse::getByPair($spouseId, $individualId);
+    if ($newSpouse){
+      $newSpouse = recast('Spouse', $newSpouse);
+      $newSpouse->day = $spouse->marriageDate->day;
+      $newSpouse->month = $spouse->marriageDate->month;
+      $newSpouse->year = $spouse->marriageDate->year;
+      $newSpouse->yearM = $spouse->marriageDate->yearM;
+      $newSpouse->save();
+      $marriagePlace = Place::getById($newSpouse->place);
+      if ($marriagePlace) {
+        $marriagePlace = recast('Place', $marriagePlace);
+        if ($spouse->marriagePlace && isset($spouse->marriagePlace->town)) {
+          $marriagePlace->town = $spouse->marriagePlace->town;
+        }
+        if ($spouse->marriagePlace && isset($spouse->marriagePlace->county)) {
+          $marriagePlace->county = $spouse->marriagePlace->county;
+        }
+        if ($spouse->marriagePlace && isset($spouse->marriagePlace->state)) {
+          $marriagePlace->state = $spouse->marriagePlace->state;
+        }
+        if ($spouse->marriagePlace && isset($spouse->marriagePlace->country)) {
+          $marriagePlace->country = $spouse->marriagePlace->country;
+        }
+        if ($spouse->marriagePlace && isset($spouse->marriagePlace->cemetary)) {
+          $marriagePlace->cemetary = $spouse->marriagePlace->cemetary;
+        }
+        $marriagePlace->ft_name = 'spouse';
+        $marriagePlace->fkey = $spouseId;
+        $marriagePlace->save();
+      }
+      return $newSpouse->id;
+    }
+    return false;
+  }
+
    // update the object if it does already exist.
    protected function update()
    {
@@ -171,7 +265,7 @@ class Spouse
    // Delete the object from the table.
    public function delete()
    {
-      $database = cbSQLConnect::connect('object');
+      $database = cbSQLConnect::adminConnect('object');
       if (isset($database))
       {
          return ($database->SQLDelete(self::$table_name, 'id', $this->id));
