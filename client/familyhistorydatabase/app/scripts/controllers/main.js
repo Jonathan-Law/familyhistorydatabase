@@ -30,4 +30,16 @@ app.controller('MainCtrl', ['$scope', 'business', function ($scope, Business) {
     // go to letter page
   }
 
+  $scope.dropzoneConfig = {
+    'options': { // passed into the Dropzone constructor
+      'url': 'upload.php'
+    },
+    'eventHandlers': {
+      'sending': function (file, xhr, formData) {
+      },
+      'success': function (file, response) {
+      }
+    }
+  };
+
 }]);
