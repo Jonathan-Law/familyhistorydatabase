@@ -22,6 +22,9 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
   };
 
   var checkDate = function(d){
+    if (!(typeof d === 'object')) {
+      d = new Date(d);
+    }
     if ( Object.prototype.toString.call(d) === "[object Date]" ) {
       // it is a date
       if ( isNaN( d.getTime() ) ) {  // d.valueOf() could also work
@@ -58,7 +61,15 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
   })
 
   var makeDate = function(dateObj) {
-    var date = '' + dateObj.year + '/' + dateObj.month + '/' + dateObj.day;
+    console.log('date', dateObj);
+    
+    if (dateObj.year) {
+      var date = '' + dateObj.year + '/';
+      date = date + ((dateObj.month && dateObj.month !== '0')? dateObj.month + '/': '1' + '/');
+      date = date + ((dateObj.day && dateObj.day !== '0')? dateObj.day: '1');
+    }
+    console.log('date', date);
+    
     date = moment(date).toDate();
     return (checkDate(date));
   }
@@ -72,7 +83,7 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
         if (date) {
           $scope.result.birthDate = new Date(date);
         }
-        $scope.exactBirthDate = person.birth.yearB? true: false;
+        $scope.exactBirthDate = (person.birth.yearB && person.birth.yearB !== '0')? true: false;
         if (person.birth.birthPlace) {
           $scope.result.birthPlace  = person.birth.birthPlace;
         }
@@ -82,7 +93,7 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
         if (date) {
           $scope.result.deathDate = new Date(date);
         }
-        $scope.exactDeathDate = person.death.yearD? true: false;
+        $scope.exactDeathDate = (person.death.yearD && person.death.yearD !== '0')? true: false;
         if (person.death.deathPlace) {
           $scope.result.deathPlace = person.death.deathPlace;
         }
@@ -92,7 +103,7 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
         if (date) {
           $scope.result.burialDate = new Date(date);
         }
-        $scope.exactBurialDate = person.burial.yearB? true: false;
+        $scope.exactBurialDate = (person.burial.yearB && person.burial.yearB !== '0')? true: false;
         if (person.burial.burialPlace) {
           $scope.result.burialPlace  = person.burial.burialPlace;
         }
@@ -155,6 +166,8 @@ $scope.$watch(function(){
 }, function() {
   $scope.biHasChanged++;
   $timeout(function() {
+    console.log('$scope.birthDate', $scope.result.birthDate);
+    
     var d = checkDate($scope.result.birthDate);
     if (d) {
       $scope.minDeath = convertDate(d);
@@ -270,14 +283,19 @@ $scope.onSelectParent = function(item, model, something) {
 
     data.person.yearB = $scope.exactBirthDate? 1:0;
     data.person.yearD = $scope.exactDeathDate? 1:0;
+    console.log('$scope.result.birthDate', $scope.result.birthDate);
+    
     if ($scope.result.birthDate) {
+      console.log('$data.birth', data.birth);
+      console.log('$scope.result', $scope.result.birthDate);
+      
       var date = new Date($scope.result.birthDate);
       if ($scope.exactBirthDate) {
         data.birth.day = date.getDate();
         data.birth.month = date.getMonth() + 1;
       } else {
-        data.birth.day = null;
-        data.birth.month = null;
+        data.birth.day = 0;
+        data.birth.month = 0;
       }
       data.birth.year = date.getFullYear();
       data.person.yearBorn = data.birth.year;
@@ -292,8 +310,8 @@ $scope.onSelectParent = function(item, model, something) {
         data.death.day = date.getDate();
         data.death.month = date.getMonth() + 1;
       } else {
-        data.death.day = null;
-        data.death.month = null;
+        data.death.day = 0;
+        data.death.month = 0;
       }
       data.death.year = date.getFullYear();
       data.person.yearDead = data.death.year;
@@ -303,13 +321,15 @@ $scope.onSelectParent = function(item, model, something) {
       // return;
     }
     if ($scope.result.burialDate) {
+      console.log($scope.result.burialDate);
+      
       var date = new Date($scope.result.burialDate);
       if ($scope.exactBurialDate) {
         data.burial.day = date.getDate();
         data.burial.month = date.getMonth() + 1;
       } else {
-        data.burial.day = null;
-        data.burial.month = null;
+        data.burial.day = 0;
+        data.burial.month = 0;
       }
       data.burial.year = date.getFullYear();
       data.burial.yearB = $scope.exactBurialDate;
