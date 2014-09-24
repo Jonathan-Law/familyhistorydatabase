@@ -1,0 +1,24 @@
+  <div class="dz-preview dz-file-preview">
+    <div class="dz-details">
+      <div class="dz-filename"><span data-dz-name></span></div>
+      <div class="dz-size" data-dz-size></div>
+      <img data-dz-thumbnail />
+    </div>
+    <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+
+
+    <tags-input class="bootstrap" min-length="1" data-ngModel="tags" replace-spaces-with-dashes="false" add-from-autocomplete-only="true">
+      <auto-complete min-length="1" source="getTagTypeahead($query)"></auto-complete>
+    </tags-input>
+
+
+    <input type="text" data-ngModel="personTags" typeahead-on-select='onSelect($item, $model, $label)' typeahead="individual as individual.typeahead for individual in getTypeahead($viewValue)" class="modelNumber form-control" placeholder="Tag a person">
+
+    <input data-ngModel="description" type="text" placeholder="Description:"/>
+    <div class="dz-success-mark"><span>✔</span></div>
+    <div class="dz-error-mark"><span>✘</span></div>
+    <div class="dz-error-message"><span data-dz-errormessage></span></div>
+
+    <button data-dz-remove><i class="fa fa-remove"></i></button>
+    <button class="processMe"><i class="fa fa-remove"></i></button>
+  </div>

@@ -32,13 +32,13 @@ app.controller('MainCtrl', ['$scope', 'business', function ($scope, Business) {
 
   $scope.dropzoneConfig = {
     'options': { // passed into the Dropzone constructor
-      'url': 'upload.php'
-    },
-    'eventHandlers': {
-      'sending': function (file, xhr, formData) {
-      },
-      'success': function (file, response) {
-      }
+      'url': 'http://familyhistorydatabase.org/v2/api/v1/file',
+      'parallelUploads': 5,
+      // 'createImageThumbnails': true,
+      // 'thumbnailWidth': 70,
+      'autoProcessQueue': false,
+      'uploadMultiple': true,
+      'previewTemplateUrl': 'views/dropzone/dropzoneTemplate.html'
     }
   };
 

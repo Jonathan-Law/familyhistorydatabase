@@ -23,7 +23,8 @@ var app = angular
   'mgcrea.ngStrap',
   'mgcrea.ngStrap.helpers.dateParser',
   'mgcrea.ngStrap.tooltip',
-  'angulartics.google.analytics'
+  'angulartics.google.analytics',
+  'ngTagsInput'
   ])
 .config(['$routeProvider', '$asideProvider', '$httpProvider', function ($routeProvider, $asideProvider, $httpProvider) {
   $routeProvider
@@ -68,7 +69,22 @@ var app = angular
   $rootScope.getTypeahead = function(val) {
     return Business.getTypeahead(val);
   }
-
+  $rootScope.getTagTypeahead = function(val) {
+    var deferred = $q.defer();
+    var list = [];
+    $rootScope.getTypeahead(val).then(function(result){
+      if (result && result.length > 0) {
+        _.each(result, function(response){
+          response.text = response.typeahead;
+          list.push(response);
+        });
+        deferred.resolve(list);
+      } else {
+        deferred.reject(false);
+      }
+    });
+    return deferred.promise;
+  }
 
   $rootScope.editIndividual = function(id) {
     var content = '<edit-individual id="'+id+'"></edit-individual>';

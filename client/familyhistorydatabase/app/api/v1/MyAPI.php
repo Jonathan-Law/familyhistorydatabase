@@ -197,6 +197,32 @@ class MyAPI extends API
     return false;
   }
 
+  protected function file($args){
+    if ($this->method === 'POST') {
+      return json_decode($_POST['info']);
+      if (!empty($_POST)) {
+        $info = $_POST;
+      } else {
+        $info = null;
+      }
+      if ($info) {
+        $ds          = DIRECTORY_SEPARATOR;
+        $storeFolder = 'uploads';
+        if (!empty($_FILES)) {
+          $tempFile = $_FILES['file']['tmp_name'];
+          $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;
+          $targetFile =  $targetPath. $_FILES['file']['name'];
+       // move_uploaded_file($tempFile,$targetFile);
+          return $info;
+        } else {
+          return false;
+        }
+      }
+      return false;
+    }
+    return false;
+  }
+
   protected function individual($args) {
     if ($this->method === 'GET') {
       $id = intval(array_shift($args));
