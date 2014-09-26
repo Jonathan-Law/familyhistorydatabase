@@ -57,6 +57,24 @@ app.factory('business', ['localCache', '$http', '$q', 'userService', 'authServic
     });
   };
 
+  business.getOtherTypeahead = function(val) {
+    return $http.get('http://familyhistorydatabase.org/v2/api/v1/tags/other', {
+      params: {
+        typeahead: val,
+        sensor: false
+      }
+    }).then(function(res){
+      if (res.data !== 'false') {
+        var typeahead = [];
+        _.each(res.data, function(item){
+          typeahead.push(item);
+        });
+        return typeahead;
+      }
+      return [];
+    });
+  };
+
   // var get_cookie = function (cname) {
   //   var name = cname + "=";
   //   var ca = document.cookie.split(';');

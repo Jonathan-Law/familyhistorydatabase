@@ -140,8 +140,6 @@ app.directive('dropzone', ['$http', '$compile', 'business', '$timeout', function
         $timeout(function() {
           //Press Enter in INPUT moves cursor to next INPUT
           $(file.previewElement).find('input').keypress(function(e){
-            console.log('WHATUP');
-            
             if ( e.which == 13 ) // Enter key = keycode 13
             {
               $(this).next().focus();  //Use whatever selector necessary to focus the 'next' input
@@ -149,8 +147,6 @@ app.directive('dropzone', ['$http', '$compile', 'business', '$timeout', function
             }
           });
           $(file.previewElement).find('.tags').keypress(function(e){
-            console.log('WHATUP');
-            
             if ( e.which == 13 ) // Enter key = keycode 13
             {
               $(this).next().focus();  //Use whatever selector necessary to focus the 'next' input

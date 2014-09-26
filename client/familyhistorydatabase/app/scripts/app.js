@@ -60,6 +60,32 @@ var app = angular
     $rootScope.user = null;
   });
 
+  var setupTagVal = function(result) {
+    console.log('result', result);
+    var list = [];
+    if (result && result.length > 0 && result[0].address_components) {
+      _.each(result, function(response){
+        if (response && response.address_components) {
+          var temp = {};
+          temp.town = response.address_components[0]? response.address_components[0].long_name: '';
+          temp.county = response.address_components[1]? response.address_components[1].long_name: '';
+          temp.state = response.address_components[2]? response.address_components[2].long_name: '';
+          temp.country = response.address_components[3]? response.address_components[3].long_name: '';
+          temp.text = response.formatted_address;
+          list.push(temp);
+        }
+      });
+    } else if (result && result.length > 0 && !result[0].text) {
+      _.each(result, function(response){
+        response.text = response.typeahead;
+        list.push(response);
+      });
+    } else {
+      list = result;
+    }
+    return list;
+  }
+
   $rootScope.checkLogin = function() {
     return Business.user.checkLoggedIn();
   }
@@ -69,20 +95,35 @@ var app = angular
   $rootScope.getTypeahead = function(val) {
     return Business.getTypeahead(val);
   }
-  $rootScope.getTagTypeahead = function(val) {
+  $rootScope.getTypeaheadPlace = function(val) {
+    return Business.getLocation(val);
+  }
+  $rootScope.getOtherTypeahead = function(val) {
+    return Business.getOtherTypeahead(val);
+  }
+  $rootScope.getTagTypeahead = function(switchTrigger, val) {
     var deferred = $q.defer();
-    var list = [];
-    $rootScope.getTypeahead(val).then(function(result){
-      if (result && result.length > 0) {
-        _.each(result, function(response){
-          response.text = response.typeahead;
-          list.push(response);
-        });
-        deferred.resolve(list);
-      } else {
-        deferred.reject(false);
+    var target = $rootScope.getTypeahead;
+    if (switchTrigger) {
+      if (switchTrigger === 'place') {
+        target = $rootScope.getTypeaheadPlace;
+      } else if (switchTrigger === 'other') {
+        target = $rootScope.getOtherTypeahead;
       }
-    });
+      if (target) {
+        target(val).then(function(result){
+          if (result && result.length > 0) {
+            deferred.resolve(setupTagVal(result));
+          } else {
+            deferred.reject(false);
+          }
+        });
+      } else {
+        deferred.reject('Your target switch trigger doesn\'t exist');
+      }
+    } else {
+      deferred.reject('You need to provide the switch trigger');
+    }
     return deferred.promise;
   }
 

@@ -24,11 +24,9 @@ class cbSQLConnectConfig extends PDO {
 			
 			
 		}
-		
+
 		public static function CreatePDOInstance(){
-			
-			
-			
+						
 			return new PDO( cbSQLConnectConfig::$qs,  cbSQLConnectConfig::$user,  cbSQLConnectConfig::$pwd,  cbSQLConnectConfig::$options);
 			
 		}

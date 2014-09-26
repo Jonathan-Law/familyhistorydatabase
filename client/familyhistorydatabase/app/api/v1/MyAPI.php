@@ -24,6 +24,7 @@ require_once(OBJECTS."person.php");
 require_once(OBJECTS."spouse.php");
 require_once(OBJECTS."place.php");
 require_once(OBJECTS."file.php");
+require_once(OBJECTS."tag.php");
 require_once(OBJECTS."connections.php");
 
 
@@ -143,6 +144,33 @@ class MyAPI extends API
       // } else {
       // return false;
       // }
+    }else {
+      return "Only accepts GET requests";
+    }
+  }
+
+  protected function tags($args) {
+    $session = mySession::getInstance();
+    if ($this->method === 'GET') {
+      if ($this->verb === 'other') {
+        $value = getRequest('typeahead');
+        if (!empty($value)) {
+          return Tag::getTags('other', $value);
+        } else {
+          return Tag::getTags('other');
+        }
+      } else if ($this->verb === 'person') {
+        return Tag::getTags('person');
+      } else if ($this->verb === 'place') {
+        return Tag::getTags('place');
+      } else {
+        return Tag::getTags();
+      }
+    } else if ($this->method === 'POST') {
+      $tag = recast('Tag', $this->file);
+      if ($tag) {
+        return $tag->save();
+      }
     }else {
       return "Only accepts GET requests";
     }

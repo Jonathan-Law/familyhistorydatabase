@@ -1,18 +1,25 @@
-  <div class="dz-preview dz-file-preview">
-    <div class="dz-details">
+  <div class="dz-preview dz-file-preview ">
+    <div class="dz-details modelNumber" data-ngModel="scopeId">
       <div class="dz-filename"><span data-dz-name></span></div>
       <div class="dz-size" data-dz-size></div>
       <img data-dz-thumbnail />
     </div>
     <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
 
-
-    <tags-input class="bootstrap" min-length="1" data-ngModel="tags" replace-spaces-with-dashes="false" add-from-autocomplete-only="true">
-      <auto-complete min-length="1" source="getTagTypeahead($query)"></auto-complete>
+    <p><strong>Person Tags</strong></p>
+    <tags-input class="bootstrap" min-length="1" data-ngModel="tags.person" replace-spaces-with-dashes="false" add-from-autocomplete-only="true">
+      <auto-complete min-length="1" source="getTagTypeahead('person', $query)"></auto-complete>
     </tags-input>
 
+    <p><strong>Place Tags</strong></p>
+    <tags-input class="bootstrap" min-length="1" data-ngModel="tags.place" replace-spaces-with-dashes="false" add-from-autocomplete-only="true">
+      <auto-complete min-length="1" source="getTagTypeahead('place', $query)"></auto-complete>
+    </tags-input>
 
-    <input type="text" data-ngModel="personTags" typeahead-on-select='onSelect($item, $model, $label)' typeahead="individual as individual.typeahead for individual in getTypeahead($viewValue)" class="modelNumber form-control" placeholder="Tag a person">
+    <p><strong>Other Tags</strong></p>
+    <tags-input class="bootstrap" min-length="1" data-ngModel="tags.other" replace-spaces-with-dashes="false">
+      <auto-complete min-length="1" source="getTagTypeahead('other', $query)"></auto-complete>
+    </tags-input>
 
     <input data-ngModel="description" type="text" placeholder="Description:"/>
     <div class="dz-success-mark"><span>✔</span></div>
