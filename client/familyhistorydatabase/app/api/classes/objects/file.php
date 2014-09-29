@@ -10,10 +10,10 @@ class File
 {
 
    protected static $table_name = "file";
-   protected static $db_fields = array('id', 'link', 'thumblink', 'viewlink', 'title', 'author', 'comments', 'date');
+   protected static $db_fields = array('id', 'link', 'thumblink', 'viewlink', 'title', 'author', 'comments', 'date', 'type');
    public static function get_db_fields() 
    {
-      $fields = array('id', 'link', 'thumblink', 'viewlink', 'title', 'author', 'comments', 'date');
+      $fields = array('id', 'link', 'thumblink', 'viewlink', 'title', 'author', 'comments', 'date', 'type');
       return $fields;
    }
    public static function nameMe()
@@ -31,6 +31,7 @@ class File
    public $comments;
    public $date;
    public $message;
+   public $type;
 
 
    public static function dropFile($temp_id = NULL)
@@ -269,8 +270,8 @@ class File
 
    public static function uploadFile($data = NULL, $files = NULL)
    {
-         // error_reporting(E_ALL);
-         // ini_set('display_errors', '1');
+      // error_reporting(E_ALL);
+      // ini_set('display_errors', '1');
       // echo "<pre>";
       // print_r($files);
       // echo "</pre>";

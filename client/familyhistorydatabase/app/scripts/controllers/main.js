@@ -33,7 +33,7 @@ app.controller('MainCtrl', ['$scope', 'business', function ($scope, Business) {
   $scope.dropzoneConfig = {
     'options': { // passed into the Dropzone constructor
       'url': 'http://familyhistorydatabase.org/v2/api/v1/file',
-      'parallelUploads': 5,
+      'parallelUploads': 1,
       // 'createImageThumbnails': true,
       // 'thumbnailWidth': 70,
       'autoProcessQueue': false,

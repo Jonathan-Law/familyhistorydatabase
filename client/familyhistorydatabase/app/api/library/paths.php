@@ -14,4 +14,5 @@ defined('LIBRARY')    ? null : define('LIBRARY', APIROOT.'library'.DS);
 defined('CLASSES')    ? null : define('CLASSES', APIROOT.'classes'.DS);
 defined('OBJECTS')    ? null : define('OBJECTS', CLASSES.'objects'.DS);
 defined('TOOLS')      ? null : define('TOOLS', CLASSES.'tools'.DS);
+defined('UPLOAD')     ? null : define('UPLOAD', 'upload'.DS);
 ?>

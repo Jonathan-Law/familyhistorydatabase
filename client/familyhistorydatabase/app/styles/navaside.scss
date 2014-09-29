@@ -154,6 +154,23 @@ hr {
   background: rgba(white, .5);
 }
 
+.sidebar-nav > .sidebar-brand-extra {
+  height: 52px;
+  line-height: 52px;
+  font-size: 18px;
+}
+
+.sidebar-nav > .sidebar-brand-extra a {
+  color: #eee;
+}
+
+.sidebar-nav > .sidebar-brand-extra a:hover {
+  margin-top:-1px;
+  color: $linkBlue;
+  font-weight: bold;
+  background: rgba(white, .5);
+}
+
 #menu-close{
   position:absolute;
   padding: 5px 10px;

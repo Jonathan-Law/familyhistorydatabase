@@ -1,0 +1,14 @@
+<div style="text-align: center; margin: 10px;">
+  <button class="btn btn-primary" ng-show="mass === false" ng-click="mass = !mass">Switch To <strong>Mass</strong> Upload Mode</button>
+  <button class="btn btn-primary" ng-show="mass === true" ng-click="mass = !mass">Switch To <strong>Normal</strong> Upload Mode</button>
+  <button class="btn btn-primary" ng-click="editIndividual()"> Add an individual&nbsp;<i class="fa fa-user"></i> </button>
+</div>
+<div>
+
+</div>
+<div ng-if="!mass">
+  <dropzone config="dropzoneConfig"></dropzone> 
+</div>
+<div ng-if="mass">
+  <mass-Dropzone config="dropzoneConfig" templateUrl="views/dropzone/massDropzoneTemplate.html"></mass-Dropzone> 
+</div>

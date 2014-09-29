@@ -15,7 +15,7 @@ app.controller('AuthRegisterCtrl', ['$scope', 'business', function ($scope, Busi
     $scope.error = false;
     Business.user.register($scope.username, $scope.password, $scope.email, $scope.first, $scope.last, $scope.gender).then(function(response){
       if (response) {
-        $scope.$emit('$loggedIn', response);
+        $scope.$emit('$triggerEvent', '$LOGGEDIN', response);
         $scope.$emit('$triggerEvent', '$triggerModalClose');
       } else {
         $scope.error = true;

@@ -101,6 +101,27 @@ class Place
       }
    }
 
+   public static function getByAll($place)
+   {
+      if ($place->town && $place->state && $place->country)
+      {
+         $database = cbSQLConnect::connect('object');
+         if (isset($database))
+         {
+            $name = self::$table_name;
+            $sql = "SELECT * FROM $name WHERE `town` LIKE '%".$place->town."%'";
+            if (isset($place->county) && !empty($place->county)) {
+              $sql .= "OR `county` LIKE '%".$place->county."%'";
+            }
+            $sql .= "OR `state` LIKE '%".$place->state."%'";
+            $sql .= "OR `country` LIKE '%".$place->country."%'";
+            $params = array();
+            $results_array = $database->QueryForObject($sql, $params);
+            return !empty($results_array) ? array_shift($results_array) : false;
+         }
+      }
+   }
+
    public function save()
    {
       // return $this->id;

@@ -82,18 +82,19 @@
 
 'use strict';
 
-app.directive('dropzone', ['$http', '$compile', 'business', '$timeout', function ($http, $compile, Business, $timeout) {
+app.directive('massDropzone', ['$http', '$compile', 'business', '$timeout', function ($http, $compile, Business, $timeout) {
+  var getTemplate = function(element, attrs) {
+    return attrs.templateurl;
+  }
+  var index = 1;
   return {
-    template: '<button class="btn btn-primary saveAll" ng-click="saveAll();">Save All <i class="fa fa-save"></i> </button><form action="" method="post" enctype="multipart/form-data" onsubmit="return false"><div class="dropzone"><div class="dz-default dz-message"><span>Drop files here to upload</span></div></div></form>',
     restrict: 'E',
     scope: {
       config: '='
     },
+    templateUrl: getTemplate,
     link: function postLink(scope, element, attrs) {
-      // the index that allows us to have an infinate number of form information 
-      // objects.
-      scope.$index = 0;
-
+      scope.type = 'image';
       // here we need to make sure we grab the typeahead function... it doesn't
       // persist.
       scope.getTypeahead = scope.$parent.getTypeahead;      
@@ -101,118 +102,51 @@ app.directive('dropzone', ['$http', '$compile', 'business', '$timeout', function
 
       // console.log('scope.config', scope.config);
       var config, dropzone;
-      scope.config.options.parallelUploads = 5;
       config = scope.config;
 
       // we could allow the user to pass in their own event handlers, but since
       // this is a directive, we will just keep a hold of it 
       config.eventHandlers = {};
 
-      var dataURItoBlob = function(dataURI) {
-        // convert base64/URLEncoded data component to raw binary data held in a string
-        var byteString;
-        if (dataURI.split(',')[0].indexOf('base64') >= 0)
-          byteString = atob(dataURI.split(',')[1]);
-        else
-          byteString = unescape(dataURI.split(',')[1]);
-
-        // separate out the mime component
-        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
-
-        // write the bytes of the string to a typed array
-        var ia = new Uint8Array(byteString.length);
-        for (var i = 0; i < byteString.length; i++) {
-          ia[i] = byteString.charCodeAt(i);
-        }
-
-        return new Blob([ia], {type:mimeString});
-      }
-
-      // now we configure the functions for each of the uploads.
-      var setupModels = function(index, element) {
-        var tags = element.find('[data-ngModel]')
-        _.each(tags, function(tag){
-          var element = $(tag);
-          element.attr('ng-model', index +'.'+ element.attr('data-ngModel'));
-        });
-        var tags = element.find('[data-ngClick]')
-        _.each(tags, function(tag){
-          var element = $(tag);
-          element.attr('ng-click', index +'.'+ element.attr('data-ngClick'));
-        });
-        var tags = element.find('[data-ngClass]')
-        _.each(tags, function(tag){
-          var element = $(tag);
-          element.attr('ng-class', index +'.'+ element.attr('data-ngClass'));
-        });
-        var tags = element.find('[data-ngId]')
-        _.each(tags, function(tag){
-          var element = $(tag);
-          element.attr('id', index + element.attr('data-ngId'));
-        });
-      }
-
       // Here we hendle adding extra functionality to each file as it is loaded
       // when a file is added, handle it.
       config.eventHandlers.addedfile = function(file) {
         var dropzone = this;
-        // set up the elements with an ng-model found in the template looking
-        // like this: data-ngModel=""
-        setupModels('info'+scope.$index, $(file.previewElement));
-        // add it to the scope
-        $compile(file.previewElement)(scope);
-        // when they click 'processMe', send the file to the server
-        $(file.previewElement).find('.processMe').on("click", function() {
-          dropzone.processFile(file);
-        });
-        $timeout(function() {
-          //Press Enter in INPUT moves cursor to next INPUT
-          $(file.previewElement).find('input').keypress(function(e){
-            if ( e.which == 13 ) // Enter key = keycode 13
-            {
-              $(this).next().focus();  //Use whatever selector necessary to focus the 'next' input
-              return false;
-            }
-          });
-          $(file.previewElement).find('.tags').keypress(function(e){
-            if ( e.which == 13 ) // Enter key = keycode 13
-            {
-              $(this).next().focus();  //Use whatever selector necessary to focus the 'next' input
-              return false;
-            }
-          });
-        })
-        // increase the index so that we don't overwrite ourselves
-        // we don't really care about overflow or underflow here, but maybe
-        // we want to take care of that later? 
-        scope['info'+scope.$index] = {};
-        scope['info'+scope.$index].docType = 'image';
-        scope.$index++;
       };
 
       // when a file is about to send do this with the formData
       config.eventHandlers.sending = function(file, xhr, formData) {
-        var dropzone = this;
-        var ngModel = $(file.previewElement).find('.modelNumber').attr('ng-model').split('.')[0];
-        var upFile = {};
-        if (!scope[ngModel].newName || scope[ngModel].newName === '') {
-          dropzone.cancelUpload(file)
+        if (scope.data) {
+          console.log('scope.data', scope.data);
+          
+          var data = angular.copy(scope.data);
+          var dropzone = this;
+          var upFile = {};
+
+          if (!data.newName || data.newName === '') {
+            dropzone.cancelUpload(file)
+          } else {
+            // console.log('scopeNgModel', scope[ngModel]);
+            upFile.height = file.height;
+            upFile.width = file.width;
+            upFile.size = file.size;
+            upFile.type = file.type;
+            upFile.name = file.name;
+            data.fileInfo = upFile;
+            data.newName = scope.data.newName + ' ' + index;
+            if (data.title) {
+              data.title = scope.data.title + ' ' + index;
+            }
+            index = index + 1;
+            console.log('scope.index', scope.index);
+            
+            data.new = true;
+
+            formData.append('info', JSON.stringify(data));
+          }
         } else {
-          // console.log('scopeNgModel', scope[ngModel]);
+          dropzone.cancelUpload(file)
         }
-        upFile.height = file.height;
-        upFile.width = file.width;
-        upFile.size = file.size;
-        upFile.type = file.type;
-        upFile.name = file.name;
-        scope[ngModel].scopeId = ngModel;
-        scope[ngModel].fileInfo = upFile;
-        scope[ngModel].new = true;
-        console.log('STUFF', $('#'+ngModel+'image'));
-        
-        // var blob = dataURItoBlob($('#'+ngModel+'image').attr('src'));
-        // formData.append('thumbnail', blob);
-        formData.append('info', JSON.stringify(scope[ngModel]));
       };
 
       // when the upload succeeds, make sure to handle the response
@@ -246,40 +180,16 @@ app.directive('dropzone', ['$http', '$compile', 'business', '$timeout', function
         console.log('file', file.status);
       };
 
-      // here we set up the actual dropzone.
-      if (config.options && config.options.previewTemplateUrl) {
-        // if they've given us the location of a template go grab it 
-        $http.get(config.options.previewTemplateUrl).then(function(response) {
-          if(response.status == 200){
-            config.options.previewTemplate = response.data;
-            // clear out the extra option just in case.
-            delete config.options.previewTemplateUrl
-            // create a Dropzone for the element with the given options
-            dropzone = new Dropzone($(element).find('div')[0], config.options);
-            // bind the given event handlers
-            angular.forEach(config.eventHandlers, function (handler, event) {
-              dropzone.on(event, handler);
-            });
-            scope.saveAll = function(){
-              dropzone.autoProcessQueue = true;
-              dropzone.processQueue();
-            }
-          }
-        });
-        } else { //
+      // create a Dropzone for the element with the given options
+      dropzone = new Dropzone($(element).find('div.dropzone')[0], config.options);
 
-        // create a Dropzone for the element with the given options
-        dropzone = new Dropzone($(element).find('div')[0], config.options);
-        
-        // bind the given event handlers
-        angular.forEach(config.eventHandlers, function (handler, event) {
-          dropzone.on(event, handler);
-        });
-        scope.saveAll = function(){
-          dropzone.autoProcessQueue = true;
-          dropzone.processQueue();
-        }
-
+      // bind the given event handlers
+      angular.forEach(config.eventHandlers, function (handler, event) {
+        dropzone.on(event, handler);
+      });
+      scope.saveAll = function(){
+        dropzone.autoProcessQueue = true;
+        dropzone.processQueue();
       }
 
       // this is necessary for the typeahead selects for tags.

@@ -36,6 +36,10 @@ var app = angular
     templateUrl: 'views/about.html',
     controller: 'AboutCtrl'
   })
+  .when('/admin/add', {
+    templateUrl: 'views/admin/addfiles.html',
+    controller: 'AdminAddfilesCtrl'
+  })
   .otherwise({
     redirectTo: '/'
   });
@@ -47,21 +51,28 @@ var app = angular
   });
   // $httpProvider.defaults.withCredentials = true;
 }])
-.run(['$rootScope', 'business', '$q', function($rootScope, Business, $q) {
+.run(['$rootScope', 'business', '$q', '$route', function($rootScope, Business, $q, $route) {
+  $rootScope.$on('$routeChangeSuccess', function(){
+    Business.user.isLoggedInStill().then(function(result){
+      if (!result) {
+        $rootScope.$broadcast('$NOTLOGGEDIN');
+      }
+    })
+  })
+
   $rootScope.name = 'root';
 
   $rootScope.$on('$triggerEvent', function (event, eventtrigger, content){
     $rootScope.$broadcast(eventtrigger, content);
   });
-  $rootScope.$on('$loggedIn', function (event, user){
+  $rootScope.$on('$LOGGEDIN', function (event, user){
     $rootScope.user = user;
   });
-  $rootScope.$on('$loggedOut', function (event){
+  $rootScope.$on('$LOGOUT', function (event){
     $rootScope.user = null;
   });
 
   var setupTagVal = function(result) {
-    console.log('result', result);
     var list = [];
     if (result && result.length > 0 && result[0].address_components) {
       _.each(result, function(response){

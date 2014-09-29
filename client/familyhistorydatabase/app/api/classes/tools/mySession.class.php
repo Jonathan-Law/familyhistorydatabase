@@ -956,6 +956,7 @@ class mySession
       }
             // start the session and cross finger
       session_id($this->getSessionId());
+      session_save_path(ROOT.'var/php_sessions/');
       session_start();
 
 
@@ -1425,6 +1426,27 @@ class mySession
          $this->save('user_id', $user->id);
          $this->save('login', TRUE);
          return true;
+      }
+      else
+      {
+         return false;
+      }
+   }
+   public function isAdmin()
+   {
+      $user = User::current_user();
+      if($user)
+      {
+        $result = false;
+        switch ($user->rights) {
+          case "super":
+          case "admin":
+          $result = true;
+          break;
+          default:
+          $result = false;
+        }
+       return $result;
       }
       else
       {

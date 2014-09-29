@@ -18,17 +18,17 @@ function login($username, $password){
 
   // Check if user has been found in database
   $found_user = User::authenticate($username,$password);
-
   if($found_user)
   {
     // log them in
     $session->login($found_user);
-
+    // return User::current_user();
     // grab the account status
     $profile_status = $found_user->status;
 
     if($profile_status != 'current')
     {
+      return false;
       // their account isn't set up so log them out send them to the login page.
       $session->logout();
       return false;

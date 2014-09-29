@@ -15,7 +15,7 @@ app.controller('AuthLoginCtrl', ['$scope', 'business', function ($scope, Busines
     $scope.error = false;
     Business.user.login($scope.username, $scope.password).then(function(response){
       if (response) {
-        $scope.$emit('$loggedIn', response);
+        $scope.$emit('$triggerEvent', '$LOGGEDIN', response);
         $scope.$emit('$triggerEvent', '$triggerModalClose');
       } else {
         $scope.error = true;

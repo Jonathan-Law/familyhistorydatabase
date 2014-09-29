@@ -9,7 +9,7 @@
 */
 app.factory('userService', ['localCache', '$http', '$q', function (localCache, $http, $q) { /*jshint unused: false*/
   var user = {};
-
+  user.isLoggedIn = false;
   user.getUserInfo = function() {
     $http({
       method: 'GET',
@@ -19,6 +19,58 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
 
     });
   };
+
+
+  user.isLoggedInStill = function() {
+    var deferred = $q.defer();
+    $http.get('http://familyhistorydatabase.org/v2/api/v1/user/isLoggedInStill')
+    .success(function(data, status, headers, config){
+      if (!data || data === 'false') {
+        deferred.resolve(false);
+      } else {
+        deferred.resolve(true);
+      }
+    }).error(function(){
+      deferred.resolve(false);
+    })
+    return deferred.promise;
+  }
+
+  user.getIsAdmin = function() {
+    if (!user.isLoggedIn) {
+      return false;
+    }
+    var isAdmin = false;
+    switch(user.userInfo.rights){
+      case 'super':
+      case 'admin':
+        isAdmin = true;
+        break;
+      default:
+        isAdmin = false;
+        break;
+    }
+    return isAdmin;
+  }
+
+  user.getIsValidated = function() {
+    if (!user.isLoggedIn) {
+      return false;
+    }
+    var isValid = false;
+    switch(user.userInfo.rights){
+      case 'super':
+      case 'admin':
+      case 'high':
+      case 'medium':
+        isAdmin = true;
+        break;
+      default:
+        isAdmin = false;
+        break;
+    }
+    return isAdmin;
+  }
 
   user.login = function(username, password) {
     var deferred = $q.defer();
@@ -36,6 +88,8 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
         headers: {'Content-Type': 'application/json'}
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
+          user.userInfo = data;
+          user.isLoggedIn = true;
           deferred.resolve(data);
         } else {
           deferred.resolve(false);
@@ -65,6 +119,7 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
         headers: {'Content-Type': 'application/json'}
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
+          user.isLoggedIn = true;
           deferred.resolve(data);
         } else {
           deferred.resolve(false);
@@ -98,6 +153,7 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
       data: {},
       headers: {'Content-Type': 'application/json'}
     }).success(function(data, status, headers, config) {
+      user.isLoggedIn = false;
     });
   };
 

@@ -25,6 +25,7 @@ require_once(OBJECTS."spouse.php");
 require_once(OBJECTS."place.php");
 require_once(OBJECTS."file.php");
 require_once(OBJECTS."tag.php");
+require_once(OBJECTS."dropzone.php");
 require_once(OBJECTS."connections.php");
 
 
@@ -68,6 +69,7 @@ class MyAPI extends API
   * something with them...)
   */
   protected function example($args) {
+    $session = mySession::getInstance();
     echo $this->verb;
     echo "\n";
     if ($this->method == 'GET') {
@@ -81,6 +83,7 @@ class MyAPI extends API
   * Example of an Endpoint
   */
   protected function process($args) {
+    $session = mySession::getInstance();
     echo $this->verb;
     echo "\n";
     if ($this->method == 'GET') {
@@ -92,13 +95,14 @@ class MyAPI extends API
 
 
   protected function user($args) {
+    $session = mySession::getInstance();
     require_once(APIROOT.'controller/user.php');
     if ($this->method === 'POST') {
       if ($this->verb === 'login') {
         $result = $this->file;
         $result = login(isset($result->username)? $result->username: null,
           isset($result->password)? $result->password: null);
-        return $result;
+        return User::current_user();
       } else if ($this->verb === 'logout') {
         return $session->logout();
       } else if ($this->verb === 'register') {
@@ -111,7 +115,7 @@ class MyAPI extends API
         $result->gender = isset($result->gender)? $result->gender: null;
 
         $result = register($result);
-        return $result;
+        return User::current_user();
       }
     }
     if ($this->method === 'GET') {
@@ -125,6 +129,9 @@ class MyAPI extends API
         unset($user->password);
         return $user;
       }
+      if ($this->verb === 'isLoggedInStill') {
+        return $session->isLoggedIn();
+      }
       $user = User::current_user();
       unset($user->password);
       return $user;
@@ -135,8 +142,8 @@ class MyAPI extends API
   }
 
   protected function typeahead($args) {
+    $session = mySession::getInstance();
     if ($this->method === 'GET') {
-      $session = mySession::getInstance();
       // if ($session->isLoggedIn()) {
       $value = getRequest('typeahead');
       $list = Person::getSearchInd($value);
@@ -166,7 +173,7 @@ class MyAPI extends API
       } else {
         return Tag::getTags();
       }
-    } else if ($this->method === 'POST') {
+    } else if ($this->method === 'POST' && $session->isLoggedIn()&& $session->isAdmin()) {
       $tag = recast('Tag', $this->file);
       if ($tag) {
         return $tag->save();
@@ -177,6 +184,7 @@ class MyAPI extends API
   }
 
   protected function profilePic($args){
+    $session = mySession::getInstance();
     if ($this->method === 'GET') {
       if ($this->verb == "") {
         $id = intval(array_shift($args));
@@ -199,6 +207,7 @@ class MyAPI extends API
   }
 
   protected function spouses($args){
+    $session = mySession::getInstance();
     if ($this->method === 'GET') {
       if ($this->verb == "") {
         $spouseId = intval(array_shift($args));
@@ -213,6 +222,7 @@ class MyAPI extends API
   }
 
   protected function place($args){
+    $session = mySession::getInstance();
     if ($this->method === 'GET') {
       if ($this->verb == "") {
         $placeId = intval(array_shift($args));
@@ -226,10 +236,10 @@ class MyAPI extends API
   }
 
   protected function file($args){
-    if ($this->method === 'POST') {
-      return json_decode($_POST['info']);
+    $session = mySession::getInstance();
+    if ($this->method === 'POST' && $session->isLoggedIn()&& $session->isAdmin()) {
       if (!empty($_POST)) {
-        $info = $_POST;
+        $info = json_decode($_POST['info']);
       } else {
         $info = null;
       }
@@ -237,11 +247,15 @@ class MyAPI extends API
         $ds          = DIRECTORY_SEPARATOR;
         $storeFolder = 'uploads';
         if (!empty($_FILES)) {
-          $tempFile = $_FILES['file']['tmp_name'];
-          $targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;
-          $targetFile =  $targetPath. $_FILES['file']['name'];
-       // move_uploaded_file($tempFile,$targetFile);
-          return $info;
+          $file = recast('Dropzone', $info);
+          $file->file = new stdClass();
+          $file->file->error = $_FILES['file']['error'][0];
+          $file->file->name = $_FILES['file']['name'][0];
+          $file->file->size = $_FILES['file']['size'][0];
+          $file->file->tmp_name = $_FILES['file']['tmp_name'][0];
+          $file->file->type = $_FILES['file']['type'][0];
+          // $file->thumbnail = $_FILES['thumbnail'];
+          return $file->save();
         } else {
           return false;
         }
@@ -252,6 +266,7 @@ class MyAPI extends API
   }
 
   protected function individual($args) {
+    $session = mySession::getInstance();
     if ($this->method === 'GET') {
       $id = intval(array_shift($args));
       if ($id && is_numeric($id)) {
@@ -286,7 +301,7 @@ class MyAPI extends API
       // } else {
       // return false;
       // }
-    } else if ($this->method === 'POST' || $this->method === 'PUT'){
+    } else if (($this->method === 'POST' || $this->method === 'PUT') && $session->isLoggedIn()&& $session->isAdmin()){
       $result = $this->file;
       if (empty($result) || empty($result->person) || empty($result->birth) || empty($result->death)) {
         return false;

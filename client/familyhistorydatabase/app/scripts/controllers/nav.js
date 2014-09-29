@@ -7,7 +7,7 @@
 * # NavCtrl
 * Controller of the familyhistorydatabaseApp
 */
-app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', function ($rootScope, $scope, $aside, Business) { /*jshint unused:false*/
+app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$location', function ($rootScope, $scope, $aside, Business, $location) { /*jshint unused:false*/
 
   $scope.user       = $rootScope.user;
   $scope.searchKey  = null;
@@ -19,9 +19,16 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', functio
     'content': 'Hello Aside<br />This is a multiline message!'
   };
 
+  $scope.$on('$NOTLOGGEDIN', function(){
+    $scope.logout();
+  })
+
   $scope.logout = function() {
     Business.user.logout();
-    $scope.$emit('$loggedOut');
+    $scope.$emit('$triggerEvent', '$LOGOUT');
+    $scope.user = null;
+    $rootScope.user = null;
+    $scope.loggedIn = false;
   };
 
   $scope.login = function() {
@@ -50,9 +57,16 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', functio
   $rootScope.$watch('user', function() {
     $scope.user = $rootScope.user;
     if ($scope.user) {
+      console.log('$scope.user', $scope.user);
+      
       $scope.loggedIn = true;
+      if (Business.user.getIsAdmin()){
+        $scope.admin = true;
+      } else {
+        $scope.admin = false;
+      }
     } else {
-      $scope.loggedIn = false;
+      $scope.logout();
     }
   });
 
@@ -68,8 +82,14 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', functio
     }
   };
 
+  $scope.goTo = function(location) {
+    $location.path(location);
+  }
+
   $scope.checkLogin().then(function(response){
     if (response) {
+      console.log('response', response);
+      
       $scope.loggedIn = true;
       $scope.user = response;
     }

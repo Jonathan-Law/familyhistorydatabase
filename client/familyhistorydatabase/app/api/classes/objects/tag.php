@@ -49,7 +49,7 @@ class Tag
     { 
       if ($switch === 'other') {
         if ($val) {
-          $sql = "SELECT * FROM `tag` WHERE `enum`='other' AND `text` LIKE '%".$val."%'";
+          $sql = "SELECT * FROM `tag` WHERE `enum`='other' AND `text` LIKE '%".$val."%' GROUP BY 'text'";
         } else {
           $sql = "SELECT * FROM `tag` WHERE `enum`='other'";
         }

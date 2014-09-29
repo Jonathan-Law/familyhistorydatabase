@@ -119,7 +119,8 @@ class User{
             $user = recast('User', $user);
             $user->displayableName = $user->displayName();
          }
-         return $user;
+         unset($user->password); 
+            return $user;
       }
    }
 
