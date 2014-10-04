@@ -167,6 +167,8 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/controllers/auth/register.js"></script>
   <script type="text/javascript" src="scripts/controllers/background.js"></script>
   <script type="text/javascript" src="scripts/controllers/individual/addindividual.js"></script>
+  <script type="text/javascript" src="scripts/controllers/admin.js"></script>
+  <script type="text/javascript" src="scripts/controllers/admin/addfiles.js"></script>
 
   <script type="text/javascript" src="scripts/services/localcache.js"></script>
   <script type="text/javascript" src="scripts/services/business.js"></script>
@@ -184,6 +186,7 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/directives/box.js"></script>
   <script type="text/javascript" src="scripts/directives/spouse.js"></script>
   <script type="text/javascript" src="scripts/directives/dropzone.js"></script>
+  <script type="text/javascript" src="scripts/directives/massdropzone.js"></script>
 
   <script type="text/javascript" src="scripts/common/sessionpolyfill.js"></script>
   <script type="text/javascript" src="scripts/common/common.js"></script>
@@ -193,8 +196,6 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/common/angular-strap.js"></script>
   <script type="text/javascript" src="scripts/common/angular-strap.tpl.js"></script>
   <script type="text/javascript" src="scripts/common/ui-bootstrap-tpls.js"></script>
-  <script src="scripts/directives/massdropzone.js"></script>
-  <script src="scripts/controllers/admin/addfiles.js"></script>
   <!-- endbuild -->
 
 </body>

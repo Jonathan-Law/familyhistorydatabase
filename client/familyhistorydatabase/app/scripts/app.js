@@ -36,6 +36,10 @@ var app = angular
     templateUrl: 'views/about.html',
     controller: 'AboutCtrl'
   })
+  .when('/admin', {
+    templateUrl: 'views/admin.html',
+    controller: 'AdminCtrl'
+  })
   .when('/admin/add', {
     templateUrl: 'views/admin/addfiles.html',
     controller: 'AdminAddfilesCtrl'
