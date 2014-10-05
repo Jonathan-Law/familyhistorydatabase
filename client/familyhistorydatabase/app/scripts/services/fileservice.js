@@ -29,12 +29,12 @@ app.factory('fileService', ['localCache', '$http', '$q', function (localCache, $
     return deferred.promise;
   };
 
-  service.updateFileData = function (data){
+  service.updateFile = function (data){
     var deferred = $q.defer();
     if (data) {
       $http({
         method: 'POST',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/file/',
+        url: 'http://familyhistorydatabase.org/v2/api/v1/file/update',
         data: data
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
@@ -70,7 +70,7 @@ app.factory('fileService', ['localCache', '$http', '$q', function (localCache, $
       }
       $http(body).success(function(data, status, headers, config){
         if (data) {
-          console.log('data', data)
+          // console.log('data', data)
           for (var i = data.length - 1; i >= 0; i--) {
             if (data[i].title) {
               data[i].typeahead = data[i].title;

@@ -237,27 +237,33 @@ class MyAPI extends API
 
   protected function file($args){
     $session = mySession::getInstance();
+    // if ($this->method === 'POST') {
     if ($this->method === 'POST' && $session->isLoggedIn()&& $session->isAdmin()) {
-      if (!empty($_POST)) {
-        $info = json_decode($_POST['info']);
+      if ($this->verb === 'update') {
+        $file = $this->file;
+        return Dropzone::updateFile($file);
       } else {
-        $info = null;
-      }
-      if ($info) {
-        $ds          = DIRECTORY_SEPARATOR;
-        $storeFolder = 'uploads';
-        if (!empty($_FILES)) {
-          $file = recast('Dropzone', $info);
-          $file->file = new stdClass();
-          $file->file->error = $_FILES['file']['error'][0];
-          $file->file->name = $_FILES['file']['name'][0];
-          $file->file->size = $_FILES['file']['size'][0];
-          $file->file->tmp_name = $_FILES['file']['tmp_name'][0];
-          $file->file->type = $_FILES['file']['type'][0];
-          // $file->thumbnail = $_FILES['thumbnail'];
-          return $file->save();
+        if (!empty($_POST)) {
+          $info = json_decode($_POST['info']);
         } else {
-          return false;
+          $info = null;
+        }
+        if ($info) {
+          $ds          = DIRECTORY_SEPARATOR;
+          $storeFolder = 'uploads';
+          if (!empty($_FILES)) {
+            $file = recast('Dropzone', $info);
+            $file->file = new stdClass();
+            $file->file->error = $_FILES['file']['error'][0];
+            $file->file->name = $_FILES['file']['name'][0];
+            $file->file->size = $_FILES['file']['size'][0];
+            $file->file->tmp_name = $_FILES['file']['tmp_name'][0];
+            $file->file->type = $_FILES['file']['type'][0];
+          // $file->thumbnail = $_FILES['thumbnail'];
+            return $file->save();
+          } else {
+            return false;
+          }
         }
       }
       return false;

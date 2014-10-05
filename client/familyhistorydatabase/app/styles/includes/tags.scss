@@ -25,6 +25,7 @@ tags-input.bootstrap .tags input {
   border: 1px solid #357ebd;
   border-radius: 4px;
   color: black;
+  overflow: hidden;
 }
 
 .bootstrap .tags .tag-item.selected {
@@ -47,6 +48,18 @@ tags-input.bootstrap .tags input {
 .bootstrap .autocomplete .tag-item.selected {
   color: #262626;
   background-color: #3d3d3d;
+}
+
+#globalModal .bootstrap .tags .tag-item .remove-button{
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  background: inherit !important;
+}
+
+#globalModal .bootstrap .tags .tag-item {
+  position: relative;
+  width: calc(100% - 4px);
 }
 /************************************************ 
 *************************************************/

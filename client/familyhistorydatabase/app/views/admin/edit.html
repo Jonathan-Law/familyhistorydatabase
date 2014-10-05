@@ -2,7 +2,7 @@
   <button class="btn btn-default" ng-click="goTo('admin/add')" style="margin: 10px;">Go To Add</button>
   <h2>Edit an Invididual</h2>
 
-  <input type="text" ng-model="individual" typeahead="individual as individual.typeahead for individual in getTypeahead($viewValue)" class="form-control" placeholder="Select the individual to edit" style=" width: 500px; flaot:none; display:inline-block;">
+  <input type="text" ng-model="individual" typeahead-on-select='editIndividual(individual.id)' typeahead="individual as individual.typeahead for individual in getTypeahead($viewValue)" class="form-control" placeholder="Select the individual to edit" style=" width: 500px; flaot:none; display:inline-block;">
   <br>
 
   <h2>Edit a File</h2>

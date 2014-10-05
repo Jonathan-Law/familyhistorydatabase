@@ -25,6 +25,158 @@ class Dropzone
   public $new;
   public $thumbnail;
 
+  public static function updateFile($data = NULL){
+    $file = recast('File', File::getById($data->id));
+    $file->type = isset($data->type)? $data->type: NULL;
+    $file->description = isset($data->description)? $data->description: NULL;
+    $file->author = isset($data->author)? $data->author: NULL;
+    $file->tile = isset($data->tile)? $data->tile: NULL;
+
+    if (isset($data->tags)){
+
+      if (isset($data->tags->person) && $file->tags['person'] !== NULL) {
+        foreach ($data->tags->person as $key => $tag) {
+          $check = false;
+          foreach ($file->tags['person'] as $datakey => $value) {
+            if (isset($tag->id) && isset($value->id) && $tag->id === $value->id) {
+              $check = true;
+            }
+          }
+          if (!$check) {
+            $tempTag = new Tag();
+            $tempTag->fileid = $file->id;
+            $tempTag->text = NULL;
+            $tempTag->foreignid = $tag->id;
+            $tempTag->enum = 'person';
+            $tempTag->save();
+          }
+        }
+      }
+      if (isset($data->tags->place) && $file->tags['place'] !== NULL) {
+        foreach ($data->tags->place as $key => $tag) {
+          $place = Place::getByAll($tag);
+          if ($place) {
+            $check = false;
+            foreach ($file->tags['place'] as $datakey => $value) {
+              if (isset($place->id) && isset($value->id) && $place->id === $value->id) {
+                $check = true;
+              }
+            }
+            if (!$check) {
+              $tempTag = new Tag();
+              $tempTag->fileid = $file->id;
+              $tempTag->text = NULL;
+              $tempTag->foreignid = $place->id;
+              $tempTag->enum = 'place';
+              $tempTag->save();
+            }
+          }
+          else {
+            $place = recast('Place', $tag);
+            $placeId = $place->save();
+            $tempTag = new Tag();
+            $tempTag->fileid = $file->id;
+            $tempTag->text = NULL;
+            $tempTag->foreignid = $placeId;
+            $tempTag->enum = 'place';
+            $tempTag->save();
+          }
+        }
+      }
+      if (isset($data->tags->other) && $file->tags['other'] !== NULL) {
+        foreach ($data->tags->other as $key => $tag) {
+          $check = false;
+          foreach ($file->tags['other'] as $datakey => $value) {
+            if (isset($tag->id) && isset($value->id) && $tag->id === $value->id) {
+              $check = true;
+            }
+          }
+          if (!$check) {
+            if (isset($tag->id)) {
+              $tag = recast('Tag', $tag);
+              $tag->id = NULL;
+              $tag->fileid = $file->id;
+              $tag->foreignid = NULL;
+              $tag->enum = 'other';
+            } else {
+              $text = $tag->text;
+              $tag = new Tag();
+              $tag->fileid = $file->id;
+              $tag->foreignid = NULL;
+              $tag->enum = 'other';
+              $tag->text = $text;
+            }
+            $tag->save();
+          }
+        }
+      }
+
+
+      if (isset($file->tags['person']) && $file->tags['person'] !== NULL) {
+        foreach ($file->tags['person'] as $key => $tag) {
+          $check = false;
+          foreach ($data->tags->person as $datakey => $value) {
+            if (isset($tag->id) && isset($value->id) && $tag->id === $value->id) {
+              $check = true;
+            }
+          }
+          if (!$check) {
+            $tempTag = new Tag();
+            $tempTag->fileid = $file->id;
+            $tempTag->text = NULL;
+            $tempTag->foreignid = $tag->id;
+            $tempTag->enum = 'person';
+            $temp = Tag::getTagByData($tempTag);
+            if ($temp){
+              $temp = recast('Tag', $temp);
+              $temp->delete();
+            }
+            // convert a person into a tag;
+            unset($file->tags['person'][$key]);
+          }
+        }
+      }
+      if (isset($file->tags['place']) && $file->tags['place'] !== NULL) {
+        foreach ($file->tags['place'] as $key => $tag) {
+          $check = true;
+          foreach ($data->tags->place as $datakey => $value) {
+            $place = Place::getByAll($value);
+            if ($place) {
+              if ($tag->id && $tag->id === $place->id) {
+                $check = false;
+              }
+            }
+          }
+          if ($check) {
+            $tempTag = new Tag();
+            $tempTag->fileid = $file->id;
+            $tempTag->text = NULL;
+            $tempTag->foreignid = $tag->id;
+            $tempTag->enum = 'place';
+            $temp = Tag::getTagByData($tempTag);
+            if ($temp){
+              $temp = recast('Tag', $temp);
+              $temp->delete();
+            }
+            // convert a place into a tag;
+            unset($file->tags['place'][$key]);
+          }
+        }
+      }
+      if (isset($file->tags['other']) && $file->tags['other'] !== NULL) {
+        foreach ($file->tags['other'] as $key => $tag) {
+          if(!in_array($tag, $data->tags->other, true)){
+            $temp = recast('Tag', $tag);
+            $temp->delete();
+            unset($file->tags['other'][$key]);
+          }
+        }
+      }
+    }
+    // return $file;
+    return $file->save();
+  }
+
   public function save()
   {
     return isset($this->new) ? $this->create() : $this->update();
@@ -79,20 +231,20 @@ class Dropzone
       else
       {
         $result = array();
-        if (move_uploaded_file($this->file->tmp_name, ROOT.$link))
+        if (move_uploaded_file($this->file->tmp_name, IMAGEPATH.$link))
         {
           if (($this->file->type == "image/gif") || ($this->file->type == "image/jpeg") || ($this->file->type == "image/jpg") || ($this->file->type == "image/bmp") || ($this->file->type == "image/png" ))
           {
-            $im = File::thumbnail(ROOT.$link, 75);
-            $im2 = File::thumbnail(ROOT.$link, 800);
+            $im = File::thumbnail(IMAGEPATH.$link, 75);
+            $im2 = File::thumbnail(IMAGEPATH.$link, 800);
             $view_link = UPLOAD."view/".$newname." view.".$extension;
             $temp_thumblink = UPLOAD."thumbs/".$newname." thumbnail.".$extension;
             if ($im && $im2)
             {
-              $imageMade = File::imageToFile($im, ROOT.$temp_thumblink);
+              $imageMade = File::imageToFile($im, IMAGEPATH.$temp_thumblink);
               if ($imageMade)
               {
-                $viewMade = File::imageToFile($im2, ROOT.$view_link);
+                $viewMade = File::imageToFile($im2, IMAGEPATH.$view_link);
                 if (!$viewMade)
                 {
                   unlink($link);

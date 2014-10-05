@@ -9,6 +9,8 @@ defined('ROOT')       ? null : define('ROOT', $_SERVER['DOCUMENT_ROOT'].DS.'v2'.
 defined('APIROOT')    ? null : define('APIROOT', ROOT.'api'.DS);
 defined('URL')        ? null : define('URL', 'http://'.$_SERVER['SERVER_NAME'].DS.'v2'.DS);
 defined('APIURL')     ? null : define('APIURL', URL.'api/v1'.DS);
+defined('IMAGEPATH')  ? null : define('IMAGEPATH', $_SERVER['DOCUMENT_ROOT'].DS);
+defined('IMAGEPATHURL')  ? null : define('IMAGEPATHURL', 'http://'.$_SERVER['DOCUMENT_ROOT'].DS);
 // Core Relative Paths
 defined('LIBRARY')    ? null : define('LIBRARY', APIROOT.'library'.DS);
 defined('CLASSES')    ? null : define('CLASSES', APIROOT.'classes'.DS);

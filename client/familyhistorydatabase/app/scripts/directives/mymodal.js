@@ -49,6 +49,9 @@ app.directive('myModal', ['$timeout', function ($timeout) {
     scope: {},
     template: '<div class="modal fade {{classes}}" id="{{id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> <div ng-include="header"></div> </div> <div class="modal-body"> <div ng-include src="body"></div> </div> <div ng-show="showFooter" class="modal-footer"> <div ng-include="footer"></div> </div> </div> </div </div>',
     link: function postLink(scope, element, attrs) { /*jshint unused:false*/
+      
+      scope.getTagTypeahead = scope.$parent.getTagTypeahead;
+
       scope.header = 'views/modalDefaults/header.html';
 
       scope.footer = 'views/modalDefaults/footer.html';

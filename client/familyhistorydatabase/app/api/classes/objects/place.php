@@ -10,10 +10,10 @@ class Place
 {
 
    protected static $table_name = "place";
-   protected static $db_fields = array('id', 'town', 'county', 'state', 'country', 'cemetary', 'ft_name', 'fkey');
+   protected static $db_fields = array('id', 'town', 'county', 'state', 'country', 'cemetary');
    public static function get_db_fields()
    {
-      $fields = array('id', 'town', 'county', 'state', 'country', 'cemetary', 'ft_name', 'fkey');
+      $fields = array('id', 'town', 'county', 'state', 'country', 'cemetary');
       return $fields;
    }
    public static function nameMe()
@@ -28,19 +28,6 @@ class Place
    public $state;
    public $country;
    public $cemetary;
-   public $ft_name;
-   public $fkey;
-
-
-   public static function dropByPerson($temp_id = NULL)
-   {
-      $database = cbSQLConnect::adminConnect('both');
-      if (isset($database))
-      {
-         return $database->SQLDelete('place', 'fkey', $temp_id);
-      }
-   }
-
 
    public static function dropById($temp_id = NULL)
    {
@@ -48,23 +35,6 @@ class Place
       if (isset($database))
       {
          return $database->SQLDelete('place', 'id', $temp_id);
-      }
-   }
-
-   public static function getSomething($thing, $table, $lookup)
-   {
-      $database = cbSQLConnect::connect('array');
-      if (isset($database))
-      {
-         $data = $database->QuerySingle("SELECT $thing FROM `place` WHERE `fkey`=$lookup AND `ft_name`='{$table}' ORDER BY `id` LIMIT 1");
-         if (count($data) == 0)
-         {
-            return NULL;
-         }
-         else
-         {
-            return $data[0][$thing];
-         }
       }
    }
 
@@ -103,7 +73,7 @@ class Place
 
    public static function getByAll($place)
    {
-      if ($place->town && $place->state && $place->country)
+      if ($place->town)
       {
          $database = cbSQLConnect::connect('object');
          if (isset($database))
@@ -213,8 +183,6 @@ class Place
       $init->state      = (isset($data['state']))?      $data['state'] : NULL;
       $init->country    = (isset($data['country']))?    $data['country'] : NULL;
       $init->cemetary   = (isset($data['cemetary']))?   $data['cemetary'] : NULL;
-      $init->ft_name    = (isset($data['table']))?      $data['table'] : NULL;
-      $init->fkey       = (isset($data['key']))?        $data['key'] : NULL;
 
       return $init;
    }

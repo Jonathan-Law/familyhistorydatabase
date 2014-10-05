@@ -1,12 +1,12 @@
 'use strict';
 
 app.controller('AdminEditCtrl', ['$scope', 'business', '$location', function ($scope, Business, $location) {
-  // if (!Business.user.getIsAdmin()) {
-  //   $location.path('/');
-  // }
-  // $scope.$on('$LOGOUT', function() {
-  //   $location.path('/');
-  // })
+  if (!Business.user.getIsAdmin()) {
+    $location.path('/');
+  }
+  $scope.$on('$LOGOUT', function() {
+    $location.path('/');
+  })
 
   $scope.goTo = function(path) {
     $location.search({});

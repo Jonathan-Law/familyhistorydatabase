@@ -74,6 +74,27 @@ class Tag
     }
   }
 
+  public static function getTagByData($data){
+    if (isset($data)) {
+      $database = cbSQLConnect::connect('object');
+      if (isset($database))
+      { 
+        if ($data->text === NULL){
+          $sql = "SELECT * FROM `tag` WHERE `enum`=:enum AND `fileid`=:fileid AND `foreignid`=:foreignid";
+          $params = array(':enum'=>$data->enum, ':fileid'=>$data->fileid, ':foreignid'=>$data->foreignid);
+        } else {
+          $sql = "SELECT * FROM `tag` WHERE `enum`=':enum' AND `text`=':textInput'";
+          $params = array(':enum'=>$data->enum, ':textInput'=>$data->text);
+        }
+        $results = $database->QueryForObject($sql, $params);
+        return  !empty($results)? array_shift($results) : false;
+      }
+    }
+    else {
+      return NULL;
+    }
+  }
+
   public static function getById($id = NULL)
   {
     if ($id)
