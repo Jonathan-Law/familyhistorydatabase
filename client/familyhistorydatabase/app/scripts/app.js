@@ -44,6 +44,22 @@ var app = angular
     templateUrl: 'views/admin/addfiles.html',
     controller: 'AdminAddfilesCtrl'
   })
+  .when('/admin/edit', {
+    templateUrl: 'views/admin/edit.html',
+    controller: 'AdminEditCtrl'
+  })
+  .when('/families', {
+    templateUrl: 'views/route/families.html',
+    controller: 'FamiliesCtrl'
+  })
+  .when('/lastnames', {
+    templateUrl: 'views/route/lastnames.html',
+    controller: 'LastnamesCtrl'
+  })
+  .when('/individual', {
+    templateUrl: 'views/route/individual.html',
+    controller: 'IndividualCtrl'
+  })
   .otherwise({
     redirectTo: '/'
   });
@@ -142,10 +158,43 @@ var app = angular
     return deferred.promise;
   }
 
+  $rootScope.getTagTypeaheadFiles = function(val, switchTrigger) {
+    var deferred = $q.defer();
+    if (val) {
+      if (switchTrigger && switchTrigger === 'place'){
+        Business.getLocation(val).then(function(result){
+          val = setupTagVal(result);
+          Business.file.getTypeahead(val, switchTrigger).then(function(result){
+            if (result && result.length > 0) {
+              deferred.resolve(result);
+            } else {
+              deferred.reject(false);
+            }
+          });
+        })
+      } else {
+        Business.file.getTypeahead(val, switchTrigger).then(function(result){
+          if (result && result.length > 0) {
+            deferred.resolve(result);
+          } else {
+            deferred.reject(false);
+          }
+        });
+      }
+    } else {
+      deferred.reject('Your target switch trigger doesn\'t exist');
+    }
+    return deferred.promise;
+  }
+
   $rootScope.editIndividual = function(id) {
+    var title = 'Edit This Individual';
+    if (!id) {
+      title = 'Add an Individual';
+    }
     var content = '<edit-individual id="'+id+'"></edit-individual>';
     var body = {
-      'modalTitle': 'Add an Individual',
+      'modalTitle': title,
       'modalBodyContent': content,
       'showFooter': false,
       'classes': [
@@ -154,6 +203,23 @@ var app = angular
       ]
     }
     $rootScope.$broadcast('$triggerModal', body);
+  }
+
+  $rootScope.editFile = function(id) {
+    if (id) {
+      var title = 'Edit This File';
+      var content = '<edit-file id="'+id+'"></edit-file>';
+      var body = {
+        'modalTitle': title,
+        'modalBodyContent': content,
+        'showFooter': false,
+        'classes': [
+        'fullmodal',
+        'darkTheme'
+        ]
+      }
+      $rootScope.$broadcast('$triggerModal', body);
+    }
   }
 
 

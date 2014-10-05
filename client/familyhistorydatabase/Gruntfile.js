@@ -184,8 +184,8 @@ module.exports = function (grunt) {
         importPath: './bower_components',
         httpImagesPath: '/images',
         httpGeneratedImagesPath: '/images/generated',
-        fontsDir: grunt.option('appPath')? grunt.option('appPath') + '/fonts' : '<%= yeoman.app %>/fonts',
-        httpFontsPath: grunt.option('appPath')? grunt.option('appPath') + '/fonts' : '/fonts',
+        fontsDir: '<%= yeoman.app %>/fonts',
+        httpFontsPath: 'fonts',
         relativeAssets: false,
         assetCacheBuster: false,
         raw: 'Sass::Script::Number.precision = 10\n'
@@ -207,7 +207,7 @@ module.exports = function (grunt) {
       dist: {
         src: [
           '<%= yeoman.dist %>/scripts/{,*/}*.js',
-          '<%= yeoman.dist %>/styles/{,*/}*.css',
+          // '<%= yeoman.dist %>/styles/{,*/}*.css',
           // '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
           '<%= yeoman.dist %>/fonts/*'
         ]
@@ -343,12 +343,16 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*',
-            'fonts/*',
             'styles/bootstrap-additions.min.css',
             'scripts/common/hoverdirModernizr.js',
             'scripts/common/dropzone.js'
           ]
-        }, {
+        },{
+          expand: true,
+          cwd: '<%= yeoman.app %>/fonts',
+          dest: '<%= yeoman.dist %>/styles/fonts',
+          src: '{,*/}*'
+        },{
           expand: true,
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',

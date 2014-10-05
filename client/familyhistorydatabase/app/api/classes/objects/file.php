@@ -98,6 +98,30 @@ class File
       }
    }
 
+
+   public static function getByTagType($val, $type = NULL){
+      $database = cbSQLConnect::connect('object');
+      if (isset($database)){
+         if ($type !== NULL && $type === 'person'){
+            $query = "SELECT * FROM `file` WHERE `id` IN (SELECT `fileid` FROM `tag` WHERE `foreignid` IN (SELECT `id` FROM `person` WHERE MATCH(`firstName`, `middleName`, `lastName`) AGAINST('".$val."' IN BOOLEAN MODE))) LIMIT 0, 10";
+         } else if ($type !== NULL && $type === 'place'){
+            $place = Place::getByAll($val);
+            if ($place){
+               $query = "SELECT * FROM `file` WHERE `id` IN (SELECT `fileid` FROM `tag` WHERE `foreignid` IN (SELECT `id` FROM `place` WHERE `id`=".$place->id.")) LIMIT 0, 10";
+            } else {
+               $query = "SELECT *, MATCH(title, author, comments) AGAINST('".$val."' IN BOOLEAN MODE) AS score FROM `file` WHERE MATCH(title, author, comments) AGAINST('".$val."' IN BOOLEAN MODE) ORDER BY score DESC LIMIT 0, 10";
+            }
+         } else if ($type !== NULL && $type === 'collection'){
+            $query = "SELECT * FROM `file` WHERE `id` IN (SELECT `fileid` FROM `tag` WHERE MATCH(`text`) AGAINST('".$val."' IN BOOLEAN MODE)) LIMIT 0, 10";
+         } else {
+            $query = "SELECT *, MATCH(title, author, comments) AGAINST('".$val."' IN BOOLEAN MODE) AS score FROM `file` WHERE MATCH(title, author, comments) AGAINST('".$val."' IN BOOLEAN MODE) ORDER BY score DESC LIMIT 0, 10";
+         }
+         return $database->QuerySingle($query);
+      }
+      return false;
+   }
+
+
    public static function getById($id = NULL)
    {
       if ($id)
@@ -106,7 +130,13 @@ class File
          if (isset($database))
          {
             $name = self::$table_name;
-            return $database->getObjectById($name, $id);
+            $file = $database->getObjectById($name, $id);
+            if ($file) {
+               $file->tags = Tag::getByFileId($id);
+               return $file;
+            } else {
+               return false;
+            }
          }
       }
       else

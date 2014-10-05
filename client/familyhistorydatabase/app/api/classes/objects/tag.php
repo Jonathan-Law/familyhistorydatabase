@@ -90,6 +90,45 @@ class Tag
     }
   }
 
+  public static function getByFileId($id = NULL)
+  {
+    if ($id)
+    {
+      $database = cbSQLConnect::connect('object');
+      if (isset($database))
+      {
+        $query = "SELECT * FROM `tag` WHERE `fileid`=".$id;
+        $result = $database->QuerySingle($query);
+        $tags = array();
+        $tags['person'] = array();
+        $tags['place'] = array();
+        $tags['other'] = array();
+        foreach ($result as $tag) {
+          if ($tag->enum === 'person') {
+            $tempPerson = Person::getById($tag->foreignid);
+            if ($tempPerson) {
+              $tempPerson->text = $tempPerson->selectName()." (".$tempPerson->yearBorn.")";
+              $tags['person'][] = $tempPerson;
+            }
+          } else if ($tag->enum === 'place') {
+            $place = Place::getById($tag->foreignid);
+            if ($place) {
+              $place = recast('Place', $place);
+              $place->text = $place->getTypeaheadName();
+              $tags['place'][] = $place;
+            }
+          } else {
+            $tags['other'][] = $tag;
+          }
+        }
+        return $tags;
+      }
+    }
+    else {
+      return NULL;
+    }
+  }
+
   public function save()
   {
     return isset($this->id) ? $this->update() : $this->create();

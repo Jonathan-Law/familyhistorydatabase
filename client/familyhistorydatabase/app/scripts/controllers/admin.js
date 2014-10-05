@@ -9,9 +9,13 @@ app.controller('AdminCtrl', ['$scope', 'business', '$location', function ($scope
     $location.path('/');
   })
   
-  $scope.tools = [{'name': 'Add people or files', 'route': 'admin/add'}];
+  $scope.tools = [
+  {'name': 'Add people or files', 'route': 'admin/add'},
+  {'name': 'Edit people or files', 'route': 'admin/edit'},
+  ];
   
   $scope.goToTool = function(tool){
+    $location.search({});
     $location.path(tool.route);
   }
 

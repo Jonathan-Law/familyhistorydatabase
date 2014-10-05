@@ -57,7 +57,7 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$locat
   $rootScope.$watch('user', function() {
     $scope.user = $rootScope.user;
     if ($scope.user) {
-      console.log('$scope.user', $scope.user);
+      // console.log('$scope.user', $scope.user);
       
       $scope.loggedIn = true;
       if (Business.user.getIsAdmin()){
@@ -83,12 +83,13 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$locat
   };
 
   $scope.goTo = function(location) {
+    $location.search({});
     $location.path(location);
   }
 
   $scope.checkLogin().then(function(response){
     if (response) {
-      console.log('response', response);
+      // console.log('response', response);
       
       $scope.loggedIn = true;
       $scope.user = response;

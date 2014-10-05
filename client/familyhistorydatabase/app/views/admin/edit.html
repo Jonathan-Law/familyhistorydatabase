@@ -1,0 +1,34 @@
+<div style="text-align:center">
+  <button class="btn btn-default" ng-click="goTo('admin/add')" style="margin: 10px;">Go To Add</button>
+  <h2>Edit an Invididual</h2>
+
+  <input type="text" ng-model="individual" typeahead="individual as individual.typeahead for individual in getTypeahead($viewValue)" class="form-control" placeholder="Select the individual to edit" style=" width: 500px; flaot:none; display:inline-block;">
+  <br>
+
+  <h2>Edit a File</h2>
+
+  <label for="selecType">Select a search type to find your file to edit: </label>&nbsp;<select id="selecType" ng-model="fileSearchType" ng-options="type.name for type in searchTypes" class="form-control" style="width: auto; display:inline-block;"></select>
+  <div ng-switch="fileSearchType.value">
+
+    <div ng-switch-when="person">
+      <input type="text" ng-model="file" typeahead-on-select='editFile(file.id)' typeahead="file as file.typeahead for file in getTagTypeaheadFiles($viewValue, 'person')" class="form-control" placeholder="Search for file by person tag" style=" width: 500px; flaot:none; display:inline-block;">
+      <br>
+    </div>
+
+    <div ng-switch-when="place">
+      <input type="text" ng-model="file" typeahead-on-select='editFile(file.id)' typeahead="file as file.typeahead for file in getTagTypeaheadFiles($viewValue, 'place')" class="form-control" placeholder="Search for file by place tag" style=" width: 500px; flaot:none; display:inline-block;">
+      <br>
+    </div>
+
+    <div ng-switch-when="collection">
+      <input type="text" ng-model="file" typeahead-on-select='editFile(file.id)' typeahead="file as file.typeahead for file in getTagTypeaheadFiles($viewValue, 'collection')" class="form-control" placeholder="Search for file by collection tag" style=" width: 500px; flaot:none; display:inline-block;">
+      <br>
+    </div>
+
+    <div ng-switch-default>
+      <input type="text" ng-model="file" typeahead-on-select='editFile(file.id)' typeahead="file as file.typeahead for file in getTagTypeaheadFiles($viewValue)" class="form-control" placeholder="Search for file by name and description" style=" width: 500px; flaot:none; display:inline-block;">
+      <br>
+    </div>
+  </div>
+
+</div>

@@ -230,7 +230,7 @@ class MyAPI extends API
           $place = Place::getById($placeId);
           return $place;
         }
-      } 
+      }
     }
     return false;
   }
@@ -261,6 +261,28 @@ class MyAPI extends API
         }
       }
       return false;
+    }
+    if ($this->method === 'GET') {
+      if ($this->verb === 'getTypeahead'){
+        $type = isset($args[1])? $args[1]: NULL;
+        $val = $args[0]; 
+        if ($val === 'object' && $type === 'place'){
+          $val = json_decode($_GET['place']);
+          if (isset($val) && !empty($val)) {
+            $val = $val[0];
+          }
+        }
+        return File::getByTagType($val, $type);
+        return $type;
+      } else if ($this->verb === "") {
+        // Get all edit information required for file edits.
+        $id = intval($args[0]);
+        if (isset($id) && is_numeric($id)){
+          $file = File::getById($id);
+          return $file;
+        }
+        return false;
+      }
     }
     return false;
   }

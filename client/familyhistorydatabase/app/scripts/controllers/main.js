@@ -7,7 +7,7 @@
 * # MainCtrl
 * Controller of the familyhistorydatabaseApp
 */
-app.controller('MainCtrl', ['$scope', 'business', function ($scope, Business) {
+app.controller('MainCtrl', ['$scope', 'business', '$location', function ($scope, Business, $location) {
 
   var convertDate = function (v) {
     var d = v? new Date(v): new Date();
@@ -27,7 +27,10 @@ app.controller('MainCtrl', ['$scope', 'business', function ($scope, Business) {
   }
 
   $scope.clicked = function(letter) {
-    // go to letter page
+    $location.search({
+      'letter': letter
+    })
+    $location.path('/families');
   }
 
   $scope.dropzoneConfig = {

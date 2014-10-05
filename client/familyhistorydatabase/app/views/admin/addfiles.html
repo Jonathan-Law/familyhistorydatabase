@@ -1,4 +1,6 @@
 <div style="text-align: center; margin: 10px;">
+  <button class="btn btn-default" ng-click="goTo('admin/edit')" style="margin: 0px 10px 10px 10px;">Go To Edit</button>
+  <br>
   <button class="btn btn-primary" ng-show="mass === false" ng-click="mass = !mass">Switch To <strong>Mass</strong> Upload Mode</button>
   <button class="btn btn-primary" ng-show="mass === true" ng-click="mass = !mass">Switch To <strong>Normal</strong> Upload Mode</button>
   <button class="btn btn-primary" ng-click="editIndividual()"> Add an individual&nbsp;<i class="fa fa-user"></i> </button>

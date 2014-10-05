@@ -122,6 +122,14 @@ class Place
       }
    }
 
+   public function getTypeaheadName(){
+      $name = $this->town;
+      $name .= $this->county? ", ".$this->county: '';
+      $name .= $this->state? ", ".$this->state: '';
+      $name .= $this->country? ", ".$this->country: '';
+      return $name;
+   }
+
    public function save()
    {
       // return $this->id;

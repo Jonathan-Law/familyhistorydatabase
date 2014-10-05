@@ -169,12 +169,18 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/controllers/individual/addindividual.js"></script>
   <script type="text/javascript" src="scripts/controllers/admin.js"></script>
   <script type="text/javascript" src="scripts/controllers/admin/addfiles.js"></script>
+  <script type="text/javascript" src="scripts/controllers/admin/edit.js"></script>
+  <script type="text/javascript" src="scripts/controllers/route/families.js"></script>
+  <script type="text/javascript" src="scripts/controllers/route/lastnames.js"></script>
+  <script type="text/javascript" src="scripts/controllers/route/individual.js"></script>
+  <script type="text/javascript" src="scripts/controllers/files/editfile.js"></script>
 
   <script type="text/javascript" src="scripts/services/localcache.js"></script>
   <script type="text/javascript" src="scripts/services/business.js"></script>
   <script type="text/javascript" src="scripts/services/userservice.js"></script>
   <script type="text/javascript" src="scripts/services/authservice.js"></script>
   <script type="text/javascript" src="scripts/services/individualservice.js"></script>
+  <script type="text/javascript" src="scripts/services/fileservice.js"></script>
 
   <script type="text/javascript" src="scripts/directives/individual.js"></script>
   <script type="text/javascript" src="scripts/directives/enterevent.js"></script>
@@ -187,6 +193,7 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/directives/spouse.js"></script>
   <script type="text/javascript" src="scripts/directives/dropzone.js"></script>
   <script type="text/javascript" src="scripts/directives/massdropzone.js"></script>
+  <script type="text/javascript" src="scripts/directives/files/editfile.js"></script>
 
   <script type="text/javascript" src="scripts/common/sessionpolyfill.js"></script>
   <script type="text/javascript" src="scripts/common/common.js"></script>
