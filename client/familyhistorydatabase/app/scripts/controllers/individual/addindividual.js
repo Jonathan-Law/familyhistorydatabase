@@ -40,7 +40,7 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
       return null;
     }
   }
-
+  $scope.backup = false;
   $scope.result = {};
   $scope.$parent.$watch('person', function(person){
     if (person) {
@@ -76,7 +76,9 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
 
 
   $scope.$watch('person', function(person){
+    
     if (person) {
+      $scope.backup = person;      
       var date = null;
       if (person.birth) {
         date = makeDate(person.birth);
@@ -166,8 +168,6 @@ $scope.$watch(function(){
 }, function() {
   $scope.biHasChanged++;
   $timeout(function() {
-    console.log('$scope.birthDate', $scope.result.birthDate);
-    
     var d = checkDate($scope.result.birthDate);
     if (d) {
       $scope.minDeath = convertDate(d);
@@ -408,8 +408,14 @@ $scope.onSelectParent = function(item, model, something) {
     console.log('data', data);
     Business.individual.updateIndData(data).then(function(result){
       if (result) {
-        console.log('************Result************', result);
+        // console.log('************Result************', result);
         
+        if (!$scope.backup) {
+          $scope.$broadcast('$RESETFORM');
+          $scope.result.parentList = [];
+          $scope.result.spouseList = [];
+          $scope.result = {};
+        }
         triggerAlert('Your individual\'s data was saved!!', 'addIndividual', '#globalModal', 5000);        
       }
     })

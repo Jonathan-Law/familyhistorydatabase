@@ -4,5 +4,5 @@ app.controller('FamiliesCtrl', ['$scope', '$location', 'business', function ($sc
   $scope.letter;
   if ($location.search()){
     $scope.letter = $location.search().letter? $location.search().letter: 'a';
-  }
+  }  
 }]);

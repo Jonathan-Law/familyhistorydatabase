@@ -1,2 +1,38 @@
-<p>This is the families view.</p>
-<p ng-bind="letter" style="font-size: 100px; margin-left: 20px;"></p>
+<catchkey letter="letter"></catchkey>
+<div class="text-center">
+  <h2>Select a family</h2>
+</div>
+<div class="greenlink little text-center" id="minilinks">
+  <span><a href="javascript:void(0);" ng-click="letter='a'">&nbsp;&nbsp;A&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='b'">&nbsp;&nbsp;B&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='c'">&nbsp;&nbsp;C&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='d'">&nbsp;&nbsp;D&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='e'">&nbsp;&nbsp;E&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='f'">&nbsp;&nbsp;F&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='g'">&nbsp;&nbsp;G&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='h'">&nbsp;&nbsp;H&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='i'">&nbsp;&nbsp;I&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='j'">&nbsp;&nbsp;J&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='k'">&nbsp;&nbsp;K&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='l'">&nbsp;&nbsp;L&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='m'">&nbsp;&nbsp;M&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='n'">&nbsp;&nbsp;N&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='o'">&nbsp;&nbsp;O&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='p'">&nbsp;&nbsp;P&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='q'">&nbsp;&nbsp;Q&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='r'">&nbsp;&nbsp;R&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='s'">&nbsp;&nbsp;S&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='t'">&nbsp;&nbsp;T&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='u'">&nbsp;&nbsp;U&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='v'">&nbsp;&nbsp;V&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='w'">&nbsp;&nbsp;W&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='x'">&nbsp;&nbsp;X&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='y'">&nbsp;&nbsp;Y&nbsp;&nbsp;</a></span>
+  <span><a href="javascript:void(0);" ng-click="letter='z'">&nbsp;&nbsp;Z&nbsp;&nbsp;</a></span>
+  <!-- <span><a href="javascript:void(0);" ng-click="letter='0'">&nbsp;&nbsp;#&nbsp;&nbsp;</a></span> -->
+</div>
+<hr>
+<!-- <p ng-bind="letter" style="font-size: 100px; margin-left: 20px;"></p> -->
+<div>
+  <a href="javacript:void(0);" ng-click="goTo(name)" ng-repeat="name in families">{{name.label}}</a>
+</div>

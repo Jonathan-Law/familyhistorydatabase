@@ -17,6 +17,11 @@ app.directive('place', ['business', '$timeout', function (Business, $timeout) {
     templateUrl: 'views/place/default.html',
     restrict: 'E',
     link: function postLink(scope, element, attrs) {
+      
+      scope.$on('$RESETFORM', function(){
+        scope.tempNgModel = '';
+      })
+
       scope.tempNgModel;
       scope.placeId = 'place_' + uniqueId++;
       scope.$watch('ngModel', function() {

@@ -3684,9 +3684,12 @@ resetMatches();
 
       //bind keyboard events: arrows up(38) / down(40), enter(13) and tab(9), esc(27)
       element.bind('keydown', function (evt) {
+        if (evt.which === 9) {
+          return;
+        }
         //typeahead is open and an "interesting" key was pressed
         if (scope.matches.length === 0 || HOT_KEYS.indexOf(evt.which) === -1) {
-          if (evt.which === 13 || evt.which === 9) {
+          if (evt.which === 13/* || evt.which === 9*/) {
             scope.$apply(function () {
               scope.select(scope.activeIdx);
             });
@@ -3704,7 +3707,7 @@ resetMatches();
           scope.activeIdx = (scope.activeIdx ? scope.activeIdx : scope.matches.length) - 1;
           scope.$digest();
 
-        } else if (evt.which === 13 || evt.which === 9) {
+        } else if (evt.which === 13 /*|| evt.which === 9*/) {
           scope.$apply(function () {
             scope.select(scope.activeIdx);
           });

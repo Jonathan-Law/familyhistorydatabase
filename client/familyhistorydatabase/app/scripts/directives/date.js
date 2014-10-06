@@ -30,10 +30,14 @@ app.directive('date',['$timeout', function ($timeout) {
     templateUrl: getTemplate,
     restrict: 'E',
     controller: ['$scope', function($scope){
-      $scope.exact = false;
+      $scope.exact = true;
       $scope.date = {};
     }],
     link: function postLink(scope, element, attrs) {
+
+      scope.$on('$RESETFORM', function() {
+        scope.date.dateValue = '';
+      })
 
       scope.id = 'date_' + uniqueId++;
       scope.placeHolderText = '(1-31-1700)';
@@ -52,8 +56,7 @@ app.directive('date',['$timeout', function ($timeout) {
         return scope.date.dateValue? scope.date.dateValue: scope.date.dateValue !== undefined;
       }, function(){
         scope.ngModel = scope.date.dateValue;
-      })
-
+      });
 
 
       var convertDate = function (v) {
@@ -87,7 +90,7 @@ app.directive('date',['$timeout', function ($timeout) {
         var d = checkDate(scope.ngModel);
         if (d) {
           scope.date.dateValue = scope.ngModel;
-        }
+        } 
       }, true);
 
 

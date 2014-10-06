@@ -51,12 +51,12 @@ $session = mySession::getInstance();
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.min.css" />
   <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
-  <link rel="stylesheet" href="bower_components/ng-tags-input/ng-tags-input.min.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
+  <link rel="stylesheet" type="text/css" href="styles/ng-tags-input.min.css" />
   <link rel="stylesheet" type="text/css" href="styles/bootstrap-additions.min.css">
   <link href='http://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
 </head>
@@ -153,7 +153,6 @@ $session = mySession::getInstance();
   <script src="bower_components/angulartics/src/angulartics-woopra.js"></script>
   <script src="bower_components/angulartics/src/angulartics-marketo.js"></script>
   <script src="bower_components/lodash/dist/lodash.compat.js"></script>
-  <script src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -194,6 +193,7 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/directives/dropzone.js"></script>
   <script type="text/javascript" src="scripts/directives/massdropzone.js"></script>
   <script type="text/javascript" src="scripts/directives/files/editfile.js"></script>
+  <script type="text/javascript" src="scripts/directives/individual/catchkey.js"></script>
 
   <script type="text/javascript" src="scripts/common/sessionpolyfill.js"></script>
   <script type="text/javascript" src="scripts/common/common.js"></script>
@@ -203,6 +203,7 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/common/angular-strap.js"></script>
   <script type="text/javascript" src="scripts/common/angular-strap.tpl.js"></script>
   <script type="text/javascript" src="scripts/common/ui-bootstrap-tpls.js"></script>
+  <script type="text/javascript" src="scripts/common/ng-tags-input.js"></script>
   <!-- endbuild -->
 
 </body>

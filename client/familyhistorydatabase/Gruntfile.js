@@ -344,6 +344,7 @@ module.exports = function (grunt) {
             'views/{,*/}*.html',
             'images/{,*/}*',
             'styles/bootstrap-additions.min.css',
+            'styles/ng-tags-input.min.css',
             'scripts/common/hoverdirModernizr.js',
             'scripts/common/dropzone.js'
           ]
