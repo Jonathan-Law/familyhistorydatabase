@@ -40,7 +40,7 @@
   <div ng-if="names.length > 0 && names.length <= 15" ng-cloak >
     <div style="display:inline-block; text-align:left; border-top: 1px solid lightgray;">
       <span  ng-repeat="name in names track by $index" >
-        <a href="javascript:void(0);" ng-click="goToFamily(name)">
+        <a href="javascript:void(0);" ng-click="goToIndividual(name.id)">
           <span class="overflow-pair-right">
             ({{name.yearBorn}})
           </span>
@@ -57,7 +57,7 @@
       <span  ng-repeat="row in names | partition:2 track by $index " >
         <span ng-if="row.length === 2" ng-repeat="name in row track by $index">
           <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
-            <a href="javascript:void(0);" ng-click="goToFamily(name)">
+            <a href="javascript:void(0);" ng-click="goToIndividual(name.id)">
               <span class="overflow-pair-right">
                 ({{name.yearBorn}})
               </span>
@@ -69,7 +69,7 @@
         </span>
         <span ng-if="row.length === 1">
           <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
-            <a href="javascript:void(0);" ng-click="goToFamily(row[0])">
+            <a href="javascript:void(0);" ng-click="goToIndividual(row[0].id)">
               <span class="overflow-pair-right">
                 ({{name.yearBorn}})
               </span>
@@ -91,7 +91,7 @@
       <span  ng-repeat="row in names | partition:3 track by $index " >
         <span ng-if="row.length === 3" ng-repeat="name in row track by $index">
           <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
-            <a href="javascript:void(0);" ng-click="goToFamily(name)">
+            <a href="javascript:void(0);" ng-click="goToIndividual(name.id)">
               <span class="overflow-pair-right">
                 ({{name.yearBorn}})
               </span>
@@ -104,7 +104,7 @@
         <span ng-if="row.length === 2">
           <span ng-if="row.length === 3" ng-repeat="name in row track by $index">
             <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
-              <a href="javascript:void(0);" style="padding: 0px 20px 0px 20px;" ng-click="goToFamily(name)">
+              <a href="javascript:void(0);" style="padding: 0px 20px 0px 20px;" ng-click="goToIndividual(name.id)">
                 <span class="overflow-pair-right">
                   ({{name.yearBorn}})
                 </span>
@@ -120,7 +120,7 @@
         </span>
         <span ng-if="row.length === 1">
           <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
-            <a href="javascript:void(0);" ng-click="goToFamily(row[0])">
+            <a href="javascript:void(0);" ng-click="goToIndividual(row[0].id)">
               <span class="overflow-pair-right">
                 ({{name.yearBorn}})
               </span>

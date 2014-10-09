@@ -198,6 +198,7 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/filters/partition.js"></script>
 
   <script type="text/javascript" src="scripts/common/sessionpolyfill.js"></script>
+  <script type="text/javascript" src="scripts/common/angular-pageslide-directive.js"></script>
   <script type="text/javascript" src="scripts/common/common.js"></script>
   <script type="text/javascript" src="scripts/common/jquery.event.frame.js"></script>
   <script type="text/javascript" src="scripts/common/jquery.parallax.js"></script>

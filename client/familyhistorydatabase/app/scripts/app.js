@@ -24,7 +24,8 @@ var app = angular
   'mgcrea.ngStrap.helpers.dateParser',
   'mgcrea.ngStrap.tooltip',
   'angulartics.google.analytics',
-  'ngTagsInput'
+  'ngTagsInput',
+  'pageslide-directive'
   ])
 .config(['$routeProvider', '$asideProvider', '$httpProvider', function ($routeProvider, $asideProvider, $httpProvider) {
   $routeProvider
