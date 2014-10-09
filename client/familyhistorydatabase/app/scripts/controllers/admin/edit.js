@@ -24,4 +24,13 @@ app.controller('AdminEditCtrl', ['$scope', 'business', '$location', function ($s
   $scope.individual;
   $scope.file;
 
+  $scope.deleteInd = function(ind){
+    var cont = confirm("Delete this individual?\n"+ind.typeahead+"\nIndividual ID: "+ind.id);
+    if (cont) {
+      Business.individual.deleteInd(ind.id).then(function(result){
+        console.log('result', result);
+      });
+    }
+  }
+
 }]);

@@ -296,39 +296,134 @@ class MyAPI extends API
   protected function individual($args) {
     $session = mySession::getInstance();
     if ($this->method === 'GET') {
-      $id = intval(array_shift($args));
-      if ($id && is_numeric($id)) {
-        $session = mySession::getInstance();
-        if ($id > -1) {
-          $person = Person::getById($id);
-          if ($person) {
-            $person->appendNames();
-            $person->birth = Birth::getById($id);
-            if ($person->birth) {
-              $person->birth->birthPlace = Place::getById($person->birth->place);
+      if ($this->verb === ''){
+        $id = intval(array_shift($args));
+        if ($id && is_numeric($id)) {
+          $session = mySession::getInstance();
+          if ($id > -1) {
+            $person = Person::getById($id);
+            if ($person) {
+              $person->appendNames();
+              $person->birth = Birth::getById($id);
+              if ($person->birth) {
+                $person->birth->birthPlace = Place::getById($person->birth->place);
+              }
+              $person->death = Death::getById($id);
+              if ($person->death) {
+                $person->death->deathPlace = Place::getById($person->death->place);
+              }
+              $person->burial = Burial::getById($id);
+              if ($person->burial) {
+                $person->burial->burialPlace = Place::getById($person->burial->place);
+              }
+              $person->parents = Parents::getParentsOf($id);
+              $person->children = Parents::getChildrenOf($id);
+              $person->spouse = Spouse::getById($id);
+              return $person;
+            } else {
+              return false;
             }
-            $person->death = Death::getById($id);
-            if ($person->death) {
-              $person->death->deathPlace = Place::getById($person->death->place);
-            }
-            $person->burial = Burial::getById($id);
-            if ($person->burial) {
-              $person->burial->burialPlace = Place::getById($person->burial->place);
-            }
-            $person->parents = Parents::getParentsOf($id);
-            $person->children = Parents::getChildrenOf($id);
-            $person->spouse = Spouse::getById($id);
-            return $person;
           } else {
             return false;
           }
-        } else {
-          return false;
         }
+      } else if ($this->verb === 'families') {
+        if (!empty($args)) {
+          $letter = array_shift($args);
+        } else {
+          $letter = 'a';
+        }
+        $names = array();
+        $families = Person::getLastNames($letter);
+        if ($families) {
+          foreach ($families as $key) {
+            $names[] = $key['lastName'];
+          }
+        }
+        return $names;
+      } else if ($this->verb === 'familyNames') {
+        if (!empty($args)) {
+          $lastName = array_shift($args);
+        } else {
+          $lastName = 'Law';
+        }
+        $names = array();
+        $familyNames = Person::getFirstNames($lastName);
+        if ($familyNames) {
+          foreach ($familyNames as $key) {
+            $key = recast('Person', arrayToObject($key));
+            $key->appendNames();
+            $names[] = $key;
+          }
+        }
+        return $names;
       }
       // } else {
       // return false;
       // }
+    } else if (($this->method === 'DELETE') && $session->isLoggedIn()&& $session->isAdmin()){
+    // } else if ($this->method === 'DELETE'){
+      $id = intval($args[0]);
+      if (is_numeric($id)){
+        $person = Person::getById($id);
+        if ($person) {
+          $birth = Birth::getById($id);
+          if ($birth) {
+            $birth = recast('Birth', $birth);
+            $birth->delete();//delete
+          }
+          $death = Death::getById($id);
+          if ($death) {
+            $death = recast('Death', $death);
+            $death->delete();//delete
+          }
+          $burial = Burial::getById($id);
+          if ($burial) {
+            $burial = recast('Burial', $burial);
+            $burial->delete();//delete
+          }
+          $parents = Parents::getParentsOf($id);
+          if ($parents) {
+            foreach ($parents as $parent) {
+              $parent = recast('Parents', $parent);
+              $parent->delete();//delete $parent
+            }
+          }
+          $children = Parents::getChildrenOf($id);
+          if ($children) {
+            foreach ($children as $child) {
+              $child = recast('Parents', $child);
+              $child->delete();//delete $child
+            }
+          }
+          $mySpouse = Spouse::getById($id);
+          if ($mySpouse) {
+            foreach ($mySpouse as $spouse) {
+              $spouse = recast('Spouse', $spouse);
+              $theirSpouse = Spouse::getById($spouse->personId);
+              if ($theirSpouse) {
+                foreach ($theirSpouse as $otherSpouse) {
+                  $otherSpouse = recast('Spouse', $otherSpouse);
+                  $otherSpouse->delete();//delete $otherSpouse
+                }
+              }
+              $spouse->delete();//delete $spouse
+            }
+          }
+          $tags = Tag::getByIndId($id);
+          if ($tags) {
+            foreach ($tags as $tag) {
+              $tag = recast('Tag', $tag);
+              $tag->delete();
+            }
+          }
+          $person->delete();
+          return true;
+        } else {
+          return true;
+        }
+      }
+      return false;
     } else if (($this->method === 'POST' || $this->method === 'PUT') && $session->isLoggedIn()&& $session->isAdmin()){
       $result = $this->file;
       if (empty($result) || empty($result->person) || empty($result->birth) || empty($result->death)) {

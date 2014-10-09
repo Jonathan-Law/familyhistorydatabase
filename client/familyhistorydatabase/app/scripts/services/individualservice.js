@@ -122,5 +122,50 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     return deferred.promise;
   };
 
+  service.deleteInd = function(id) {
+    var deferred = $q.defer();
+    if (id) {
+      $http({
+        method: 'DELETE',
+        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/'+id
+      }).success(function(data, status, headers, config){
+        deferred.resolve(data);
+      }).error (function(data, status, headers, config){
+        deferred.reject('There was an error on the server.')
+      })
+    }
+    return deferred.promise;
+  }
+  
+  service.getFamilies = function(letter) {
+    var deferred = $q.defer();
+    if (letter) {
+      $http({
+        method: 'GET',
+        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/families/'+letter
+      }).success(function(data, status, headers, config){
+        deferred.resolve(data);
+      }).error (function(data, status, headers, config){
+        deferred.reject('There was an error on the server.')
+      })
+    }
+    return deferred.promise;
+  }
+
+  service.getFirstNames = function(family) {
+    var deferred = $q.defer();
+    if (family) {
+      $http({
+        method: 'GET',
+        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/familyNames/'+family
+      }).success(function(data, status, headers, config){
+        deferred.resolve(data);
+      }).error (function(data, status, headers, config){
+        deferred.reject('There was an error on the server.')
+      })
+    }
+    return deferred.promise;
+  }
+
   return service;
 }]);

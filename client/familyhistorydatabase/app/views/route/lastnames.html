@@ -1,1 +1,143 @@
-<p>This is the lastnames view.</p>
+<catchkey letter="letter" give-focus="false"  show-input="false"></catchkey>
+<div>
+  <div class="text-center">
+    <h2>Select an Individual</h2>
+  </div>
+  <div class="greenlink little text-center" id="minilinks">
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('a')">&nbsp;&nbsp;A&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('b')">&nbsp;&nbsp;B&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('c')">&nbsp;&nbsp;C&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('d')">&nbsp;&nbsp;D&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('e')">&nbsp;&nbsp;E&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('f')">&nbsp;&nbsp;F&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('g')">&nbsp;&nbsp;G&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('h')">&nbsp;&nbsp;H&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('i')">&nbsp;&nbsp;I&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('j')">&nbsp;&nbsp;J&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('k')">&nbsp;&nbsp;K&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('l')">&nbsp;&nbsp;L&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('m')">&nbsp;&nbsp;M&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('n')">&nbsp;&nbsp;N&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('o')">&nbsp;&nbsp;O&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('p')">&nbsp;&nbsp;P&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('q')">&nbsp;&nbsp;Q&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('r')">&nbsp;&nbsp;R&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('s')">&nbsp;&nbsp;S&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('t')">&nbsp;&nbsp;T&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('u')">&nbsp;&nbsp;U&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('v')">&nbsp;&nbsp;V&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('w')">&nbsp;&nbsp;W&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('x')">&nbsp;&nbsp;X&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('y')">&nbsp;&nbsp;Y&nbsp;&nbsp;</a></span>
+    <span><a href="javascript:void(0);" ng-click="goBackToLetter('z')">&nbsp;&nbsp;Z&nbsp;&nbsp;</a></span>
+    <!-- <span><a href="javascript:void(0);" ng-click="letter='0'">&nbsp;&nbsp;#&nbsp;&nbsp;</a></span> -->
+  </div>
+  <hr>
+</div>
+<div style="text-align:center">
+  <p ng-bind="family" style="font-size: 100px;"></p>
+  <!-- Add typeahead here? -->
+  <div ng-if="names.length > 0 && names.length <= 15" ng-cloak >
+    <div style="display:inline-block; text-align:left; border-top: 1px solid lightgray;">
+      <span  ng-repeat="name in names track by $index" >
+        <a href="javascript:void(0);" ng-click="goToFamily(name)">
+          <span class="overflow-pair-right">
+            ({{name.yearBorn}})
+          </span>
+          <span class="overflow-pair-left">
+            {{name.displayableName}}
+          </span>
+        </a>
+        <br>
+      </span>
+    </div>
+  </div>
+  <div ng-if="names.length > 15 && names.length <= 30" ng-cloak >
+    <div style="display:inline-block; text-align:left; border-top: 1px solid lightgray;">
+      <span  ng-repeat="row in names | partition:2 track by $index " >
+        <span ng-if="row.length === 2" ng-repeat="name in row track by $index">
+          <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
+            <a href="javascript:void(0);" ng-click="goToFamily(name)">
+              <span class="overflow-pair-right">
+                ({{name.yearBorn}})
+              </span>
+              <span class="overflow-pair-left">
+                {{name.displayableName}}
+              </span>
+            </a>
+          </div>
+        </span>
+        <span ng-if="row.length === 1">
+          <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
+            <a href="javascript:void(0);" ng-click="goToFamily(row[0])">
+              <span class="overflow-pair-right">
+                ({{name.yearBorn}})
+              </span>
+              <span class="overflow-pair-left">
+                {{row[0].displayableName}}
+              </span>
+            </a>
+          </div>
+          <div style="width: 250px; display:inline-block; float: none">
+            &nbsp;
+          </div>
+        </span>
+        <br>
+      </span>
+    </div>
+  </div>
+  <div ng-if="names.length > 30" ng-cloak >
+    <div style="display:inline-block; text-align:left; border-top: 1px solid lightgray;">
+      <span  ng-repeat="row in names | partition:3 track by $index " >
+        <span ng-if="row.length === 3" ng-repeat="name in row track by $index">
+          <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
+            <a href="javascript:void(0);" ng-click="goToFamily(name)">
+              <span class="overflow-pair-right">
+                ({{name.yearBorn}})
+              </span>
+              <span class="overflow-pair-left">
+                {{name.displayableName}}
+              </span>
+            </a>
+          </div>
+        </span>
+        <span ng-if="row.length === 2">
+          <span ng-if="row.length === 3" ng-repeat="name in row track by $index">
+            <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
+              <a href="javascript:void(0);" style="padding: 0px 20px 0px 20px;" ng-click="goToFamily(name)">
+                <span class="overflow-pair-right">
+                  ({{name.yearBorn}})
+                </span>
+                <span class="overflow-pair-left">
+                  {{name.displayableName}}
+                </span>
+              </a>
+            </div>
+          </span>
+          <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
+            &nbsp;
+          </div>
+        </span>
+        <span ng-if="row.length === 1">
+          <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
+            <a href="javascript:void(0);" ng-click="goToFamily(row[0])">
+              <span class="overflow-pair-right">
+                ({{name.yearBorn}})
+              </span>
+              <span class="overflow-pair-left">
+                {{row[0].displayableName}}
+              </span>
+            </a>
+          </div>
+          <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
+            &nbsp;
+          </div>
+          <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
+            &nbsp;
+          </div>
+        </span>
+        <br>
+      </span>
+    </div>
+  </div>
+</div>

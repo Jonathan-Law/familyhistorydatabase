@@ -111,6 +111,23 @@ class Tag
     }
   }
 
+  public static function getByIndId($id = NULL)
+  {
+    if ($id)
+    {
+      $database = cbSQLConnect::connect('object');
+      if (isset($database))
+      {
+        $query = "SELECT * FROM `tag` WHERE `foreignid`=".$id." AND `enum`='person'";
+        $result = $database->QuerySingle($query);
+        return !empty($result)? $result : false;
+      }
+    }
+    else {
+      return NULL;
+    }
+  }
+
   public static function getByFileId($id = NULL)
   {
     if ($id)

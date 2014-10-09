@@ -30,5 +30,15 @@
       <br>
     </div>
   </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <h2>Delete an Invididual</h2>
+
+  <input type="text" ng-model="delInd" typeahead-on-select='deleteInd(delInd)' typeahead="delInd as delInd.typeahead for delInd in getTypeahead($viewValue)" class="form-control" placeholder="Select an individual to delete" style=" width: 500px; flaot:none; display:inline-block;">
+  <br>
+
 
 </div>

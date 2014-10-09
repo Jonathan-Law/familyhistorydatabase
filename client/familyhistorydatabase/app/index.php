@@ -194,6 +194,8 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/directives/massdropzone.js"></script>
   <script type="text/javascript" src="scripts/directives/files/editfile.js"></script>
   <script type="text/javascript" src="scripts/directives/individual/catchkey.js"></script>
+  
+  <script type="text/javascript" src="scripts/filters/partition.js"></script>
 
   <script type="text/javascript" src="scripts/common/sessionpolyfill.js"></script>
   <script type="text/javascript" src="scripts/common/common.js"></script>
