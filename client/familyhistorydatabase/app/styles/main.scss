@@ -7,6 +7,7 @@
 @import "includes/dropzone.scss";
 @import "includes/tags.scss";
 @import "includes/pageslider.scss";
+@import "individual/individual-content.scss";
 @import "fonts/icomoon.scss";
 @import "fonts/fontello.scss";
 
@@ -139,7 +140,8 @@ body, html {
   }
 }
 
-
+/*Fix for IE scrollbar...*/
+@-ms-viewport{ width: auto !important; }
 
 @media only screen and (min-width: 768px){
   #navRightButton{
