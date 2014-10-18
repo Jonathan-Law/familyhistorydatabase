@@ -1,4 +1,4 @@
-<div ind-data left="openFam" right="openInd" >
+<div ind-data left="openFam" right="openInd" data="data">
   <div style="position: relative;">
     <div class="asside left"><h3 class="left">Individual Data</h3></div>
     <button class="asside btn left btn-primary" ng-click="openInd = true;"><i class="fa fa-arrow-right" style="position: relative; right: -10px;"></i></button>
@@ -59,7 +59,7 @@
     </div>
   </div>
 </div>
-<div pageslide="right" ps-open="openFam" ps-other="openInd" ps-custom-top="52px" ps-custom-height="calc(100% - 52px)" ps-size="300">
+<div pageslide="right" ps-open="openFam" ps-other="openInd" ps-custom-top="52px" ps-custom-height="calc(100% - 52px)" ps-size="300" data="data">
   <div class="ng-pageslide-content">
     <div>            
       <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
@@ -138,7 +138,7 @@
     </div>
   </div>
 </div>
-<div pageslide="left" ps-open="openInd" ps-other="openFam" ps-custom-top="52px" ps-custom-height="calc(100% - 52px)">
+<div pageslide="left" ps-open="openInd" ps-other="openFam" ps-custom-top="52px" ps-custom-height="calc(100% - 52px)" data="data">
   <div class="ng-pageslide-content">
     <div>            
       <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>

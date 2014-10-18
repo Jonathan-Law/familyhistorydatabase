@@ -1,7 +1,7 @@
 var pageslideDirective = angular.module("pageslide-directive", []);
 
-pageslideDirective.directive('pageslide', [
-  function (){
+pageslideDirective.directive('pageslide', ['$timeout', '$compile',
+  function ($timeout, $compile){
     var defaults = {};
 
     /* Return directive definition object */
@@ -116,11 +116,10 @@ pageslideDirective.directive('pageslide', [
 
 
         /* Append */
-        document.body.appendChild(slider);
-        close.appendChild(x);
-        content.appendChild(close);
-        slider.appendChild(content);
-
+        $(el).append(slider);
+        $(close).append(x);
+        $(content).append(close);
+        $(slider).append(content);
 
         /* Closed */
         function psClose(slider,param){
@@ -214,7 +213,7 @@ pageslideDirective.directive('pageslide', [
         * */
 
         $scope.$on('$destroy', function() {
-          document.body.removeChild(slider);
+          $(el).remove($(slider));
         });
 
         $(slider).on('keyup', function(e){

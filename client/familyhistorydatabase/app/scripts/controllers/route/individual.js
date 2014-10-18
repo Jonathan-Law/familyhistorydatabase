@@ -6,6 +6,7 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', function ($
   $scope.letter = null;
   $scope.individual = null;
   $scope.setFocus = false;
+  $scope.data = {};
   if ($location.search()){
     $scope.individual = $location.search().individual? $location.search().individual: null;
     if ($scope.individual === null) {

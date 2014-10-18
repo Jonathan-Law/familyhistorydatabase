@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('indData', function () {
+app.directive('indData', ['$timeout', function ($timeout) {
   return {
     restrict: 'A',
     scope:{
@@ -50,13 +50,15 @@ app.directive('indData', function () {
 
 
         /* Append */
-        document.getElementById('mainContent').appendChild(slider);
-        slider.appendChild(content);
-        $(slider).focus();
+        $timeout(function() {
+          $(el).append(slider);
+          $(slider).append(content);
+          $(slider).focus();
+        })
 
 
         scope.$on('$destroy', function() {
-          document.getElementById('mainContent').removeChild(slider);
+          el[0].removeChild(slider);
         });
 
         $(slider).on('keyup', function(e){
@@ -79,4 +81,4 @@ app.directive('indData', function () {
         });
       }
     };
-  });
+  }]);
