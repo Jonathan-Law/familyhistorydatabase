@@ -62,13 +62,13 @@ app.directive('indData', ['$timeout', function ($timeout) {
         });
 
         $(slider).on('keyup', function(e){
-          if (e.keyCode === 37){
+          /* if (e.keyCode === 37){
             scope.right = !scope.right;
             scope.$apply();
           } else if (e.keyCode === 39){
             scope.left = !scope.left;
             scope.$apply();
-          }
+          }*/
           /* else if (e.keyCode === 38){
             scope.right = true;
             scope.left = true;

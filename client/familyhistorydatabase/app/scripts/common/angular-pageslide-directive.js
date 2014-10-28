@@ -213,7 +213,7 @@ pageslideDirective.directive('pageslide', ['$timeout', '$compile',
         * */
 
         $scope.$on('$destroy', function() {
-          $(el).remove($(slider));
+          el[0].removeChild(slider);
         });
 
         $(slider).on('keyup', function(e){
@@ -221,7 +221,8 @@ pageslideDirective.directive('pageslide', ['$timeout', '$compile',
             $scope.psOpen = false;
             $scope.psOther = false;
             $scope.$apply();
-          } else if (e.keyCode === 37){
+          }
+          /* else if (e.keyCode === 37){
             if (param.side === 'left') {
               $scope.psOpen = !$scope.psOpen;
               $scope.$apply();
@@ -237,7 +238,7 @@ pageslideDirective.directive('pageslide', ['$timeout', '$compile',
               $scope.psOther = !$scope.psOther;
               $scope.$apply();
             }
-          }
+          }*/
           /* else if (e.keyCode === 38){
             $scope.psOpen = true;
             $scope.psOther = true;
