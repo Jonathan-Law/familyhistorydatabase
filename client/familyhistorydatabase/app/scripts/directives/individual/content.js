@@ -42,7 +42,7 @@ app.directive('indData', ['$timeout', function ($timeout) {
         slider.style.zIndex = 1000;
         slider.style.transitionProperty = 'width, height';
 
-        slider.style.height = attrs.psCustomHeight || 'calc(100% - 52px)'; 
+        slider.style.height = attrs.psCustomHeight || '100%'; 
         slider.style.top = attrs.psCustomTop ||  '52px';
         slider.style.bottom = attrs.psCustomBottom ||  '0px';
         slider.style.left = attrs.psCustomLeft ||  '0px';

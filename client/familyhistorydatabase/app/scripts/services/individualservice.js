@@ -26,8 +26,27 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     } else {
       deferred.resolve([]);
     }
-    return deferred.promise;
+    return deferred.promise;    
   };
+
+  service.getPictures = function(id){
+    var deferred = $q.defer();
+    if (id) {
+      $http({
+        method: 'GET',
+        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/pictures/' + id,
+      }).success(function(data, status, headers, config) {
+        if (data !== "false") {
+          deferred.resolve(data);
+        } else {
+          deferred.resolve(false);
+        }
+      });
+    } else {
+      deferred.resolve(false);
+    }
+    return deferred.promise;
+  }
 
   service.updateIndData = function (data){
     var deferred = $q.defer();

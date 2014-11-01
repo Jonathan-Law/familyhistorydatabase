@@ -1,245 +1,33 @@
-<div ind-data left="openFam" right="openInd" watch="data">
-  <div style="position: relative;">
+<div ind-data left="openFam" right="openInd" watch="data" style="height: 100%">
+  <div style="position: relative; height: 100%;">
     <div class="asside left"><h3 class="left">Individual Data</h3></div>
     <button class="asside btn left btn-primary" ng-click="openInd = true;"><i class="fa fa-arrow-right" style="position: relative; right: -10px;"></i></button>
     <div class="asside right"><h3 class="right">Family Data</h3></div>
     <button class="asside btn right btn-primary" ng-click="openFam = true;"><i class="fa fa-arrow-left" style="position: relative; left: -10px;"></i></button>
-    <div breadcrumbs ng-model="links"></div>
-    <div style="padding: 0px 30px 0px 30px;">
-      <div>            
-        <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-        <p>{{data.typeahead}}</p>
-        <p>{{data.selectableName}}</p>
-      </div>  
-      <div>            
-        <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-        <p>{{data.typeahead}}</p>
-        <p>{{data.selectableName}}</p>
-      </div>  
-      <div>            
-        <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-        <p>{{data.typeahead}}</p>
-        <p>{{data.selectableName}}</p>
-      </div>  
-      <div>            
-        <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-        <p>{{data.typeahead}}</p>
-        <p>{{data.selectableName}}</p>
-      </div>  
-      <div>            
-        <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-        <p>{{data.typeahead}}</p>
-        <p>{{data.selectableName}}</p>
-      </div>
-      <div>            
-        <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-        <p>{{data.typeahead}}</p>
-        <p>{{data.selectableName}}</p>
-      </div>  
-      <div>            
-        <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-        <p>{{data.typeahead}}</p>
-        <p>{{data.selectableName}}</p>
-      </div>  
-      <div>            
-        <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-        <p>{{data.typeahead}}</p>
-        <p>{{data.selectableName}}</p>
-      </div>  
-      <div>            
-        <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-        <p>{{data.typeahead}}</p>
-        <p>{{data.selectableName}}</p>
-      </div>  
-      <div>            
-        <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-        <p>{{data.typeahead}}</p>
-        <p>{{data.selectableName}}</p>
-      </div>
+    <div breadcrumbs ng-model="links" style="position:relative; z-index: 5;"></div>
+    <div style="padding: 0px 15px 0px 30px; width: 300px; display:inline-block; overflow:auto;float:left">
+      Left side content
+    </div>
+    <div style="padding: 0px 30px 0px 15px; width: calc(100% - 301px); display:inline-block;float:right">
+      <img ng-repeat="image in pictures" ng-src="http://familyhistorydatabase.org/{{image.viewlink}}" style=" width: 250px; height: auto;">
+      <br>
+      <pre>
+        {{pretty}}
+      </pre>
+    </div>
+    <div style="border-left: 1px solid darkgray; height: calc(100% + 20px); display: block; margin-left: 300px; position: fixed; top: -20px;">
+      &nbsp;
     </div>
   </div>
 </div>
 <div pageslide="right" ps-open="openFam" ps-other="openInd" ps-custom-top="52px" ps-custom-height="calc(100% - 52px)" ps-size="300" data="data">
   <div class="ng-pageslide-content">
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>
+    This is the right side? IT IS! --  Family Data
   </div>
 </div>
 <div pageslide="left" ps-open="openInd" ps-other="openFam" ps-custom-top="52px" ps-custom-height="calc(100% - 52px)" data="data">
   <div class="ng-pageslide-content">
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>  
-    <div>            
-      <p>{{data.displayableName}} {{data.displayableName}} {{data.displayableName}}</p>
-      <p>{{data.typeahead}}</p>
-      <p>{{data.selectableName}}</p>
-    </div>
+    Left Side! -- Individual Data
   </div>
 </div>
 

@@ -357,6 +357,19 @@ class MyAPI extends API
           }
         }
         return $names;
+      } else if ($this->verb === 'pictures') {
+        $id = intval(array_shift($args));
+        if ($id && is_numeric($id)) {
+          $session = mySession::getInstance();
+          if ($id > -1) {
+            $person = Person::getById($id);
+            if ($person) {
+              return File::getByInd($person->id);
+            }
+          }
+        } else {
+          return false;
+        }
       }
       // } else {
       // return false;

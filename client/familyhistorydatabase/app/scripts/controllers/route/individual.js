@@ -19,6 +19,7 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', function ($
       Business.individual.getIndData($scope.individual).then(function(result) {
         if (result) {
           $scope.data = angular.copy(result);
+          $scope.pretty = JSON.stringify($scope.data, null, 4);
           $scope.links = {};
           $scope.links.letter = $scope.data.lastName.charAt(0);
           $scope.links.family = $scope.data.lastName;
@@ -28,6 +29,11 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', function ($
         }
       }, function() {
         $scope.noData = 'We could not grab the individual\'s data.';
+      });
+      Business.individual.getPictures($scope.individual).then(function(result){
+        $scope.pictures = result? result: [];
+      }, function(){
+        $scope.pictures = [];
       });
     }
   });

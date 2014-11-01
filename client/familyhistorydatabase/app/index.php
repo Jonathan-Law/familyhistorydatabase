@@ -49,7 +49,7 @@ $session = mySession::getInstance();
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.min.css" />
+  <link rel="stylesheet" href="bower_components/angular-motion/dist/angular-motion.css" />
   <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
   <!-- endbower -->
   <!-- endbuild -->
@@ -74,7 +74,7 @@ $session = mySession::getInstance();
     <!-- <h3 class="text-muted">familyhistorydatabase</h3> -->
     <!-- </div> -->
 
-    <div ng-view=""></div>
+    <div ng-view="" style="height:100%"></div>
 
     <!-- <div class="footer"> -->
       <!-- <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p> -->
@@ -152,6 +152,7 @@ $session = mySession::getInstance();
   <script src="bower_components/angulartics/src/angulartics-splunk.js"></script>
   <script src="bower_components/angulartics/src/angulartics-woopra.js"></script>
   <script src="bower_components/angulartics/src/angulartics-marketo.js"></script>
+  <script src="bower_components/angulartics/src/angulartics-intercom.js"></script>
   <script src="bower_components/lodash/dist/lodash.compat.js"></script>
   <!-- endbower -->
   <!-- endbuild -->

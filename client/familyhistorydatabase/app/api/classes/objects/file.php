@@ -121,6 +121,20 @@ class File
       return false;
    }
 
+   public static function getByInd($id){
+      $database = cbSQLConnect::connect('object');
+      if (isset($database))
+      {
+         $name = 'file';
+         $sql = "SELECT * FROM $name WHERE `id` IN (SELECT `fileid` FROM `tag` WHERE `enum`='person' AND `foreignid`=:id)";
+         $params = array(':id' => $id);
+         array_unshift($params, '');
+         unset($params[0]);
+         $results_array = $database->QueryForObject($sql, $params);
+         return !empty($results_array) ? $results_array : false;
+      }
+   }
+
 
    public static function getById($id = NULL)
    {
