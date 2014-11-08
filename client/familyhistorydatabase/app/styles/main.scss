@@ -151,6 +151,7 @@ body, html {
   .notAlmostFullWidth{
     display: none ;
   }
+
 }
 
 @media only screen and (max-width: 767px) {
@@ -204,6 +205,10 @@ body, html {
   }
   #logo {
     margin-top: -2px !important;
+  }
+  .ng-indData {
+    margin-right: -15px;
+    margin-left: -15px;
   }
 }
 @media only screen and (max-width: 479px) {

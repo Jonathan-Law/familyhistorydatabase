@@ -1,22 +1,45 @@
 .asside.left{
   position: fixed;
-  top: calc(50% - 130px);
+  top: calc(50% - 140px);
   width: 45px;
-  height: 165px;
+  height: 175px;
   border-radius: 25px;
   left: -25px;
   border: 1px solid gray;
 }
 
+.asside.left.hover{
+  position: fixed;
+  top: 52px;
+  width: 25px;
+  left:0px;
+  height: calc(100% - 52px);
+  border-radius: 0px;
+  border: 0px;
+  z-index: 5;
+}
+
 .asside.right{
   position: fixed;
-  top: calc(50% - 130px);
+  top: calc(50% - 140px);
   width: 45px;
-  height: 165px;
+  height: 175px;
   border-radius: 25px;
   right: -25px;
   border: 1px solid gray;
 }
+
+.asside.right.hover{
+  position: fixed;
+  top: 52px;
+  width: 25px;
+  right:0px;
+  height: calc(100% - 52px);
+  border-radius: 0px;
+  border: 0px;
+  z-index: 5;
+}
+
 
 .asside h3.left{
   -webkit-transform-origin: 0 0;
