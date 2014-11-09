@@ -9,6 +9,7 @@ app.directive('indData', ['$timeout', function ($timeout) {
       watch: '='
     },
     link: function postLink(scope, el, attrs) {
+
       var param = {};
       param.side = attrs.indData || 'right';
       param.speed = attrs.psSpeed || '0.5';

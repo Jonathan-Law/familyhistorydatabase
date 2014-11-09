@@ -1,0 +1,6 @@
+<div>
+  <button ng-disabled="!moreBefore()" ng-click="start = start - interval; stop = stop - interval;"> <i class="fa fa-arrow-up"></i> </button>
+  <div class="thumb"  back-img="http://familyhistorydatabase.org/{{image.viewlink}}" ng-repeat="image in pictures | slice:start:stop">
+  </div>
+  <button ng-disabled="!moreAfter()" ng-click="start = start + interval; stop = stop + interval;"> <i class="fa fa-arrow-down"></i> </button>
+</div>

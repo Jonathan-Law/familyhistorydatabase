@@ -7,6 +7,16 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', function ($
   $scope.individual = null;
   $scope.setFocus = false;
   $scope.data = {};
+
+  $scope.view = {};
+  $scope.view.trigger = 'default';
+
+  $scope.$watch('view', function(view){
+    if (view && view.trigger) {
+      console.log('view', view.trigger);
+    }
+  }, true);
+
   if ($location.search()){
     $scope.individual = $location.search().individual? $location.search().individual: null;
     if ($scope.individual === null) {
