@@ -1,11 +1,13 @@
 <div class="asside left hover" ng-mouseover="openInd = true"></div>
-<div class="asside right hover" ng-mouseover="openFam = true"></div>
+<!-- <div class="asside right hover" ng-mouseover="openFam = true"></div> -->
 <div ind-data id="" left="openFam" right="openInd" watch="data" style="height: 100%">
   <div style="position: relative; height: 100%;">
     <div class="asside left"><h3 class="left">Individual Menu</h3></div>
-    <button class="asside btn left btn-primary" ng-click="openInd = true;" id="individualMenu" ng-mouseover="openInd = true;"><i class="fa fa-arrow-right" style="position: relative; right: -10px;"></i></button>
+    <!-- <button class="asside btn left btn-primary" ng-click="openInd = true;" id="individualMenu" ng-mouseover="openInd = true;"><i class="fa fa-arrow-right" style="position: relative; right: -10px;"></i></button> -->
+    <button class="asside btn left btn-primary" ng-click="openInd = true;" id="individualMenu" ng-mouseover="openInd = true;"><i class="fa fa-bars" style="position: relative; right: -10px;"></i></button>
     <div class="asside right"><h3 class="right">Family Chart</h3></div>
-    <button class="asside btn right btn-primary" ng-click="openFam = true;"  ng-mouseover="openFam = true;"><i class="fa fa-arrow-left" style="position: relative; left: -10px;"></i></button>
+    <button class="asside btn right btn-primary" ng-click="openFam = true;"><i class="fa fa-arrow-left" style="position: relative; left: -10px;"></i></button>
+    <!-- <button class="asside btn right btn-primary" ng-click="openFam = true;"  ng-mouseover="openFam = true;"><i class="fa fa-arrow-left" style="position: relative; left: -10px;"></i></button> -->
     <div style="min-width: 600px; border-bottom: 1px solid darkgray; background: #EEEBE0; position: absolute; top; 52px; width: 100%; z-index: 6;">
       <div breadcrumbs ng-model="links" style="position:relative; z-index: 5;"></div>
       <h2 style="text-align: center; margin-top:5px;">{{data.displayableName}}</h2>

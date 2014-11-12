@@ -43,14 +43,14 @@ pageslideDirective.directive('pageslide', ['$timeout', '$compile',
         if (!content) 
           throw new Error('You have to elements inside the <pageslide> or you have not specified a target href');
         var slider = document.createElement('div');
-        // var close = document.createElement('button');
-        // var x = document.createElement('i');
-        // $(close).on('click', function(){
-        //   $scope.psOpen = false;
-        //   $scope.$apply();
-        //   $(slider).focus();
-        // });
-        // close.className = 'btn btn-primary';
+        var close = document.createElement('button');
+        var x = document.createElement('i');
+        $(close).on('click', function(){
+          $scope.psOpen = false;
+          $scope.$apply();
+          $(slider).focus();
+        });
+        close.className = 'btn btn-primary';
         slider.className = param.className;
         $(slider).attr('tabindex', 0);
         $(slider).css({
@@ -68,12 +68,12 @@ pageslideDirective.directive('pageslide', ['$timeout', '$compile',
         slider.style['overflow-y'] = 'auto';
         slider.style['overflow-x'] = 'hidden';
         slider.style.transitionProperty = 'width, height';
-        // close.style.zIndex = 1002;
-        // close.style.position = 'fixed';
-        // close.style.width = '25px';
-        // close.style.height = '50px';
-        // close.style.border = '1px solid #555';
-        // x.style.position = 'relative';
+        close.style.zIndex = 1002;
+        close.style.position = 'fixed';
+        close.style.width = '25px';
+        close.style.height = '50px';
+        close.style.border = '1px solid #555';
+        x.style.position = 'relative';
 
         switch (param.side){
           case 'right':
@@ -81,17 +81,19 @@ pageslideDirective.directive('pageslide', ['$timeout', '$compile',
           slider.style.top = attrs.psCustomTop ||  '0px';
           slider.style.bottom = attrs.psCustomBottom ||  '0px';
           slider.style.right = attrs.psCustomRight ||  '0px';
-          // close.style.top = '50%';
-          // x.style.left = '-5px';
-          // x.className = 'fa fa-arrow-right';
-          // close.style.right = attrs.psSize? 'calc(100% - '+(parseInt(attrs.psSize) + 26) + 'px)': '274px';
-          // close.style['border-radius'] = '0px 50px 50px 0px';
-          // content.style['padding-left'] = '30px';
-          el.on('mouseleave', function() {
-            $scope.psOpen = false;
-            $scope.$apply();
-            $(slider).focus();
-          })
+          close.style.top = '50%';
+          x.style.left = '-5px';
+          x.className = 'fa fa-arrow-right';
+          close.style.right = attrs.psSize? 'calc(100% - '+(parseInt(attrs.psSize) + 26) + 'px)': '274px';
+          close.style['border-radius'] = '0px 50px 50px 0px';
+          content.style['padding-left'] = '30px';
+          $(close).append(x);
+          $(content).append(close);
+          // el.on('mouseleave', function() {
+          //   $scope.psOpen = false;
+          //   $scope.$apply();
+          //   $(slider).focus();
+          // })
           break;
           case 'left':
           slider.style.height = attrs.psCustomHeight || '100%';   
