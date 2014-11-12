@@ -33,6 +33,14 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
       scope.moreBefore = function(){
         return scope.start > 0;
       }
+      var timeout;
+      $(window).resize(function() {
+        clearTimeout(timeout);
+        timeout =  setTimeout(function() {
+          scope.setDimensions();
+          scope.setActiveImage(scope.active, scope.focus);
+        }, 500);
+      });
 
       scope.setDimensions = function() {
         scope.tempWidth = element.find('#display').width();
