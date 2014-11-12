@@ -9,6 +9,12 @@
   border-radius: 4px;
 }
 
+.thumb.active{
+  outline: none;
+  border-color: #2281CD;
+  box-shadow: 0 0 10px #4986B6;
+}
+
 .displayImage {
   background-color: lightgray;
   border: 1px solid dimgray;

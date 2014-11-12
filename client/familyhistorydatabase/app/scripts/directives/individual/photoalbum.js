@@ -65,7 +65,7 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
         if (scope.pictures.length) {
           $timeout(function() {
             scope.setDimensions();
-            scope.focus = scope.pictures[0];
+            scope.setActiveImage(0, scope.pictures[0]);
           }, 300);
         }
       }, function(){
@@ -78,12 +78,14 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
           if (scope.moreBefore()){
             scope.start = scope.start - scope.interval;
             scope.stop = scope.stop - scope.interval;
+            scope.active++;
           }
         }
         else{
           if (scope.moreAfter()){
             scope.start = scope.start + scope.interval;
             scope.stop = scope.stop + scope.interval;
+            scope.active--;
           }
         }
         scope.$apply();
