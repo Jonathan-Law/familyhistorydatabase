@@ -56,7 +56,39 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
         scope.$apply();
       }
 
+      jQuery.fn.animateAuto = function(prop, speed, callback){
+        var elem, height, width;
+        return this.each(function(i, el){
+          el = jQuery(el), elem = el.clone().css({"height":"auto","width":"auto"}).appendTo("body");
+          height = elem.css("height"),
+          width = elem.css("width"),
+          elem.remove();
 
+          if(prop === "height")
+            el.animate({"height":height}, speed, callback);
+          else if(prop === "width")
+            el.animate({"width":width}, speed, callback);  
+          else if(prop === "both")
+            el.animate({"width":width,"height":height}, speed, callback);
+        });  
+      }
+
+      // element.find('#display').on('mouseenter', function(){
+      //   $('.photoAlbumData').stop(true, true).animate({
+      //     backgroundColor: 'rgba(102,102,76,.95)',
+      //   }, 150, function(){
+      //     //animation complete
+      //   }).animateAuto('height', 150);
+      // })
+      // element.find('#display').on('mouseleave', function(){
+      //   $('.photoAlbumData').stop(true, true).animate({
+      //     'height': '100%',
+      //     backgroundColor: 'rgba(0,0,0,.6)',
+      //   }, 150, function(){
+      //         //animation complete
+      //       });
+      // })
+      //
       scope.setActiveImage = function(index, image){
         scope.active = index;
         scope.focus = image;
@@ -65,6 +97,24 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
           calculateAspectRatioFit(this.width, this.height, scope.tempWidth, scope.tempHeight);
         }
         img.src = 'http://familyhistorydatabase.org/'+scope.focus.link;
+      }
+
+      scope.openInNewWindow = function() {
+        window.open('http://familyhistorydatabase.org/'+scope.focus.link);
+      }
+
+      scope.print = function() {
+        var content = element.find('#display').html();
+        $('#printOnly').html(content);
+        window.print();
+      }
+
+      scope.getDownload = function() {
+        var url = 'http://familyhistorydatabase.org/' + scope.focus.link;
+        var download = scope.focus.link.replace('upload/', '');
+        var a = $("<a>").attr("href", url).attr("download", download).appendTo("body");
+        a[0].click();
+        a.remove();
       }
 
       scope.pictures = [];

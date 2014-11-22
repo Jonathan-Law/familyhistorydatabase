@@ -220,3 +220,14 @@ body, html {
     display:inherit;
   }
 }
+#printOnly {
+  display:none;
+}
+@media print {
+    #mainNav, #mainContent {
+      display:none;
+    }
+    #printOnly{
+      display: block;
+    }
+}

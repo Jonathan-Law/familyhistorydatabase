@@ -66,7 +66,7 @@ $session = mySession::getInstance();
   <![endif]-->
   <!-- Add your site or application content here -->
 
-  <div ng-include="'views/nav.html'"></div>
+  <div ng-include="'views/nav.html'" id="mainNav"></div>
 
 
   <div class="container-fluid" id="mainContent">
@@ -79,6 +79,9 @@ $session = mySession::getInstance();
     <!-- <div class="footer"> -->
       <!-- <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p> -->
     <!-- </div> -->
+  </div>
+
+  <div id="printOnly">
   </div>
 
   <my-modal></my-modal>
