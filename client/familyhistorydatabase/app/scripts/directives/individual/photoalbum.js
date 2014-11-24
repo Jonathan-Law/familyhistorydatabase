@@ -15,6 +15,39 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
     },
     link: function postLink(scope, element, attrs) {
 
+      console.log('scope.id', scope.id);
+      
+
+      $(window).on('keydown', function (e){
+        if(e.keyCode === 37 || e.keyCode === 38) { //left or up
+          if (scope.start > 0 && scope.active === 0) {
+            scope.setActiveImage(scope.active, scope.pictures[scope.start]);
+            scope.stop--;
+            scope.start--;
+          } else if (scope.start > 0){
+            scope.setActiveImage(scope.active - 1, scope.pictures[(scope.start + scope.active) - 1]);
+          }
+          scope.$apply();
+        }
+        if(e.keyCode === 39 || e.keyCode === 40) { //right or down
+          if (scope.stop < scope.pictures.length && scope.active === 4) {
+            scope.setActiveImage(scope.active, scope.pictures[scope.stop]);
+            scope.stop++;
+            scope.start++;
+          } else if (scope.stop < scope.pictures.length) {
+            scope.setActiveImage(scope.active + 1, scope.pictures[(scope.start + scope.active) + 1]);
+          }
+          scope.$apply();
+        }
+      });
+
+      scope.$on('$destroy', function handleDestroyEvent() {
+        // console.log('we destroyed the photo-album');
+        $(window).off('keydown', function(){
+
+        });
+      });
+
       scope.interval = 1;
       scope.size = 5;
 

@@ -19,9 +19,16 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', function ($
 
   if ($location.search()){
     $scope.individual = $location.search().individual? $location.search().individual: null;
+    $scope.view.trigger = $location.search().tab? $location.search().tab: null;
     if ($scope.individual === null) {
       $scope.goBackToLetter('a');
     }
+  }
+
+  $scope.addToSearch = function(attribute, value) {
+    var search = $location.search();
+    search[attribute] = value;
+    $location.search(search);
   }
 
   $scope.$watch('individual', function() {

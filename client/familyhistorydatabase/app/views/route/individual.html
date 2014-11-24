@@ -25,7 +25,7 @@
           </pre>
         </div>
         <div ng-switch-when="photoAlbum">
-          <div photoalbum id="$parent.data.id"></div>
+          <div photoalbum id="$parent.individual"></div>
         </div>
         <div ng-switch-default>
           There was an error getting the individual's information.
@@ -44,8 +44,8 @@
 </div>
 <div pageslide="left" ps-open="openInd" ps-other="openFam" ps-custom-top="52px" ps-speed=".25" ps-custom-height="calc(100% - 52px)" data="data">
   <div class="ng-pageslide-content">
-    <button type="button" class="btn btn-default" ng-click="view.trigger='default'">Individual home <img ng-src="http://familyhistorydatabase.org/{{pictures[0].viewlink}}" style="width:155px; height:auto;"></button>
-    <button type="button" class="btn btn-default" ng-click="view.trigger='photoAlbum'">Photo Album <img ng-src="http://familyhistorydatabase.org/{{pictures[0].viewlink}}" style="width:155px; height:auto;"></button>
+    <button type="button" class="btn btn-default" ng-click="view.trigger='default'; addToSearch('tab', 'default')" style="width: 285px;">Individual home <img ng-src="http://familyhistorydatabase.org/{{pictures[0].viewlink}}" style="width:155px; height:auto;"></button>
+    <button type="button" class="btn btn-default" ng-click="view.trigger='photoAlbum'; addToSearch('tab', 'photoAlbum')" style="width: 285px;">Photo Album <img ng-src="http://familyhistorydatabase.org/{{pictures[0].viewlink}}" style="width:155px; height:auto;"></button>
   </div>
 </div>
 

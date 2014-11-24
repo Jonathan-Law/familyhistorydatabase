@@ -227,7 +227,17 @@ body, html {
     #mainNav, #mainContent {
       display:none;
     }
+    img{
+      width: 100% !important;
+      height: auto !important;
+    }
+    .photoAlbumData {
+      position: relative;
+    }
     #printOnly{
       display: block;
+    }
+    #printOnly button{
+      display:none;
     }
 }
