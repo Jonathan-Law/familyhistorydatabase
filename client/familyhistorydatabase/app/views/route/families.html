@@ -38,7 +38,14 @@
     <div ng-if="names.length < 1" ng-cloak>
       {{noNames}}
     </div>
-    <div ng-if="names.length > 0 && names.length <= 15" ng-cloak>
+    <div style="text-align: center; display: inline-block">
+      <div ng-class="names.length > 15? 'half': ''" ng-repeat="thing in getNames(null) track by $index" style="display:inline-block">
+        <div ng-repeat="name in getNames($index)">
+          <a href="javascript:void(0);" ng-click="goToFamily(name)">{{name}}</a>
+        </div>
+      </div>
+    </div>
+    <!-- <div ng-if="names.length > 0 && names.length <= 15" ng-cloak>
       <span  ng-repeat="name in names track by $index" >
         <a href="javascript:void(0);" ng-click="goToFamily(name)">{{name}}</a>
         <br>
@@ -92,6 +99,6 @@
         </span>
         <br>
       </span>
-    </div>
-  </div>
+    </div> 
+  </div> -->
 </div>

@@ -77,7 +77,7 @@ $session = mySession::getInstance();
     <div ng-view="" style="height:100%"></div>
 
     <!-- <div class="footer"> -->
-      <!-- <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p> -->
+    <!-- <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p> -->
     <!-- </div> -->
   </div>
 
@@ -201,6 +201,7 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/directives/individual/catchkey.js"></script>
   <script type="text/javascript" src="scripts/directives/individual/breadcrumbs.js"></script>
   <script type="text/javascript" src="scripts/directives/individual/photoalbum.js"></script>
+  <script type="text/javascript" src="scripts/directives/individual/family.js"></script>
   
   <script type="text/javascript" src="scripts/filters/partition.js"></script>
 
@@ -214,7 +215,7 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/common/angular-strap.tpl.js"></script>
   <script type="text/javascript" src="scripts/common/ui-bootstrap-tpls.js"></script>
   <script type="text/javascript" src="scripts/common/ng-tags-input.js"></script>
+  <script type="text/javascript" src="scripts/common/d3.js"></script>
   <!-- endbuild -->
-
 </body>
 </html>

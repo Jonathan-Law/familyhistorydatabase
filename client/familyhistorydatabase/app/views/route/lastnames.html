@@ -36,8 +36,24 @@
 </div>
 <div style="text-align:center">
   <p ng-bind="family" style="font-size: 100px;"></p>
+  <div style="text-align: center; display: inline-block">
+    <div ng-class="names.length > 15? 'half': ''" ng-repeat="thing in getNames(null) track by $index" style="display:inline-block;  border-top: 1px solid lightgray;">
+      <div ng-repeat="name in getNames($index)">
+        <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
+          <a href="javascript:void(0);" ng-click="goToIndividual(name.id)">
+            <span class="overflow-pair-right">
+              ({{name.yearBorn}})
+            </span>
+            <span class="overflow-pair-left">
+              {{name.displayableName}}
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Add typeahead here? -->
-  <div ng-if="names.length > 0 && names.length <= 15" ng-cloak >
+<!--   <div ng-if="names.length > 0 && names.length <= 15" ng-cloak >
     <div style="display:inline-block; text-align:left; border-top: 1px solid lightgray;">
       <span  ng-repeat="name in names track by $index" >
         <a href="javascript:void(0);" ng-click="goToIndividual(name.id)">
@@ -138,6 +154,6 @@
         </span>
         <br>
       </span>
-    </div>
-  </div>
+    </div> 
+  </div> -->
 </div>

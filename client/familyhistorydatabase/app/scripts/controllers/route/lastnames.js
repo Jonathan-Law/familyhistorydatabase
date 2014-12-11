@@ -30,6 +30,34 @@ app.controller('LastnamesCtrl', ['$scope', '$location', 'business', function ($s
     }
   });
 
+
+  $scope.getNames = function(index) {
+    if (index !== null && $scope.names && $scope.names.length > 0) {
+      var offset = 1;
+      if ($scope.names.length > 30) {
+        if (index === 0) {
+          offset = 0;
+        }
+        return $scope.names.slice(($scope.names.length / 3) * index + offset, ($scope.names.length / 3) * (index + 1) + 1);
+      } else if ($scope.names.length > 15) {
+        if (index === 0) {
+          offset = 0;
+        }
+        return $scope.names.slice(($scope.names.length / 2) * index + offset, ($scope.names.length / 2) * (index + 1) + 1);
+      } else {
+        return $scope.names;
+      }
+    } else if ($scope.names) {
+      if ($scope.names.length > 30) {
+        return new Array(3);
+      } else if ($scope.names.length > 15) {
+        return new Array(2);
+      } else {
+        return new Array(1);
+      }
+    }
+  }
+
   $scope.goBackToLetter = function(letter) {
     $location.search({
       'letter': letter
@@ -39,7 +67,8 @@ app.controller('LastnamesCtrl', ['$scope', '$location', 'business', function ($s
 
   $scope.goToIndividual = function(individualId) {
     $location.search({
-      'individual': individualId
+      'individual': individualId,
+      'tab': 'default'
     });
     $location.path('/individual');
   }

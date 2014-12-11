@@ -170,6 +170,23 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     }
     return deferred.promise;
   }
+  
+  service.getFamily = function(id) {
+    console.log('id', id);
+    
+    var deferred = $q.defer();
+    if (id) {
+      $http({
+        method: 'GET',
+        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/family/'+id
+      }).success(function(data, status, headers, config){
+        deferred.resolve(data);
+      }).error (function(data, status, headers, config){
+        deferred.reject('There was an error on the server.')
+      })
+    }
+    return deferred.promise;
+  }
 
   service.getFirstNames = function(family) {
     var deferred = $q.defer();

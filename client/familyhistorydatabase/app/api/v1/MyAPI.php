@@ -341,6 +341,89 @@ class MyAPI extends API
           }
         }
         return $names;
+      } else if ($this->verb === 'family') {
+        $id = intval(array_shift($args));
+        if ($id && is_numeric($id)) {
+          $person = Person::getById($id);
+          $family = new stdClass();
+
+          $parents = $person->getParents();
+          $family->parents = array();
+          // $family->siblings = array();
+          $children = $person->getChildren();
+          $family->children = array();
+          foreach ($children as $child) {
+            $temp = Person::getById($child->child);
+            $temp->appendNames();
+            $family->children[] = $temp; 
+          }
+          $spouses = $person->getSpouse();
+          $family->spouses = array();
+          foreach ($spouses as $spouse) {
+            $temp = Person::getById($spouse->spouse);
+            $temp->appendNames();
+            $family->spouses[] = $temp;
+          }
+          $family->grandParents = array();
+          $family->greatGrandParents = array();
+          $family->greatGreatGrandParents = array();
+          $siblings = array();
+          $tempsiblings = array();
+          foreach ($parents as $key) {
+            $parent = Person::getById($key->parentId);
+            $parent->appendNames();
+            $family->parents[] = $parent;
+            // $siblings[] = $parent->getChildren();
+          }
+          // foreach ($siblings as $sibling) {
+          //   foreach ($sibling as $key) {
+          //     $test = true;
+          //     foreach ($tempsiblings as $value) {
+          //       if ($key->child === $value->child) {
+          //         $test = false;
+          //       }
+          //     }
+          //     if ($test) {
+          //       $tempsiblings[] = $key;
+          //     }
+          //   }
+          // }
+          // foreach ($tempsiblings as $sibling) {
+          //   if ($sibling->child !== $person->id) {
+          //     $family->siblings[] = Person::getById($sibling->child);
+          //   }
+          // }
+          foreach ($family->parents as $parent) {
+            $grandparents = $parent->getParents();
+            foreach ($grandparents as $grandparent) {
+              $temp = Person::getById($grandparent->parentId);
+              $temp->child = $parent->id;
+              $temp->appendNames();
+              $family->grandParents[] = $temp;
+            }
+          }
+          foreach ($family->grandParents as $parent) {
+            $grandparents = $parent->getParents();
+            foreach ($grandparents as $grandparent) {
+              $temp = Person::getById($grandparent->parentId);
+              $temp->child = $parent->id;
+              $temp->appendNames();
+              $family->greatGrandParents[] = $temp;
+            }
+          }
+          foreach ($family->greatGrandParents as $parent) {
+            $grandparents = $parent->getParents();
+            foreach ($grandparents as $grandparent) {
+              $temp = Person::getById($grandparent->parentId);
+              $temp->child = $parent->id;
+              $temp->appendNames();
+              $family->greatGreatGrandParents[] = $temp;
+            }
+          }
+          return $family;
+        } else {
+          return new stdClass();
+        }
       } else if ($this->verb === 'familyNames') {
         if (!empty($args)) {
           $lastName = array_shift($args);
