@@ -25,17 +25,17 @@ app.directive('individual', ['business', function (Business) {
     template: getTemplate,
     link: function postLink(scope, element, attrs) {
       Business.individual.getIndData(scope.person).then(function(result) {
-        console.log('result', result);
+        // console.log('result', result);
         if (result && result.profile_pic) {
           Business.individual.getProfilePic(result.profile_pic).then(function(profilePic) {
-            console.log('result', profilePic);
+            // console.log('result', profilePic);
             scope.profilePic = profilePic;
           }, function(result){
-            console.log('Fail result', result);
+            // console.log('Fail result', result);
           });
         }
       }, function(result){
-        console.log('Fail result', result);
+        // console.log('Fail result', result);
       });
     }
   };

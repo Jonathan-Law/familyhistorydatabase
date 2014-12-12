@@ -365,7 +365,7 @@ class MyAPI extends API
           }
           $siblings = array();
           $tempsiblings = array();
-          $person->getParentsGen(3);
+          $person->getParentsGen(4);
           $family->parents = $person->parents;
           // foreach ($parents as $key) {
           //   $parent = Person::getById($key->parentId);
