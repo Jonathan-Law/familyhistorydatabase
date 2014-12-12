@@ -109,6 +109,23 @@ class Person
     }
   }
 
+  public function getParentsGen($i){
+    $parents = $this->getParents();
+    $this->parents = array();
+    if ($i === 0) {
+      foreach ($parents as $parent) {
+        $temp = Person::getById($parent->parentId);
+        $this->parents[] = $temp;
+      }
+      return;
+    } else {
+      foreach ($parents as $parent) {
+        $temp = Person::getById($parent->parentId);
+        $temp->getParentsGen($i - 1);
+        $this->parents[] = $temp;
+      }
+    }
+  }
 
   public static function getNumPics()
   {

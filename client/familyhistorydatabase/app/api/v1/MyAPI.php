@@ -347,7 +347,6 @@ class MyAPI extends API
           $person = Person::getById($id);
           $family = new stdClass();
 
-          $parents = $person->getParents();
           $family->parents = array();
           // $family->siblings = array();
           $children = $person->getChildren();
@@ -364,17 +363,16 @@ class MyAPI extends API
             $temp->appendNames();
             $family->spouses[] = $temp;
           }
-          $family->grandParents = array();
-          $family->greatGrandParents = array();
-          $family->greatGreatGrandParents = array();
           $siblings = array();
           $tempsiblings = array();
-          foreach ($parents as $key) {
-            $parent = Person::getById($key->parentId);
-            $parent->appendNames();
-            $family->parents[] = $parent;
-            // $siblings[] = $parent->getChildren();
-          }
+          $person->getParentsGen(3);
+          $family->parents = $person->parents;
+          // foreach ($parents as $key) {
+          //   $parent = Person::getById($key->parentId);
+          //   $parent->appendNames();
+          //   $family->parents[] = $parent;
+          //   // $siblings[] = $parent->getChildren();
+          // }
           // foreach ($siblings as $sibling) {
           //   foreach ($sibling as $key) {
           //     $test = true;
@@ -393,33 +391,33 @@ class MyAPI extends API
           //     $family->siblings[] = Person::getById($sibling->child);
           //   }
           // }
-          foreach ($family->parents as $parent) {
-            $grandparents = $parent->getParents();
-            foreach ($grandparents as $grandparent) {
-              $temp = Person::getById($grandparent->parentId);
-              $temp->child = $parent->id;
-              $temp->appendNames();
-              $family->grandParents[] = $temp;
-            }
-          }
-          foreach ($family->grandParents as $parent) {
-            $grandparents = $parent->getParents();
-            foreach ($grandparents as $grandparent) {
-              $temp = Person::getById($grandparent->parentId);
-              $temp->child = $parent->id;
-              $temp->appendNames();
-              $family->greatGrandParents[] = $temp;
-            }
-          }
-          foreach ($family->greatGrandParents as $parent) {
-            $grandparents = $parent->getParents();
-            foreach ($grandparents as $grandparent) {
-              $temp = Person::getById($grandparent->parentId);
-              $temp->child = $parent->id;
-              $temp->appendNames();
-              $family->greatGreatGrandParents[] = $temp;
-            }
-          }
+          // foreach ($family->parents as $parent) {
+          //   $grandparents = $parent->getParents();
+          //   foreach ($grandparents as $grandparent) {
+          //     $temp = Person::getById($grandparent->parentId);
+          //     $temp->child = $parent->id;
+          //     $temp->appendNames();
+          //     $family->grandParents[] = $temp;
+          //   }
+          // }
+          // foreach ($family->grandParents as $parent) {
+          //   $grandparents = $parent->getParents();
+          //   foreach ($grandparents as $grandparent) {
+          //     $temp = Person::getById($grandparent->parentId);
+          //     $temp->child = $parent->id;
+          //     $temp->appendNames();
+          //     $family->greatGrandParents[] = $temp;
+          //   }
+          // }
+          // foreach ($family->greatGrandParents as $parent) {
+          //   $grandparents = $parent->getParents();
+          //   foreach ($grandparents as $grandparent) {
+          //     $temp = Person::getById($grandparent->parentId);
+          //     $temp->child = $parent->id;
+          //     $temp->appendNames();
+          //     $family->greatGreatGrandParents[] = $temp;
+          //   }
+          // }
           return $family;
         } else {
           return new stdClass();
