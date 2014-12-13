@@ -8,7 +8,7 @@
     <div class="asside right"><h3 class="right">Family Chart</h3></div>
     <button class="asside btn right btn-primary" ng-click="openFam = true;"><i class="fa fa-arrow-left" style="position: relative; left: -10px;"></i></button>
     <!-- <button class="asside btn right btn-primary" ng-click="openFam = true;"  ng-mouseover="openFam = true;"><i class="fa fa-arrow-left" style="position: relative; left: -10px;"></i></button> -->
-    <div style="min-width: 600px; border-bottom: 1px solid darkgray; background: #EEEBE0; position: absolute; top; 52px; width: 100%; z-index: 6;">
+    <div id="header" style="min-width: 600px; border-bottom: 1px solid darkgray; background: #EEEBE0; position: fixed; top; 52px; width: 100%; z-index: 6;">
       <div breadcrumbs ng-model="links" style="position:relative; z-index: 5;"></div>
       <h2 style="text-align: center; margin-top:5px;">{{data.displayableName}}</h2>
     </div>
@@ -30,9 +30,9 @@
         </div>
       </div>
     </div>
-    <div style="border-left: 1px solid darkgray; height: calc(100% + 20px); display: block; margin-left: 300px; position: fixed; top: -20px; z-index: 5;">
+<!--     <div style="border-left: 1px solid darkgray; height: calc(100% + 20px); display: block; margin-left: 300px; position: fixed; top: -20px; z-index: -1;">
       &nbsp;
-    </div>
+    </div> -->
   </div>
 </div>
 <div pageslide="right" ps-open="openFam" ps-other="openInd" ps-custom-top="52px" ps-speed=".25" ps-custom-height="calc(100% - 52px)" ps-size="300" data="data">
@@ -46,19 +46,3 @@
     <button type="button" class="btn btn-default" ng-click="view.trigger='photoAlbum'; addToSearch('tab', 'photoAlbum')" style="width: 285px;">Photo Album <img ng-src="http://familyhistorydatabase.org/{{pictures[0].viewlink}}" style="width:155px; height:auto;"></button>
   </div>
 </div>
-
-<script type="text/javascript">
-$(window).scroll(function() {
-  if ($(window).scrollTop() > 68) {
-    $('#indData').css({
-      'position': 'fixed',
-      'top': '82px'
-    });
-  } else {
-    $('#indData').css({
-      'position': 'absolute',
-      'top': '100px'
-    });
-  }
-});
-</script>

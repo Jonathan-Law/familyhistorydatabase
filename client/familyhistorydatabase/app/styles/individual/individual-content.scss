@@ -6,6 +6,8 @@
   border-radius: 25px;
   left: -25px;
   border: 1px solid gray;
+  z-index: 1110;
+  background: #EEEBE0;
 }
 
 .asside.left.hover{
@@ -27,6 +29,8 @@
   border-radius: 25px;
   right: -25px;
   border: 1px solid gray;
+  z-index: 1110;
+  background: #EEEBE0;
 }
 
 .asside.right.hover{
@@ -81,6 +85,8 @@
   border-radius: 25px;
   left: -25px;
   border: 1px solid gray;
+  z-index: 1111;
+  background:#a4ca42;
 }
 
 .asside.btn.right {
@@ -91,4 +97,16 @@
   border-radius: 25px;
   right: -25px;
   border: 1px solid gray;
+  z-index: 1111;
+  background:#a4ca42;
+}
+
+img.zoomable:hover {
+  /* Un-prefixed. Prefix `transform` for all target browsers. */
+  -moz-animation: scale 0.5s; /* Firefox */
+  -webkit-animation: scale 0.5s; /* Safari and Chrome */
+  -o-animation: scale 0.5s; /* Opera */
+  transform: scale(1.5);
+  position:relative;
+  z-index: 1010;
 }

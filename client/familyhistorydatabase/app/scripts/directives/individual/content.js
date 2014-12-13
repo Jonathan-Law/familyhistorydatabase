@@ -84,6 +84,26 @@ app.directive('indData', ['$timeout', function ($timeout) {
       $timeout(function() {
         // fixed a weird bug where arriving on the page left you 10 pixes short from the top.
         $('body').animate({scrollTop:0},0);
+        $(window).scroll(function() {
+          if ($(window).scrollTop() > 68) {
+            $('#indData').css({
+              'position': 'fixed',
+              'top': '82px'
+            });
+          } else {
+            $('#indData').css({
+              'position': 'absolute',
+              'top': '100px'
+            });
+          }
+          var top = $(window).scrollTop();
+          var scroll = (52 - top);
+          $('#header').css({
+            'top': scroll+'px'
+          });
+        });
+
+
       });
     }
   };

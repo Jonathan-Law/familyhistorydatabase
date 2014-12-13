@@ -11,7 +11,7 @@ app.directive('individual', ['business', function (Business) {
     var mode = attrs.mode || null;
     if (mode) {
       if (mode === 'picture') {
-        return "<img ng-src='http://familyhistorydatabase.org/{{profilePic.viewlink}}' onerror=\"if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';\" style='height: 25px; width: auto; border-radius: 4px; border: 1px solid darkgray;'>";
+        return "<img class=\"{{classes}}\" ng-src='http://familyhistorydatabase.org/{{profilePic.viewlink}}' onerror=\"if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';\" style='height: {{initialsize}}; width: auto; border-radius: 4px; border: 1px solid darkgray;'>";
         // return "{{person.displayableName}}";
       }
     }
@@ -20,7 +20,9 @@ app.directive('individual', ['business', function (Business) {
   return {
     restrict: 'E',
     scope:{
-      person: '@'
+      person: '@',
+      classes: '@',
+      initialsize: '@'
     },
     template: getTemplate,
     link: function postLink(scope, element, attrs) {

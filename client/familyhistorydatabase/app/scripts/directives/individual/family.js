@@ -16,15 +16,18 @@ app.directive('family', ['business', '$timeout', '$compile', function (Business,
     link: function postLink(scope, element, attrs) {
 
 
-      var addParents = function(parents, person) {
+      var addParents = function(parents, person, size) {
+        console.log('person', person);
+        
         if (parents && parents.length) {
           var list = person.find('ul');
           if (list.length === 0) {
             list = person.append('<ul></ul>').find('ul');
           }
           _.each(parents, function(parent) {
-            var temp = list.append('<li><a><individual person="'+parent.id+'" mode="picture"></individual></a></li>').find('individual[person*="'+parent.id+'"]').parent().parent();
-            return addParents(parent.parents, temp);
+            var temp = list.append('<li><a><individual classes="zoomable" person="'+parent.id+'" mode="picture" initialsize="'+size+'px"></individual></a></li>').find('individual[person*="'+parent.id+'"]').parent().parent();
+            var tempsize = (size - 50) >= 25? (size - 50):25;
+            return addParents(parent.parents, temp, tempsize);
           })
         } else {
           return;
@@ -38,10 +41,11 @@ app.directive('family', ['business', '$timeout', '$compile', function (Business,
         var base = element.find("#treeHolder");
         var list = base.find('.tree');
         var root = list.append('<ul></ul>').find('ul');
-        var person = root.append('<li><a><individual person="'+scope.personId+'" mode="picture"></individual></a></li>').find('li');
-        addParents(family.parents, person);
+        var person = root.append('<li><a><individual classes="zoomable" person="'+scope.personId+'" mode="picture" initialsize="150px"></individual></a></li>').find('li');
+        addParents(family.parents, person, 125);
         var e = angular.element(base);
         $compile(e.contents())(scope);
+
         element.replaceWith(e);
         var allImgs = document.getElementById("treeHolder").getElementsByTagName("img");
         var allImgsLength = allImgs.length;
@@ -50,7 +54,7 @@ app.directive('family', ['business', '$timeout', '$compile', function (Business,
           if ( !(--allImgsLength)) {
             $('.tree').css('width', 6000);
             setTimeout(function(){
-              $('.tree').css('width', $('.tree').find('ul').find('li').width() + 100);
+              $('.tree').css('width', $('.tree').find('ul').find('li').width() + 10);
             })
           }
         };

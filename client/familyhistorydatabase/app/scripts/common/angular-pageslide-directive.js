@@ -61,14 +61,14 @@ pageslideDirective.directive('pageslide', ['$timeout', '$compile',
         /* Style setup */
         slider.style.transitionDuration = param.speed + 's';
         slider.style.webkitTransitionDuration = param.speed + 's';
-        slider.style.zIndex = 1001;
+        slider.style.zIndex = 1112;
         slider.style.position = 'fixed';
         slider.style.width = 0;
         slider.style.height = 0;
         slider.style['overflow-y'] = 'auto';
         slider.style['overflow-x'] = 'hidden';
         slider.style.transitionProperty = 'width, height';
-        close.style.zIndex = 1002;
+        close.style.zIndex = 1113;
         close.style.position = 'fixed';
         close.style.width = '25px';
         close.style.height = '50px';
