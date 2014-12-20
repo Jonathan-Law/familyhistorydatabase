@@ -101,12 +101,12 @@
   background:#a4ca42;
 }
 
-img.zoomable:hover {
-  /* Un-prefixed. Prefix `transform` for all target browsers. */
-  -moz-animation: scale 0.5s; /* Firefox */
-  -webkit-animation: scale 0.5s; /* Safari and Chrome */
-  -o-animation: scale 0.5s; /* Opera */
-  transform: scale(1.5);
-  position:relative;
-  z-index: 1010;
+.style-four {
+  width: 100%;
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  background: none;
+  margin: 3px 0px;
 }

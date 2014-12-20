@@ -11,7 +11,7 @@ app.directive('individual', ['business', function (Business) {
     var mode = attrs.mode || null;
     if (mode) {
       if (mode === 'picture') {
-        return "<img class=\"{{classes}}\" ng-src='http://familyhistorydatabase.org/{{profilePic.viewlink}}' onerror=\"if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';\" style='height: {{initialsize}}; width: auto; border-radius: 4px; border: 1px solid darkgray;'>";
+        return "<img class=\"{{classes}}\" ng-src='http://familyhistorydatabase.org/{{profilePic.viewlink}}' onerror=\"if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';\" style='height: {{initialsize}}; width: auto; border-radius: 4px;'>";
         // return "{{person.displayableName}}";
       }
     }

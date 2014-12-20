@@ -25,8 +25,9 @@ app.directive('family', ['business', '$timeout', '$compile', function (Business,
             list = person.append('<ul></ul>').find('ul');
           }
           _.each(parents, function(parent) {
-            var temp = list.append('<li><a><individual classes="zoomable" person="'+parent.id+'" mode="picture" initialsize="'+size+'px"></individual></a></li>').find('individual[person*="'+parent.id+'"]').parent().parent();
             var tempsize = (size - 50) >= 25? (size - 50):25;
+            var classes = size > 75? 'zoomableParent': size > 50? 'zoomableGrandParent': '';
+            var temp = list.append('<li class="'+classes+'"><a ><individual classes="zoomable" person="'+parent.id+'" mode="picture" initialsize="'+size+'px"></individual></a></li>').find('individual[person*="'+parent.id+'"]').parent().parent();
             return addParents(parent.parents, temp, tempsize);
           })
         } else {
@@ -41,7 +42,7 @@ app.directive('family', ['business', '$timeout', '$compile', function (Business,
         var base = element.find("#treeHolder");
         var list = base.find('.tree');
         var root = list.append('<ul></ul>').find('ul');
-        var person = root.append('<li><a><individual classes="zoomable" person="'+scope.personId+'" mode="picture" initialsize="150px"></individual></a></li>').find('li');
+        var person = root.append('<li  class="zoomableInd"><a><individual classes="zoomable" person="'+scope.personId+'" mode="picture" initialsize="150px"></individual></a></li>').find('li');
         addParents(family.parents, person, 125);
         var e = angular.element(base);
         $compile(e.contents())(scope);
@@ -55,6 +56,9 @@ app.directive('family', ['business', '$timeout', '$compile', function (Business,
             $('.tree').css('width', 6000);
             setTimeout(function(){
               $('.tree').css('width', $('.tree').find('ul').find('li').width() + 10);
+              setTimeout(function(){
+                $('#treeHolder').scrollLeft($('.zoomableInd').width() / 4);
+              })
             })
           }
         };

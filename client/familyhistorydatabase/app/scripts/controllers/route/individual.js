@@ -41,6 +41,9 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', function ($
           $scope.links.letter = $scope.data.lastName.charAt(0);
           $scope.links.family = $scope.data.lastName;
           $scope.links.individual = $scope.data;
+          Business.individual.getProfilePicByPersonId(result.id).then(function(profilePicture){
+            $scope.data.profilePicture = profilePicture;
+          })
         } else {
           $scope.noData = 'We could not grab the individual\'s data.';
         }

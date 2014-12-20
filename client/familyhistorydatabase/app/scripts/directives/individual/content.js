@@ -84,16 +84,34 @@ app.directive('indData', ['$timeout', function ($timeout) {
       $timeout(function() {
         // fixed a weird bug where arriving on the page left you 10 pixes short from the top.
         $('body').animate({scrollTop:0},0);
+
+        if ($(window).scrollTop() > 68) {
+          var height = $(window).height();
+          $('#indData').css({
+            'height': height - 66 + 'px' 
+          });
+        } else {
+          var top = $(window).scrollTop();
+          var height = $(window).height();
+          $('#indData').css({
+            'height': height - (134 - top) + 'px' 
+          });
+        }
         $(window).scroll(function() {
           if ($(window).scrollTop() > 68) {
+            var height = $(window).height();
             $('#indData').css({
               'position': 'fixed',
-              'top': '82px'
+              'top': '66px',
+              'height': height - 66 + 'px' 
             });
           } else {
+            var top = $(window).scrollTop();
+            var height = $(window).height();
             $('#indData').css({
               'position': 'absolute',
-              'top': '100px'
+              'top': '82px',
+              'height': height - (134 - top) + 'px' 
             });
           }
           var top = $(window).scrollTop();
@@ -102,9 +120,21 @@ app.directive('indData', ['$timeout', function ($timeout) {
             'top': scroll+'px'
           });
         });
-
-
+        $(window).resize(function(){
+          if ($(window).scrollTop() > 68) {
+            var height = $(window).height();
+            $('#indData').css({
+              'height': height - 66 + 'px' 
+            });
+          } else {
+            var top = $(window).scrollTop();
+            var height = $(window).height();
+            $('#indData').css({
+              'height': height - (134 - top) + 'px' 
+            });
+          }
+        })
       });
-    }
+    }//
   };
 }]);

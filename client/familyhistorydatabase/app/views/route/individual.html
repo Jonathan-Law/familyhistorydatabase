@@ -12,8 +12,39 @@
       <div breadcrumbs ng-model="links" style="position:relative; z-index: 5;"></div>
       <h2 style="text-align: center; margin-top:5px;">{{data.displayableName}}</h2>
     </div>
-    <div id="indData" style="padding: 0px 15px 0px 30px; width: 300px; display:inline-block; overflow:auto; float:left; position: absolute; top:100px;">
-      Left Side! -- Individual Data
+    <div id="indData" style="padding: 0px 15px 0px 30px; width: 300px; display:inline-block; overflow-y:auto; overflow-x:hidden; float:left; position: absolute; top:82px;">
+      <div style="margin-right: -13px; margin-left:-1px; font-size: 12px;">
+        <div class="text-center">
+          <img class="img-rounded" ng-src="http://familyhistorydatabase.org/{{data.profilePicture.link}}" onerror="if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';" width="220" height="auto" style="margin-left: 12px;">
+          <h3 class="text-center" style="margin-top:10px;">Information</h3>
+          <hr class="style-four">
+        </div>
+        <div class="container-fluid">
+          <div class="row" style="margin-left:0px; margin-right:0px;">
+            <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">First Name:</div>
+            <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.firstName}}</div>
+            <div ng-if="data.middleName !=='' && data.middleName !== null" class="col-xs-4" style="padding-left:0px; padding-right:0px;">Middle Name:</div>
+            <div ng-if="data.middleName !=='' && data.middleName !== null" class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.middleName}}</div>
+            <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">Last Name:</div>
+            <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.lastName}}</div>
+          </div>
+        </div>
+        <hr class="style-four">
+        <div class="container-fluid">
+          <div class="row" style="margin-left:0px; margin-right:0px;">
+            <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">Year Born:</div>
+            <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.yearBorn}}</div>
+          </div>
+        </div>
+        <hr class="style-four">
+        <div class="container-fluid">
+          <div class="row" style="margin-left:0px; margin-right:0px;">
+            <div class="col-xs-12" style="padding-left:0px; padding-right:0px;">Relationship to Michele or Marvin Law:</div>
+            <div class="col-xs-11 col-xs-offset-1" style="padding-left:0px; padding-right:0px;">{{data.relationship}}</div>
+          </div>
+        </div>
+        <hr class="style-four">
+      </div>
     </div>
     <div style="padding: 73px 30px 0px 15px; width: calc(100% - 301px); display:inline-block;float:right">
       <div ng-switch="view.trigger">
