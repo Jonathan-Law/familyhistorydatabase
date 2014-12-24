@@ -5,3 +5,4 @@ dist
 bower_components
 *.ppk
 sftp-config.json
+TODOS.txt

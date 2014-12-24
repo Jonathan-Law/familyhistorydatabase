@@ -71,13 +71,14 @@ right connector from last child*/
 
 .tree li a{
   border: 1px solid #ccc;
-  padding: 5px 10px;
+  padding: 20px 20px;
   text-decoration: none;
   color: #666;
   font-family: arial, verdana, tahoma;
   font-size: 11px;
   display: inline-block;
-  
+  text-align: center;
+
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -106,18 +107,6 @@ right connector from last child*/
   height:25px;
 }
 
-img.zoomable:hover{
-  transform: scale(6);
-}
-.tree li.zoomableGrandParent > a img.zoomable:hover{
-  transform: scale(2.25);
-}
-.tree li.zoomableParent > a img.zoomable:hover{
-  transform: scale(1.75);
-}
-.tree li.zoomableInd > a img.zoomable:hover{
-  transform: scale(1.6);
-}
 /*Time for some hover effects*/
 /*We will apply the hover effect the the lineage of the element also*/
 .tree li a:hover, .tree li a:hover+ul li a {
@@ -130,24 +119,3 @@ img.zoomable:hover{
 .tree li a:hover+ul ul::before{
   border-color:  #94a0b4;
 }
-
-img.zoomable:hover {
-  /* Un-prefixed. Prefix `transform` for all target browsers. */
-  -moz-animation: scale 0.5s; /* Firefox */
-  -webkit-animation: scale 0.5s; /* Safari and Chrome */
-  -o-animation: scale 0.5s; /* Opera */
-  position:relative;
-  z-index: 1010;
-}
-
-img.zoomable.ind {
-  /* Un-prefixed. Prefix `transform` for all target browsers. */
-  border:3px solid green;
-}
-img.zoomable.parent {
-  /* Un-prefixed. Prefix `transform` for all target browsers. */
-  border:3px solid red;
-}
-
-/*Thats all. I hope you enjoyed it.
-Thanks :)*/

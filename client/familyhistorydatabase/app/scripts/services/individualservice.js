@@ -10,21 +10,116 @@
 app.factory('individualService', ['localCache', '$http', '$q', function (localCache, $http, $q) { /*jshint unused: false*/
   var service = {};
 
-  service.getIndData = function (id){
+  var minute = 60 * 1000;
+  var componentservice = {};
+
+  /***************************************************************
+  * This function is used to check the localCache for the existance of a result
+  * object that hasn't yet expired
+  * params: name -- The unique identifier for the entry in the local cache (usually a string)
+  * params: expire -- The ammount of time in ms that it will take for the object to expire
+  * returns: result -- The value of the object if it has not yet expired, and null for
+  *                    result objects that are no longer valid
+  ***************************************************************/
+  var checkExpire = function(name, expire) {
+    var result = localCache.get(name, 'object');
+    var cacheTime = null;
+    if (result) {
+      cacheTime = localCache.get(name+'-time', 'date');
+      var timeDiff = new Date() - cacheTime;
+      if (timeDiff < expire) {
+        return result;
+      } else {
+        return null;
+      }
+    }
+    return null;
+  };
+
+  /***************************************************************
+  * We use this function in conjunction with the checkExpire function.
+  * Use this function to save the value in the local cache (it will also save
+  * an expire time that it can use later to check validity of an entry)
+  * params: name -- The unique identifier for the entry in the local cache (usually a string)
+  * params: value -- The value of the data that you will be storing
+  ***************************************************************/
+  var save = function(name, value) {
+    localCache.save(name, value);
+    localCache.save(name+'-time', new Date());
+  };
+
+
+  var updateCache = function(name, value) {
+    save(name, value);
+  };
+
+
+  var handleQueue = function(current) {
     var deferred = $q.defer();
-    if (id) {
-      $http({
-        method: 'GET',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/' + id,
-      }).success(function(data, status, headers, config) {
-        if (data !== "false") {
-          deferred.resolve(data);
-        } else {
-          deferred.resolve([]);
-        }
-      });
+    setTimeout(function(){
+      if (current) {
+        $http({
+          method: current.method,
+          url: current.url,
+          params: current.params,
+          data: current.data
+        }).success(function(data, status, headers, config) {
+          if (data !== "false" && !isMaxError(data)) {
+            save(current.saveName, data);
+            deferred.resolve(data);
+          } else {
+            if (isMaxError(data)) {
+              deferred.resolve(handleQueue(current));
+            } else {
+              deferred.reject([]);
+            }
+          }
+        }).error(function(data, status, headers, config){
+          deferred.reject(data);
+        });
+      }
+    }, 500);
+    return deferred.promise;
+  }
+
+  var isMaxError = function (result) {
+    return (typeof result === 'object')? (result.error)? (_.contains(result.error, 'SQLSTATE[42000] [1203]'))? true:false :false : false;
+  } 
+
+  service.getIndData = function (id, override){
+    var deferred = $q.defer();
+    if (id)
+    {
+      var url = 'http://familyhistorydatabase.org/v2/api/v1/individual/' + id;
+      var value = null;
+      value = checkExpire('indData'+id, minute * 2);
+      if (value && !override) {
+        deferred.resolve(value);
+      } else {
+        $http({
+          method: 'GET',
+          url: url,
+        }).success(function(data, status, headers, config) {
+          if (data !== "false" && !isMaxError(data)) {
+            save('indData'+id, data);
+            deferred.resolve(data);
+          } else {
+            if (isMaxError(data)) {
+              var returnCall = angular.copy(utils.httpObj);
+              returnCall.method = 'GET';
+              returnCall.saveName = 'indData'+id;
+              returnCall.url = url;
+              handleQueue(returnCall).then(function(result){
+                deferred.resolve(result);
+              });
+            } else {
+              deferred.resolve([]);
+            }
+          }
+        });
+      }
     } else {
-      deferred.resolve([]);
+      deferred.reject([]);
     }
     return deferred.promise;    
   };
@@ -68,24 +163,45 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     return deferred.promise;
   };
 
-  service.getProfilePic = function (picId){
+  service.getProfilePic = function (picId, override){
     var deferred = $q.defer();
+
     if (picId) {
-      $http({
-        method: 'GET',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/profilePic/'+ picId,
-      }).success(function(data, status, headers, config) {
-        if (data !== "false") {
-          deferred.resolve(data);
-        } else {
-          deferred.resolve(false);
-        }
-      });
+      var url = 'http://familyhistorydatabase.org/v2/api/v1/profilePic/'+ picId;
+      var value = null;
+      value = checkExpire('indProfilePic'+picId, minute * 1440);
+      if (value && !override) {
+        deferred.resolve(value);
+      } else {
+        $http({
+          method: 'GET',
+          url: url,
+        }).success(function(data, status, headers, config) {
+          if (data !== "false" && !isMaxError(data)) {
+            save('indProfilePic'+picId, data);
+            deferred.resolve(data);
+          } else {
+            if (isMaxError(data)) {
+              var returnCall = angular.copy(utils.httpObj);
+              returnCall.method = 'GET';
+              returnCall.saveName = 'indProfilePic'+picId;
+              returnCall.url = url;
+              handleQueue(returnCall).then(function(result){
+                deferred.resolve(result);
+              });
+              // deferred.resolve(false);
+            } else {
+              deferred.resolve([]);
+            }
+          }
+        });
+      }
     } else {
       deferred.resolve(false);
     }
     return deferred.promise;
   };
+
   service.getProfilePicByPersonId = function (personId){
     var deferred = $q.defer();
     if (personId) {
@@ -155,7 +271,7 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     }
     return deferred.promise;
   }
-  
+
   service.getFamilies = function(letter) {
     var deferred = $q.defer();
     if (letter) {
@@ -170,10 +286,10 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     }
     return deferred.promise;
   }
-  
+
   service.getFamily = function(id) {
     console.log('id', id);
-    
+
     var deferred = $q.defer();
     if (id) {
       $http({

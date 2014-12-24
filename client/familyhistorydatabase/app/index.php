@@ -215,6 +215,7 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/common/angular-strap.tpl.js"></script>
   <script type="text/javascript" src="scripts/common/ui-bootstrap-tpls.js"></script>
   <script type="text/javascript" src="scripts/common/ng-tags-input.js"></script>
+  <script type="text/javascript" src="scripts/common/utils.js"></script>
   <!-- endbuild -->
 </body>
 </html>

@@ -72,7 +72,9 @@ var app = angular
   });
   // $httpProvider.defaults.withCredentials = true;
 }])
-.run(['$rootScope', 'business', '$q', '$route', function($rootScope, Business, $q, $route) {
+.run(['$rootScope', 'business', '$q', '$route', 'localCache', function($rootScope, Business, $q, $route, localCache) {
+  localCache.clearAll();
+  
   $rootScope.$on('$routeChangeSuccess', function(){
     Business.user.isLoggedInStill().then(function(result){
       if (!result) {

@@ -1,3 +1,18 @@
+.a-unstyled {
+  &:link { 
+    text-decoration: none;
+  }
+  &:visited { 
+    text-decoration: none;
+  }
+  &:hover { 
+    text-decoration: none;
+  }
+  &:active { 
+    text-decoration: none;
+  }
+}
+
 .asside.left{
   position: fixed;
   top: calc(50% - 140px);
