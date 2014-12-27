@@ -7,7 +7,6 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', function ($
   $scope.individual = null;
   $scope.setFocus = false;
   $scope.data = {};
-
   $scope.view = {};
   $scope.view.trigger = 'default';
 
@@ -20,9 +19,56 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', function ($
   if ($location.search()){
     $scope.individual = $location.search().individual? $location.search().individual: null;
     $scope.view.trigger = $location.search().tab? $location.search().tab: null;
+    if (!$location.search().tab) {
+      var temp = $location.search();
+      temp.tab = 'default';
+      $location.search(temp);
+    }
     if ($scope.individual === null) {
       $scope.goBackToLetter('a');
     }
+  }
+
+  $scope.cycleNext = function() {
+    switch($scope.view.trigger){
+      case 'photoAlbum':
+      $scope.view.trigger = 'documents'
+      break;
+      case 'documents':
+      $scope.view.trigger = 'default'
+      break;
+      case 'default':
+      $scope.view.trigger = 'photoAlbum'
+      break;
+      default:
+      $scope.view.trigger = 'default'
+      break;
+    }
+  }
+
+  $scope.getLoc = function() {
+    switch($scope.view.trigger){
+      case 'photoAlbum':
+      return 'Photo Album'
+      break;
+      case 'documents':
+      return 'Documents'
+      break;
+      default:
+      return 'Home'
+      break;
+    }
+  }
+
+  $scope.changeTrigger = function(val) {
+    $scope.view.trigger = val;
+    var temp = $location.search();
+    temp.tab = val;
+    $location.search(temp);
+  }
+
+  $scope.triggerChartResize = function(){
+    $scope.$emit('$TRIGGEREVENT', '$CHARTRESIZE');
   }
 
   $scope.addToSearch = function(attribute, value) {
@@ -58,29 +104,29 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', function ($
     }
   });
 
-  $scope.$watch('openFam', function() {
-    if (!$scope.openFam) {
-      $scope.setFocus = true;
-    }
-  })
-  $scope.$watch('openInd', function() {
-    if (!$scope.openFam) {
-      $scope.setFocus = true;
-    }
-  })
-
-  $scope.goBackToLetter = function(letter) {
-    $location.search({
-      'letter': letter
-    });
-    $location.path('/families');
+$scope.$watch('openFam', function() {
+  if (!$scope.openFam) {
+    $scope.setFocus = true;
   }
-
-  $scope.goBackToFamily = function(familyName) {
-    $location.search({
-      'individual': familyName
-    });
-    $location.path('/individual');
+})
+$scope.$watch('openInd', function() {
+  if (!$scope.openFam) {
+    $scope.setFocus = true;
   }
+})
+
+$scope.goBackToLetter = function(letter) {
+  $location.search({
+    'letter': letter
+  });
+  $location.path('/families');
+}
+
+$scope.goBackToFamily = function(familyName) {
+  $location.search({
+    'individual': familyName
+  });
+  $location.path('/individual');
+}
 
 }]);

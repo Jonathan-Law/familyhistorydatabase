@@ -14,6 +14,14 @@ app.directive('family', ['business', '$timeout', '$compile', function (Business,
       personId: '='
     },
     link: function postLink(scope, element, attrs) {
+
+      scope.getTitle = function() {
+        if (scope.family) {
+          return scope.family.self.displayableName + ' Family Chart';
+        } else {
+          return 'Family Chart';
+        }
+      }
       var addParents = function(parents, person, size) {
         if (parents && parents.length) {
           var list = person.find('ul');
@@ -22,13 +30,40 @@ app.directive('family', ['business', '$timeout', '$compile', function (Business,
           }
           _.each(parents, function(parent) {
             var tempsize = (size - 50) >= 25? (size - 50):25;
-            var temp = list.append('<li><a class="zoomable"><individual classes="" person="'+parent.id+'" mode="picture" zoomable="true" initialsize="'+size+'px"></individual></a></li>').find('individual[person*="'+parent.id+'"]').parent().parent();
+            var temp = list.append('<li id="person'+parent.id+'"><a class="zoomable"><individual classes="" person="'+parent.id+'" mode="picture" zoomable="true" initialsize="'+size+'px"></individual></a></li>').find('#person'+parent.id);
             return addParents(parent.parents, temp, tempsize);
           })
         } else {
           return;
         }
       }
+
+      var resizeTree = function() {
+        $('.tree').css('width', 6000);
+        setTimeout(function(){
+          $('.tree').css('width', $('.tree').find('ul').find('li').width() + 100);
+          setTimeout(function(){
+            var treeHolderWidth = $('#treeHolder').width();
+            var zoomableIndWidth = $('.zoomableInd').width();
+            if (treeHolderWidth < zoomableIndWidth) {
+              $('#treeHolder').scrollLeft((zoomableIndWidth - treeHolderWidth) / 2);
+            }
+          },100)
+        }, 400)
+      }
+
+      $(window).resize(function(){
+        $timeout(function(){
+          resizeTree()
+        })
+      })
+
+      scope.$on('$CHARTRESIZE', function(){
+        $timeout(function(){
+          resizeTree();
+        })
+      })
+
       Business.individual.getFamily(scope.personId).then(function(family){
         console.log('family', family);
         scope.family = family? family: [];
@@ -40,26 +75,18 @@ app.directive('family', ['business', '$timeout', '$compile', function (Business,
         var e = angular.element(base);
         $compile(e.contents())(scope);
 
+
         element.replaceWith(e);
         var allImgs = document.getElementById("treeHolder").getElementsByTagName("img");
         var allImgsLength = allImgs.length;
         var i;
         var eventCallback = function() {
           if ( !(--allImgsLength)) {
-            $('.tree').css('width', 6000);
-            setTimeout(function(){
-              $('.tree').css('width', $('.tree').find('ul').find('li').width() + 100);
-              setTimeout(function(){
-                var treeHolderWidth = $('#treeHolder').width();
-                var zoomableIndWidth = $('.zoomableInd').width();
-                if (treeHolderWidth < zoomableIndWidth) {
-                  $('#treeHolder').scrollLeft((zoomableIndWidth - treeHolderWidth) / 2);
-                }
-              },100)
-            },100)
+            resizeTree();
           }
         };
-
+        console.log('allImgsLength', allImgsLength);
+        
         for (i = 0; i < allImgsLength; i++) {
           if (allImgs[i].complete) {
             allImgsLength--;

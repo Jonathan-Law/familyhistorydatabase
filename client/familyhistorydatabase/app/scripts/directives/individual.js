@@ -29,7 +29,7 @@ app.directive('individual', ['business', function (Business) {
     link: function postLink(scope, element, attrs) {
       var setupZommable = function(){
         if (scope.zoomable){
-          $(element).on('mouseenter', function(){
+          $(element).on('click', function(){
             var img = $(this).find('img');
             var width = img.width();
             var height = img.height();
@@ -37,7 +37,7 @@ app.directive('individual', ['business', function (Business) {
             var widthCalc = width * heightRatio;
             var tempHolder = '<a class="a-unstyled" href="#/individual?individual='+scope.data.id+'&tab=default"></a>';
             tempHolder = $(tempHolder);
-            var link = $('<div class="dynamicImage" style="width:300px; background:dimgray; border:1px solid black; border-radius:4px; text-align: center; overflow:hidden; color: white;"></div>');
+            var link = $('<div class="dynamicImage" style="width:300px; background:#2F2F2F; border:1px solid black; border-radius:4px; text-align: center; overflow:hidden; color: white;"></div>');
             var temp = $('<img style="border:1px solid darkgray; border-radius:4px; margin:4px;">');
             var data = $('<div>'+scope.data.displayableName+' ('+scope.data.yearBorn+' - '+scope.data.yearDead+')</div>');
             tempHolder.append(link);

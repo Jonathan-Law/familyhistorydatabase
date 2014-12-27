@@ -88,6 +88,9 @@ var app = angular
   $rootScope.$on('$triggerEvent', function (event, eventtrigger, content){
     $rootScope.$broadcast(eventtrigger, content);
   });
+  $rootScope.$on('$TRIGGEREVENT', function (event, eventtrigger, content){
+    $rootScope.$broadcast(eventtrigger, content);
+  });
   $rootScope.$on('$LOGGEDIN', function (event, user){
     $rootScope.user = user;
   });

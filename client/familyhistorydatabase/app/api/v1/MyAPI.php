@@ -345,8 +345,9 @@ class MyAPI extends API
         $id = intval(array_shift($args));
         if ($id && is_numeric($id)) {
           $person = Person::getById($id);
+          $person->appendNames();
           $family = new stdClass();
-
+          $family->self = $person;
           $family->parents = array();
           // $family->siblings = array();
           $children = $person->getChildren();

@@ -2,17 +2,30 @@
 <!-- <div class="asside right hover" ng-mouseover="openFam = true"></div> -->
 <div ind-data id="" left="openFam" right="openInd" watch="data" style="height: 100%">
   <div style="position: relative; height: 100%;">
-    <div class="asside left"><h3 class="left">Individual Menu</h3></div>
+
+    <div class="asside left">
+      <div style="position:relative; width: 1000px;">
+        <ul id="verticalTabs">
+          <li><a href="javascript:void(0);" class="imitateLink" ng-click="cycleNext()">{{getLoc()}}</a>
+            <button type="button" title="Individual's Home Page" ng-class="view.trigger === 'default'? 'active':''" class="asside btn left btn-primary leftBtn" ng-click="changeTrigger('default')" style="left:125px; border-radius: 25px 0px 0px 0px;"><i class="fa fa-home" style="position: relative; top: -12px;"></i></button>
+            <button type="button" title="Photo Album" ng-class="view.trigger === 'photoAlbum'? 'active':''" class="asside btn left btn-primary middleBtn" ng-click="changeTrigger('photoAlbum')" style="left:175px; border-radius: 0px 0px 0px 0px;"><i class="fa fa-camera" style="position: relative; top: -12px;"></i></button>
+            <button type="button" title="Documents" ng-class="view.trigger === 'documents'? 'active':''" class="asside btn left btn-primary rightBtn" ng-click="changeTrigger('documents')" style="left:225px; border-radius: 0px 25px 0px 0px;"><i class="fa fa-file-text-o" style="position: relative; top: -12px;"></i></button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- <div class="asside left"><h3 class="left">Individual Menu</h3></div> -->
     <!-- <button class="asside btn left btn-primary" ng-click="openInd = true;" id="individualMenu" ng-mouseover="openInd = true;"><i class="fa fa-arrow-right" style="position: relative; right: -10px;"></i></button> -->
-    <button class="asside btn left btn-primary" ng-click="openInd = true;" id="individualMenu" ng-mouseover="openInd = true;"><i class="fa fa-bars" style="position: relative; right: -10px;"></i></button>
+    <!-- <button class="asside btn left btn-primary" ng-click="openInd = true;" id="individualMenu" ng-mouseover="openInd = true;"><i class="fa fa-bars" style="position: relative; right: -10px;"></i></button> -->
     <div class="asside right"><h3 class="right">Family Chart</h3></div>
-    <button class="asside btn right btn-primary" ng-click="openFam = true;"><i class="fa fa-arrow-left" style="position: relative; left: -10px;"></i></button>
+    <button class="asside btn right btn-primary" ng-click="openFam = true; triggerChartResize()"><i class="fa fa-arrow-left" style="position: relative; left: -10px;"></i></button>
     <!-- <button class="asside btn right btn-primary" ng-click="openFam = true;"  ng-mouseover="openFam = true;"><i class="fa fa-arrow-left" style="position: relative; left: -10px;"></i></button> -->
     <div id="header" style="min-width: 600px; border-bottom: 1px solid darkgray; background: #EEEBE0; position: fixed; top; 52px; width: 100%; z-index: 6;">
       <div breadcrumbs ng-model="links" style="position:relative; z-index: 5;"></div>
       <h2 style="text-align: center; margin-top:5px;">{{data.displayableName}}</h2>
     </div>
-    <div id="indData" style="padding: 0px 15px 0px 30px; width: 300px; display:inline-block; overflow-y:auto; overflow-x:hidden; float:left; position: absolute; top:82px;">
+    <!-- <div id="indData" style="padding: 0px 15px 0px 30px; width: 300px; display:inline-block; overflow-y:auto; overflow-x:hidden; float:left; position: absolute; top:82px;">
       <div style="margin-right: -13px; margin-left:-1px; font-size: 12px;">
         <div class="text-center">
           <img class="img-rounded" ng-src="http://familyhistorydatabase.org/{{data.profilePicture.link}}" onerror="if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';" width="220" height="auto" style="margin-left: 12px;">
@@ -45,35 +58,79 @@
         </div>
         <hr class="style-four">
       </div>
-    </div>
-    <div style="padding: 73px 30px 0px 15px; width: calc(100% - 301px); display:inline-block;float:right">
+    </div> -->
+    <!-- <div style="padding: 73px 30px 0px 15px; width: calc(100% - 301px); display:inline-block;float:right">
       <div ng-switch="view.trigger">
         <div ng-switch-when="default">
-<!--           <img ng-repeat="image in $parent.pictures" ng-src="http://familyhistorydatabase.org/{{image.viewlink}}" style=" width: 250px; height: auto;">
+           <img ng-repeat="image in $parent.pictures" ng-src="http://familyhistorydatabase.org/{{image.viewlink}}" style=" width: 250px; height: auto;">
           <br>
           <pre>
             {{pretty}}
-          </pre> -->
-          <family person-id="$parent.individual"></family>
+          </pre>
         </div>
         <div ng-switch-when="photoAlbum">
           <div photoalbum id="$parent.individual"></div>
         </div>
       </div>
+    </div> -->
+    <div ng-switch="view.trigger" style="position:absolute; top:69px; margin:0px 35px; width: calc(100% - 60px); min-height: calc(100% - 69px); border-left: 1px solid darkgray; border-right:1px solid darkgray;">
+      <div ng-switch-when="default">
+        <!-- <img ng-repeat="image in $parent.pictures" ng-src="http://familyhistorydatabase.org/{{image.viewlink}}" style=" width: 250px; height: auto;">
+        <br>
+        <pre>
+          {{pretty}}
+        </pre> -->
+        <div style="font-size: 12px;">
+          <div class="text-center">
+            <img class="img-rounded" ng-src="http://familyhistorydatabase.org/{{data.profilePicture.link}}" onerror="if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';" width="220" height="auto" style="margin-left: 12px;">
+            <h3 class="text-center" style="margin-top:10px;">Information</h3>
+            <hr class="style-four">
+          </div>
+          <div class="container-fluid">
+            <div class="row" style="margin-left:0px; margin-right:0px;">
+              <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">First Name:</div>
+              <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.firstName}}</div>
+              <div ng-if="data.middleName !=='' && data.middleName !== null" class="col-xs-4" style="padding-left:0px; padding-right:0px;">Middle Name:</div>
+              <div ng-if="data.middleName !=='' && data.middleName !== null" class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.middleName}}</div>
+              <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">Last Name:</div>
+              <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.lastName}}</div>
+            </div>
+          </div>
+          <hr class="style-four">
+          <div class="container-fluid">
+            <div class="row" style="margin-left:0px; margin-right:0px;">
+              <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">Year Born:</div>
+              <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.yearBorn}}</div>
+            </div>
+          </div>
+          <hr class="style-four">
+          <div class="container-fluid">
+            <div class="row" style="margin-left:0px; margin-right:0px;">
+              <div class="col-xs-12" style="padding-left:0px; padding-right:0px;">Relationship to Michele or Marvin Law:</div>
+              <div class="col-xs-11 col-xs-offset-1" style="padding-left:0px; padding-right:0px;">{{data.relationship}}</div>
+            </div>
+          </div>
+          <hr class="style-four">
+        </div>
+      </div>
+      <div ng-switch-when="photoAlbum">
+        <div photoalbum id="$parent.individual"></div>
+      </div>
     </div>
-<!--     <div style="border-left: 1px solid darkgray; height: calc(100% + 20px); display: block; margin-left: 300px; position: fixed; top: -20px; z-index: -1;">
+    <!-- <div style="border-left: 1px solid darkgray; height: calc(100% + 20px); display: block; margin-left: 300px; position: fixed; top: -20px; z-index: -1;">
       &nbsp;
     </div> -->
   </div>
 </div>
-<div pageslide="right" ps-open="openFam" ps-other="openInd" ps-custom-top="52px" ps-speed=".25" ps-custom-height="calc(100% - 52px)" ps-size="300" data="data">
+<div pageslide="right" ps-open="openFam" ps-other="openInd" ps-custom-top="52px" ps-speed=".25" ps-custom-height="calc(100% - 52px)" ps-size="35" data="data">
   <div class="ng-pageslide-content">
-    This is the right side? IT IS! --  Family Data
+    <family person-id="individual"></family>
+    <!-- This is the right side? IT IS! --  Family Data -->
   </div>
 </div>
-<div pageslide="left" ps-open="openInd" ps-other="openFam" ps-custom-top="52px" ps-speed=".25" ps-custom-height="calc(100% - 52px)" data="data">
-  <div class="ng-pageslide-content">
-    <button type="button" class="btn btn-default" ng-click="view.trigger='default'; addToSearch('tab', 'default')" style="width: 285px;">Individual home <img ng-src="http://familyhistorydatabase.org/{{pictures[0].viewlink}}" style="width:155px; height:auto;"></button>
-    <button type="button" class="btn btn-default" ng-click="view.trigger='photoAlbum'; addToSearch('tab', 'photoAlbum')" style="width: 285px;">Photo Album <img ng-src="http://familyhistorydatabase.org/{{pictures[0].viewlink}}" style="width:155px; height:auto;"></button>
-  </div>
-</div>
+<!-- <div pageslide="left" ps-open="openInd" ps-other="openFam" ps-custom-top="52px" ps-speed=".25" ps-custom-height="calc(100% - 52px)" data="data"> -->
+<!-- <div class="ng-pageslide-content"> -->
+<!-- <button type="button" class="btn btn-default" ng-click="view.trigger='default'; addToSearch('tab', 'default')" style="width: 285px;">Individual home <img ng-src="http://familyhistorydatabase.org/{{pictures[0].viewlink}}" style="width:155px; height:auto;"></button> -->
+<!-- <button type="button" class="btn btn-default" ng-click="view.trigger='photoAlbum'; addToSearch('tab', 'photoAlbum')" style="width: 285px;">Photo Album <img ng-src="http://familyhistorydatabase.org/{{pictures[0].viewlink}}" style="width:155px; height:auto;"></button> -->
+<!-- </div> -->
+<!-- </div> -->

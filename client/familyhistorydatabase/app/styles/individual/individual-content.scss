@@ -13,27 +13,61 @@
   }
 }
 
-.asside.left{
-  position: fixed;
-  top: calc(50% - 140px);
-  width: 45px;
-  height: 175px;
-  border-radius: 25px;
-  left: -25px;
+#verticalTabs {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  height: 52px;
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: rotate(90deg) translate(-488px, 0px);
+  -moz-transform: rotate(90deg) translate(-488px, 0px);
+  -o-transform: rotate(90deg) translate(-488px, 0px);
+  transform: rotate(90deg) translate(-488px, 0px);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+  left:20px;
+  top: 555px;
+}
+#verticalTabs li {
+  float: left;
+  width: 160px;
+  height: 45px;
   border: 1px solid gray;
-  z-index: 1110;
-  background: #EEEBE0;
+  margin: 0px 15px;
+  position: relative;
+  border-radius: 25px;
+}
+#verticalTabs li a {
+  display: block;
+  padding: 5px 20px;
+  font-size: 16px;
+  line-height: 12px;
+  text-decoration: none;
+  color: #000;
+}
+button.asside.btn.left.active {
+  height: 60px !important;
+  top: -15px !important;
+  background: #3f3f3f !important;
+}
+button.asside.btn.left.active.leftBtn {
+  border-radius: 25px 10px 0px 0px!important;
+}
+button.asside.btn.left.active.rightBtn {
+  border-radius: 10px 25px 0px 0px!important;
+}
+button.asside.btn.left.active.middleBtn {
+  border-radius: 10px 10px 0px 0px!important;
 }
 
-.asside.left.hover{
+.asside.left{
   position: fixed;
-  top: 52px;
-  width: 25px;
-  left:0px;
-  height: calc(100% - 52px);
-  border-radius: 0px;
-  border: 0px;
-  z-index: 5;
+  width: 45px;
+  z-index: 1110;
+  background: #EEEBE0;
 }
 
 .asside.right{
@@ -93,15 +127,22 @@
 }
 
 .asside.btn.left {
-  position: fixed;
-  top: 50%;
+  position: absolute;
+  top: -5px;
   width: 50px;
   height: 50px;
   border-radius: 25px;
-  left: -25px;
+  left: 125px;
   border: 1px solid gray;
   z-index: 1111;
   background:#a4ca42;
+}
+
+.asside.btn.left i{
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
 }
 
 .asside.btn.right {

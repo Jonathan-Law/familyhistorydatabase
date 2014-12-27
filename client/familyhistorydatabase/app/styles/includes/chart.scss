@@ -71,7 +71,7 @@ right connector from last child*/
 
 .tree li a{
   border: 1px solid #ccc;
-  padding: 20px 20px;
+  padding: 10px 10px;
   text-decoration: none;
   color: #666;
   font-family: arial, verdana, tahoma;
@@ -110,7 +110,8 @@ right connector from last child*/
 /*Time for some hover effects*/
 /*We will apply the hover effect the the lineage of the element also*/
 .tree li a:hover, .tree li a:hover+ul li a {
-  background: #c8e4f8; color: #000; border: 1px solid #94a0b4;
+  background: #2F2F2F; color: #fff; border: 1px solid #333;
+  cursor: pointer;
 }
 /*Connector styles on hover*/
 .tree li a:hover+ul li::after, 
