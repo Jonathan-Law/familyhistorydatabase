@@ -7,3 +7,4 @@ bower_components
 sftp-config.json
 TODOS.txt
 client/familyhistorydatabase/app/api/library/config.php
+client/familyhistorydatabase/app/api/library/paths.php
