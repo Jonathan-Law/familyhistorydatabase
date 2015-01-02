@@ -9,7 +9,6 @@
   utils.httpObj = {
     method:'',
     url:'',
-    promise:{},
     data: {},
     params: {},
     saveName: ''

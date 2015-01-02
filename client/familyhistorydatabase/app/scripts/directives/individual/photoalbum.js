@@ -21,9 +21,9 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
       $(window).on('keydown', function (e){
         if(e.keyCode === 37 || e.keyCode === 38) { //left or up
           if (scope.start > 0 && scope.active === 0) {
-            scope.setActiveImage(scope.active, scope.pictures[scope.start]);
             scope.stop--;
             scope.start--;
+            scope.setActiveImage(scope.active, scope.pictures[scope.start]);
           } else if (scope.start > 0){
             scope.setActiveImage(scope.active - 1, scope.pictures[(scope.start + scope.active) - 1]);
           } else if (scope.active > 0) {

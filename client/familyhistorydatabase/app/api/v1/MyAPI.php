@@ -319,12 +319,35 @@ class MyAPI extends API
               $person->parents = Parents::getParentsOf($id);
               $person->children = Parents::getChildrenOf($id);
               $person->spouse = Spouse::getById($id);
+              $person->profilePicture = File::getById($person->profile_pic);
               return $person;
             } else {
               return false;
             }
           } else {
             return false;
+          }
+        }
+      } else if ($this->verb === 'children') {
+        if (count($args) > 2 || count($args) < 2) {
+          return array();
+        } else {
+          $id = intval(array_shift($args));
+          $spouseid = intval(array_shift($args));
+          if ($id && is_numeric($id) && $spouseid && is_numeric($spouseid)){
+            $children = Person::getChildrenByParents($id, $spouseid);
+            $result = array();
+            if ($children && is_array($children) && count($children)) {
+              foreach ($children as $child) {
+                $person = Person::getById($child->child);
+                $person->appendNames();
+                $person->profilePicture = File::getById($person->profile_pic);
+                $result[] = $person;
+              }
+            }
+            return $result;
+          } else {
+            return array();
           }
         }
       } else if ($this->verb === 'families') {
@@ -446,7 +469,20 @@ class MyAPI extends API
           if ($id > -1) {
             $person = Person::getById($id);
             if ($person) {
-              return File::getByInd($person->id);
+              return File::getByInd($person->id, 'image');
+            }
+          }
+        } else {
+          return false;
+        }
+      } else if ($this->verb === 'documents') {
+        $id = intval(array_shift($args));
+        if ($id && is_numeric($id)) {
+          $session = mySession::getInstance();
+          if ($id > -1) {
+            $person = Person::getById($id);
+            if ($person) {
+              return File::getByInd($person->id, 'document');
             }
           }
         } else {

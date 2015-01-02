@@ -208,17 +208,31 @@ class Person
       return NULL;
   }
 
+  public static function getChildrenByParents($id, $spouseid) {
+    if ($id && $spouseid) {
+      $database = cbSQLConnect::connect('object');
+      if (isset($database))
+      { 
+        $sql = "SELECT * FROM `parents` WHERE `child` IN (SELECT child FROM `parents` WHERE `parentId`=:id) AND `parentId`=:spouseId";
+        $params = array(':id'=>$id, ':spouseId'=>$spouseid);
+        $results = $database->QueryForObject($sql, $params);
+        return  !empty($results)? $results : false;
+      }
+    }
+  }
+
   public function appendNames()
   {
     $this->displayableName = $this->displayName();
+    $this->succinctName = $this->displayName(true);
     $this->selectableName = $this->selectName();
     $this->typeahead = $this->selectName()." (".$this->yearBorn.")";
   }
 
-  public function displayName()
+  public function displayName($ignoreMiddle = false)
   {
     $name = $this->firstName." ";
-    if ($this->middleName)
+    if ($this->middleName && !$ignoreMiddle)
     {
       $name .= $this->middleName." ";
     }

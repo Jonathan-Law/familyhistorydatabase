@@ -346,7 +346,8 @@ module.exports = function (grunt) {
             'styles/bootstrap-additions.min.css',
             'styles/ng-tags-input.min.css',
             'scripts/common/hoverdirModernizr.js',
-            'scripts/common/dropzone.js'
+            'scripts/common/dropzone.js',
+            'bower_components/angulartics/src/angulartics-intercom.js'
           ]
         },{
           expand: true,

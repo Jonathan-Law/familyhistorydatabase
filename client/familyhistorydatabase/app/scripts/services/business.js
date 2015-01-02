@@ -26,7 +26,7 @@ app.factory('business', ['localCache', '$http', '$q', 'userService', 'authServic
   business.file = FileService;
 
   business.getTypeahead = function(val) {
-    return $http.get('http://familyhistorydatabase.org/v2/api/v1/typeahead/', {
+    return $http.get('http://familyhistorydatabase.org/api/v1/typeahead/', {
       params: {
         typeahead: val,
         sensor: false
@@ -59,7 +59,7 @@ app.factory('business', ['localCache', '$http', '$q', 'userService', 'authServic
   };
 
   business.getOtherTypeahead = function(val) {
-    return $http.get('http://familyhistorydatabase.org/v2/api/v1/tags/other', {
+    return $http.get('http://familyhistorydatabase.org/api/v1/tags/other', {
       params: {
         typeahead: val,
         sensor: false

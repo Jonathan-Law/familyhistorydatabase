@@ -166,3 +166,13 @@ button.asside.btn.left.active.middleBtn {
   background: none;
   margin: 3px 0px;
 }
+
+.currentSpouse{
+  border: 2px solid dimgray;
+}
+.notCurrentSpouse{
+  border: 2px solid transparent;
+}
+.topCorners{
+  border-radius: 5px 5px 0px 0px !important;
+}

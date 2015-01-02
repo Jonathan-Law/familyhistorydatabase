@@ -13,7 +13,7 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
   user.getUserInfo = function() {
     $http({
       method: 'GET',
-      url: 'http://familyhistorydatabase.org/v2/api/v1/user/'
+      url: 'http://familyhistorydatabase.org/api/v1/user/'
     }).success(function(data, status, headers, config) {
       // console.log('data', data);
 
@@ -23,7 +23,7 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
 
   user.isLoggedInStill = function() {
     var deferred = $q.defer();
-    $http.get('http://familyhistorydatabase.org/v2/api/v1/user/isLoggedInStill')
+    $http.get('http://familyhistorydatabase.org/api/v1/user/isLoggedInStill')
     .success(function(data, status, headers, config){
       if (!data || data === 'false') {
         deferred.resolve(false);
@@ -80,7 +80,7 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
     } else {
       $http({
         method: 'POST',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/user/login',
+        url: 'http://familyhistorydatabase.org/api/v1/user/login',
         data: {
           username: username,
           password: password
@@ -107,7 +107,7 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
     } else {
       $http({
         method: 'POST',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/user/register',
+        url: 'http://familyhistorydatabase.org/api/v1/user/register',
         data: {
           username: username? username: null,
           password: password? password: null,
@@ -133,7 +133,7 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
     var deferred = $q.defer();
     $http({
       method: 'GET',
-      url: 'http://familyhistorydatabase.org/v2/api/v1/user/isLoggedIn',
+      url: 'http://familyhistorydatabase.org/api/v1/user/isLoggedIn',
       headers: {'Content-Type': 'application/json'}
     }).success(function(data, status, headers, config) {
       if (data !== "false") {
@@ -149,7 +149,7 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
   user.logout = function() {
     $http({
       method: 'POST',
-      url: 'http://familyhistorydatabase.org/v2/api/v1/user/logout',
+      url: 'http://familyhistorydatabase.org/api/v1/user/logout',
       data: {},
       headers: {'Content-Type': 'application/json'}
     }).success(function(data, status, headers, config) {

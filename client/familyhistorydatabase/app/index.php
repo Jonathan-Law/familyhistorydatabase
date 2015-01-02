@@ -1,5 +1,8 @@
 <?php 
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 require_once("api/library/paths.php");
 
 // Load the Config File
@@ -202,6 +205,8 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/directives/individual/breadcrumbs.js"></script>
   <script type="text/javascript" src="scripts/directives/individual/photoalbum.js"></script>
   <script type="text/javascript" src="scripts/directives/individual/family.js"></script>
+  <script type="text/javascript" src="scripts/directives/individual/documents.js"></script>
+  <script type="text/javascript" src="scripts/directives/loader.js"></script>
   
   <script type="text/javascript" src="scripts/filters/partition.js"></script>
 

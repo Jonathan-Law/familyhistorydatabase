@@ -90,7 +90,7 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     var deferred = $q.defer();
     if (id)
     {
-      var url = 'http://familyhistorydatabase.org/v2/api/v1/individual/' + id;
+      var url = 'http://familyhistorydatabase.org/api/v1/individual/' + id;
       var value = null;
       value = checkExpire('indData'+id, minute * 2);
       if (value && !override) {
@@ -129,7 +129,7 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     if (id) {
       $http({
         method: 'GET',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/pictures/' + id,
+        url: 'http://familyhistorydatabase.org/api/v1/individual/pictures/' + id,
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
           deferred.resolve(data);
@@ -148,7 +148,7 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     if (data) {
       $http({
         method: 'POST',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/',
+        url: 'http://familyhistorydatabase.org/api/v1/individual/',
         data: data
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
@@ -167,7 +167,7 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     var deferred = $q.defer();
 
     if (picId) {
-      var url = 'http://familyhistorydatabase.org/v2/api/v1/profilePic/'+ picId;
+      var url = 'http://familyhistorydatabase.org/api/v1/profilePic/'+ picId;
       var value = null;
       value = checkExpire('indProfilePic'+picId, minute * 1440);
       if (value && !override) {
@@ -207,7 +207,7 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     if (personId) {
       $http({
         method: 'GET',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/profilePic/person/'+ personId,
+        url: 'http://familyhistorydatabase.org/api/v1/profilePic/person/'+ personId,
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
           deferred.resolve(data);
@@ -225,7 +225,7 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     if (spouseId && individualId) {
       $http({
         method: 'GET',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/spouses/' + spouseId + '/' + individualId,
+        url: 'http://familyhistorydatabase.org/api/v1/spouses/' + spouseId + '/' + individualId,
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
           deferred.resolve(data);
@@ -243,7 +243,7 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     if (placeId) {
       $http({
         method: 'GET',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/place/' + placeId,
+        url: 'http://familyhistorydatabase.org/api/v1/place/' + placeId,
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
           deferred.resolve(data);
@@ -262,7 +262,7 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     if (id) {
       $http({
         method: 'DELETE',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/'+id
+        url: 'http://familyhistorydatabase.org/api/v1/individual/'+id
       }).success(function(data, status, headers, config){
         deferred.resolve(data);
       }).error (function(data, status, headers, config){
@@ -272,12 +272,52 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     return deferred.promise;
   }
 
+  service.getChildren = function(id, spouseid, override) {
+    var deferred = $q.defer();
+    if (id && spouseid)
+    {
+      var url = 'http://familyhistorydatabase.org/api/v1/individual/children/' + id + '/' + spouseid;
+      var value = checkExpire('childrenOf_'+ id + '_' + spouseid, minute * 2);
+      if (!value) {
+        value = checkExpire('childrenOf_'+ spouseid + '_' + id, minute * 2);
+      }
+      if (value && !override) {
+        deferred.resolve(value);
+      } else {
+        $http({
+          method: 'GET',
+          url: url,
+        }).success(function(data, status, headers, config) {
+          if (data !== "false" && !isMaxError(data)) {
+            save('childrenOf_'+ id + '_' + spouseid, data);
+            deferred.resolve(data);
+          } else {
+            if (isMaxError(data)) {
+              var returnCall = angular.copy(utils.httpObj);
+              returnCall.method = 'GET';
+              returnCall.saveName = 'childrenOf_'+ id + '_' + spouseid;
+              returnCall.url = url;
+              handleQueue(returnCall).then(function(result){
+                deferred.resolve(result);
+              });
+            } else {
+              deferred.resolve([]);
+            }
+          }
+        });
+      }
+    } else {
+      deferred.reject([]);
+    }
+    return deferred.promise; 
+  }
+
   service.getFamilies = function(letter) {
     var deferred = $q.defer();
     if (letter) {
       $http({
         method: 'GET',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/families/'+letter
+        url: 'http://familyhistorydatabase.org/api/v1/individual/families/'+letter
       }).success(function(data, status, headers, config){
         deferred.resolve(data);
       }).error (function(data, status, headers, config){
@@ -294,7 +334,7 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     if (id) {
       $http({
         method: 'GET',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/family/'+id
+        url: 'http://familyhistorydatabase.org/api/v1/individual/family/'+id
       }).success(function(data, status, headers, config){
         deferred.resolve(data);
       }).error (function(data, status, headers, config){
@@ -309,7 +349,7 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     if (family) {
       $http({
         method: 'GET',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/individual/familyNames/'+family
+        url: 'http://familyhistorydatabase.org/api/v1/individual/familyNames/'+family
       }).success(function(data, status, headers, config){
         deferred.resolve(data);
       }).error (function(data, status, headers, config){
@@ -317,6 +357,43 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
       })
     }
     return deferred.promise;
+  }
+
+  service.getDocuments = function(id, override) {
+    var deferred = $q.defer();
+    if (id)
+    {
+      var url = 'http://familyhistorydatabase.org/api/v1/individual/documents/' + id;
+      var value = checkExpire('documentsOf_'+ id, minute * 2);
+      if (value && !override) {
+        deferred.resolve(value);
+      } else {
+        $http({
+          method: 'GET',
+          url: url,
+        }).success(function(data, status, headers, config) {
+          if (data !== "false" && !isMaxError(data)) {
+            save('documentsOf_' + id, data);
+            deferred.resolve(data);
+          } else {
+            if (isMaxError(data)) {
+              var returnCall = angular.copy(utils.httpObj);
+              returnCall.method = 'GET';
+              returnCall.saveName = 'documentsOf_' + id;
+              returnCall.url = url;
+              handleQueue(returnCall).then(function(result){
+                deferred.resolve(result);
+              });
+            } else {
+              deferred.resolve([]);
+            }
+          }
+        });
+      }
+    } else {
+      deferred.reject([]);
+    }
+    return deferred.promise; 
   }
 
   return service;

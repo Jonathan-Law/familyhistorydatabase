@@ -88,13 +88,13 @@ app.directive('indData', ['$timeout', function ($timeout) {
         if ($(window).scrollTop() > 68) {
           var height = $(window).height();
           $('#indData').css({
-            'height': height - 66 + 'px' 
+            'height': height - 53 + 'px' 
           });
         } else {
           var top = $(window).scrollTop();
           var height = $(window).height();
           $('#indData').css({
-            'height': height - (134 - top) + 'px' 
+            'height': height - (121 - top) + 'px' 
           });
         }
         $(window).scroll(function() {
@@ -102,16 +102,16 @@ app.directive('indData', ['$timeout', function ($timeout) {
             var height = $(window).height();
             $('#indData').css({
               'position': 'fixed',
-              'top': '66px',
-              'height': height - 66 + 'px' 
+              'top': '53px',
+              'height': height - 53 + 'px' 
             });
           } else {
             var top = $(window).scrollTop();
             var height = $(window).height();
             $('#indData').css({
               'position': 'absolute',
-              'top': '82px',
-              'height': height - (134 - top) + 'px' 
+              'top': '0px',
+              'height': height - (121 - top) + 'px' 
             });
           }
           var top = $(window).scrollTop();
@@ -124,13 +124,13 @@ app.directive('indData', ['$timeout', function ($timeout) {
           if ($(window).scrollTop() > 68) {
             var height = $(window).height();
             $('#indData').css({
-              'height': height - 66 + 'px' 
+              'height': height - 53 + 'px' 
             });
           } else {
             var top = $(window).scrollTop();
             var height = $(window).height();
             $('#indData').css({
-              'height': height - (134 - top) + 'px' 
+              'height': height - (121 - top) + 'px' 
             });
           }
         })

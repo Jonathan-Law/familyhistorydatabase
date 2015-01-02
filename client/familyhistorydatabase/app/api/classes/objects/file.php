@@ -121,13 +121,13 @@ class File
       return false;
    }
 
-   public static function getByInd($id){
+   public static function getByInd($id, $type){
       $database = cbSQLConnect::connect('object');
       if (isset($database))
       {
          $name = 'file';
-         $sql = "SELECT * FROM $name WHERE `id` IN (SELECT `fileid` FROM `tag` WHERE `enum`='person' AND `foreignid`=:id)";
-         $params = array(':id' => $id);
+         $sql = "SELECT * FROM $name WHERE `id` IN (SELECT `fileid` FROM `tag` WHERE `enum`='person' AND `foreignid`=:id) AND `type`=:type";
+         $params = array(':id' => $id, ':type'=>$type);
          array_unshift($params, '');
          unset($params[0]);
          $results_array = $database->QueryForObject($sql, $params);

@@ -15,7 +15,7 @@ app.factory('fileService', ['localCache', '$http', '$q', function (localCache, $
     if (id) {
       $http({
         method: 'GET',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/file/' + id,
+        url: 'http://familyhistorydatabase.org/api/v1/file/' + id,
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
           deferred.resolve(data);
@@ -34,7 +34,7 @@ app.factory('fileService', ['localCache', '$http', '$q', function (localCache, $
     if (data) {
       $http({
         method: 'POST',
-        url: 'http://familyhistorydatabase.org/v2/api/v1/file/update',
+        url: 'http://familyhistorydatabase.org/api/v1/file/update',
         data: data
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
@@ -61,11 +61,11 @@ app.factory('fileService', ['localCache', '$http', '$q', function (localCache, $
           }
         };
         val = 'object';
-        body.url = 'http://familyhistorydatabase.org/v2/api/v1/file/getTypeahead/'+val+'/'+switchTrigger;
+        body.url = 'http://familyhistorydatabase.org/api/v1/file/getTypeahead/'+val+'/'+switchTrigger;
       } else {
         body= {
           method: 'GET',
-          url: 'http://familyhistorydatabase.org/v2/api/v1/file/getTypeahead/'+val+'/'+switchTrigger,
+          url: 'http://familyhistorydatabase.org/api/v1/file/getTypeahead/'+val+'/'+switchTrigger,
         };
       }
       $http(body).success(function(data, status, headers, config){
