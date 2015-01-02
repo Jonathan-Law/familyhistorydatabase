@@ -73,10 +73,19 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$locat
 
   $scope.onSelect = function(item, model, something) {
     if (typeof $scope.searchKey === 'object' && $scope.searchKey){
-      Business.individual.getIndData($scope.searchKey.id).then(function(result) {
-        // console.log('Typeahead Item Found: ', $scope.searchKey);
-        // console.log('Individual: ', result);
-      });
+      console.log('searchKey', $scope.searchKey);
+      if ($scope.searchKey.id)
+      {
+        $location.search({
+          'individual': $scope.searchKey.id,
+          'tab': 'default'
+        });
+        $location.path('/individual');
+        // Business.individual.getIndData($scope.searchKey.id).then(function(result) {
+          // console.log('Typeahead Item Found: ', $scope.searchKey);
+          // console.log('Individual: ', result);
+        // });
+      }
     } else {
       // console.log('searchKey', $scope.searchKey);
     }
