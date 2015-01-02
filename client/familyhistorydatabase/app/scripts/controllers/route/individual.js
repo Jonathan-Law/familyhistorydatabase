@@ -129,7 +129,7 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', '$timeout',
             if (!(--total)) {
               $('#spouseHolder').css('width', 10000);
               setTimeout(function(){
-                $('#spouseHolder').css('width', $('#spouseHolderInner').width());
+                $('#spouseHolder').css('width', $('#spouseHolderInner').width() + 10);
                 $scope.spouses = $scope.spouses.sort(compareDisplayNames);
                 $scope.setKids($scope.spouses[0]);
                 $scope.$broadcast('$UNLOAD', 'spouseLoader');
@@ -142,7 +142,6 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', '$timeout',
         });
         });
       } else {
-        $('#spouseHolder').css('width', $('#spouseHolderInner').width());
         $scope.spouses = $scope.spouses.sort(compareDisplayNames);
         $scope.setKids(null);
         $scope.$broadcast('$UNLOAD', 'spouseLoader');
