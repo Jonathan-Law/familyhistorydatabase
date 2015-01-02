@@ -6,3 +6,4 @@ bower_components
 *.ppk
 sftp-config.json
 TODOS.txt
+client/familyhistorydatabase/app/api/library/config.php
