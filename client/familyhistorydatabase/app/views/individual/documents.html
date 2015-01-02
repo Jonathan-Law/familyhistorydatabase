@@ -2,7 +2,7 @@
   <h2>Documents</h2>
   <loader trigger="documentsLoader"></loader>
   <div ng-repeat="doc in documents">
-    {{$index + 1}}.&nbsp;<a href="http://familyhistorydatabase.org/dev/{{doc.link}}" target="_blank">{{doc.title}}</a>
+    {{$index + 1}}.&nbsp;<a href="http://familyhistorydatabase.org/{{doc.link}}" target="_blank">{{doc.title}}</a>
     <br>
     <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;–&nbsp;{{doc.comments}}.</span>
     <br>

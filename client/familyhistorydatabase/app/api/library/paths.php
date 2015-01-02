@@ -17,6 +17,6 @@ defined('CONTROLLER')     ? null : define('CONTROLLER', APIROOT.'controller'.DS)
 defined('CLASSES')        ? null : define('CLASSES', APIROOT.'classes'.DS);
 defined('OBJECTS')        ? null : define('OBJECTS', CLASSES.'objects'.DS);
 defined('TOOLS')          ? null : define('TOOLS', CLASSES.'tools'.DS);
-defined('UPLOAD')         ? null : define('UPLOAD', 'dev'.DS.'upload'.DS);
-// defined('UPLOAD')         ? null : define('UPLOAD', 'upload'.DS);
+// defined('UPLOAD')         ? null : define('UPLOAD', 'dev'.DS.'upload'.DS);
+defined('UPLOAD')         ? null : define('UPLOAD', 'upload'.DS);
 ?>
