@@ -272,6 +272,27 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     return deferred.promise;
   }
 
+  service.setProfilePic = function(id, pic){
+    var deferred = $q.defer();
+    if (id && pic)
+    {
+      var url = 'http://familyhistorydatabase.org/api/v1/profilePic/' + id + '/' + pic;
+      $http({
+        method: 'POST',
+        url: url,
+      }).success(function(data, status, headers, config) {
+        if (data !== "false" && !isMaxError(data)) {
+          deferred.resolve(data);
+        } else {
+          deferred.reject(false);
+        }
+      });
+    } else {
+      deferred.reject(false);
+    }
+    return deferred.promise;  
+  }
+
   service.getChildren = function(id, spouseid, override) {
     var deferred = $q.defer();
     if (id && spouseid)

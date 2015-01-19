@@ -16,7 +16,17 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
     link: function postLink(scope, element, attrs) {
 
       console.log('scope.id', scope.id);
+
+      scope.isUserAdmin = false;
+
+      scope.isUserAdmin = Business.user.getIsAdmin() || false;
       
+
+      scope.setProfilePicture = function(){
+        Business.individual.setProfilePic(scope.id, scope.focus.id).then(function(result){
+          console.log(result);
+        });
+      };
 
       $(window).on('keydown', function (e){
         if(e.keyCode === 37 || e.keyCode === 38) { //left or up

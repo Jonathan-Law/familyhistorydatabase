@@ -12,8 +12,9 @@
       <img id="displayImage" ng-src="http://familyhistorydatabase.org/{{focus.link}}" style="width: {{imgWidth}}px; height: {{imgHeight}}px; display: inline-block; vertical-align: middle; margin-left: -4px;">
       <div class="photoAlbumData">
         <button class="btn btn-default printButton pull-right" style="position:relative;" ng-click="print()"><i class="fa fa-print" ></i></button>
-        <button class="btn btn-default printButton pull-right" type="submit" style="position:relative; margin-right: 5px;" ng-click="getDownload()"><i class="fa fa-download imitateLink"></i></button>
-        <button class="btn btn-default printButton pull-right" type="submit" style="position:relative; margin-right: 5px;" ng-click="openInNewWindow()"><i class="fa  fa-eye imitateLink"></i></button>
+        <button class="btn btn-default printButton pull-right" type="button" style="position:relative; margin-right: 5px;" ng-click="getDownload()"><i class="fa fa-download imitateLink"></i></button>
+        <button class="btn btn-default printButton pull-right" type="button" style="position:relative; margin-right: 5px;" ng-click="openInNewWindow()"><i class="fa  fa-eye imitateLink"></i></button>
+        <button class="btn btn-default printButton pull-right" type="button" style="position:relative; margin-right: 5px;" ng-click="setProfilePicture()"><i class="fa fa-user imitateLink" ></i></button>
         <div style="overflow:hidden; white-space: initial;">
           <h3 style="margin: 5px 0px;">{{focus.title}}</h3>
           Author: {{focus.author}}

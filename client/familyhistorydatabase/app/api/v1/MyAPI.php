@@ -202,8 +202,16 @@ class MyAPI extends API
           }
         }
       }
+    } else if ($this->method === 'POST') {
+      $id = intval(array_shift($args));
+      $picId = intval(array_shift($args));
+      if ($id && is_numeric($id) && $picId && is_numeric($picId)) {
+        $person = Person::getById($id);
+        $person->setProfilePic($picId);
+        return true;
+      }
     }
-    return $first;
+    return false;
   }
 
   protected function spouses($args){
