@@ -155,7 +155,7 @@ class Person
     }
   }
 
-  public static function getLastNames($letter, $all)
+  public static function getLastNames($letter, $all = false)
   {
     $database = cbSQLConnect::connect('array');
     if (isset($database))
@@ -175,7 +175,7 @@ class Person
     }
   }
 
-  public static function getFirstNames($lastname, $all)
+  public static function getFirstNames($lastname, $all = false)
   {
     $database = cbSQLConnect::connect('array');
     if (isset($database))

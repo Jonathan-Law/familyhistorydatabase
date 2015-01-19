@@ -20,7 +20,10 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
       scope.isUserAdmin = false;
 
       scope.isUserAdmin = Business.user.getIsAdmin() || false;
-      
+
+      scope.$on('$LOGGEDIN', function(){
+        scope.isUserAdmin = Business.user.getIsAdmin() || false;
+      })
 
       scope.setProfilePicture = function(){
         Business.individual.setProfilePic(scope.id, scope.focus.id).then(function(result){
