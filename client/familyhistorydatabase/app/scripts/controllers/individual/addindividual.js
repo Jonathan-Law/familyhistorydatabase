@@ -412,9 +412,10 @@ $scope.onSelectParent = function(item, model, something) {
         
         if (!$scope.backup) {
           $scope.$broadcast('$RESETFORM');
+          $scope.result = {};
           $scope.result.parentList = [];
           $scope.result.spouseList = [];
-          $scope.result = {};
+          
         }
         triggerAlert('Your individual\'s data was saved!!', 'addIndividual', '#globalModal', 5000);        
       }
