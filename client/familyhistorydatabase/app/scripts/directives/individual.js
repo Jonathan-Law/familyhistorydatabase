@@ -6,12 +6,16 @@
 * @description
 * # individual
 */
-app.directive('individual', ['business', function (Business) {
+app.directive('individual', ['business', '$timeout', function (Business, $timeout) {
   var getTemplate = function (element, attrs) {
     var mode = attrs.mode || null;
     if (mode) {
       if (mode === 'picture') {
-        return "<div class='image_enlarge_container'><img ng-cloak class=\"{{classes}}\" ng-src='{{profilePic}}' onerror=\"if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';\" style='height: {{initialsize}}; width: auto; border-radius: 4px;'></div>";
+        if (attrs.zoomable) {
+          return "<div class='image_enlarge_container'><img  data-toggle=\"tooltip\" data-placement=\"bottom\" data-title=\"Click to see more\" data-trigger=\"hover\" data-original-title=\"\" title=\"\" ng-cloak class=\"{{classes}}\" ng-src='{{profilePic}}' onerror=\"if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';\" style='height: {{initialsize}}; width: auto; border-radius: 4px;'></div>";
+        } else {
+          return "<div class='image_enlarge_container'><img ng-cloak class=\"{{classes}}\" ng-src='{{profilePic}}' onerror=\"if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';\" style='height: {{initialsize}}; width: auto; border-radius: 4px;'></div>";
+        }
         // return "{{person.displayableName}}";
       }
     }
@@ -37,7 +41,7 @@ app.directive('individual', ['business', function (Business) {
             var widthCalc = width * heightRatio;
             var tempHolder = '<a class="a-unstyled" href="#/individual?individual='+scope.data.id+'&tab=default"></a>';
             tempHolder = $(tempHolder);
-            var link = $('<div class="dynamicImage" style="width:300px; background:#2F2F2F; border:1px solid black; border-radius:4px; text-align: center; overflow:hidden; color: white;"></div>');
+            var link = $('<div class="dynamicImage" style="width:300px; background:#2F2F2F; border:1px solid black; border-radius:4px; text-align: center; overflow:hidden; color: white;" data-toggle="tooltip" data-placement="bottom" data-title="Click to go to this individual\'s page" data-trigger="hover" data-original-title="" title="" ></div>');
             var temp = $('<img style="border:1px solid darkgray; border-radius:4px; margin:4px;">');
             var data = $('<div>'+scope.data.displayableName+' ('+scope.data.yearBorn+' - '+scope.data.yearDead+')</div>');
             tempHolder.append(link);
@@ -59,6 +63,10 @@ app.directive('individual', ['business', function (Business) {
 
             tempHolder.on('mouseleave click', function(){
               $(this).remove();
+            })
+            $timeout(function(){
+              $('.a-unstyled [data-toggle=\'tooltip\']').tooltip();
+              $('.a-unstyled [data-toggle=\'tooltip\']').tooltip('show');
             })
           }) 
           $(window).scroll(function(){ //
@@ -93,6 +101,10 @@ app.directive('individual', ['business', function (Business) {
         scope.profilePic = 'http://familyhistorydatabase.org/images/familytree.jpg';
         // console.log('Fail result', result);
       });
-    } //
+
+      $timeout(function() {//
+        $('.image_enlarge_container [data-toggle=\'tooltip\']').tooltip();
+      });
+    }
   };
 }]);

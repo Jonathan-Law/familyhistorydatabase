@@ -1,76 +1,76 @@
-.imageContainer{
+.dathumbsContainer .imageContainer{
   overflow: hidden;
 }
 
-.imageContainer img{
+.dathumbsContainer .imageContainer img{
   position: relative;
   left:-150px;
 }
 
-.in {
+.dathumbsContainer .in {
   transition: all .2s ease-in-out;
   -webkit-transition: all .2s ease-in-out; /** Chrome & Safari **/
   -moz-transition: all .2s ease-in-out; /** Firefox **/
   -o-transition: all .2s ease-in-out; /** Opera **/
 }
 
-.out {
+.dathumbsContainer .out {
   transition: all .2s ease-out;
   -webkit-transition: all .2s ease-out; /** Chrome & Safari **/
   -moz-transition: all .2s ease-out; /** Firefox **/
   -o-transition: all .2s ease-out; /** Opera **/
 }
 
-.top.in{
+.dathumbsContainer .top.in{
   left:0px;
   right:0px;
   top: 150px;
   bottom: 150px;
   transform: translate3d(0px, -150px, 0px);
 }
-.top.out {
+.dathumbsContainer .top.out {
   top:0px;
   right:0px;
   left:0px;
   bottom:0px;
   transform: translate3d(0px, -150px, 0px);
 }
-.bottom.in{
+.dathumbsContainer .bottom.in{
   left:0px;
   right:0px;
   top: -150px;
   bottom: -150px;
   transform: translate3d(0px, 150px, 0px);
 }
-.bottom.out {
+.dathumbsContainer .bottom.out {
   top:0px;
   right:0px;
   left:0px;
   bottom:0px;
   transform: translate3d(0px, 150px, 0px);
 }
-.left.in{
+.dathumbsContainer .left.in{
   left: -150px;
   right: -150px;
   top: 0px;
   bottom: 0px;
   transform: translate3d(150px, 0px, 0px);
 }
-.left.out {
+.dathumbsContainer .left.out {
   top:0px;
   right:0px;
   left:0px;
   bottom:0px;
   transform: translate3d(-150px, 0px, 0px);
 }
-.right.in{
+.dathumbsContainer .right.in{
   left:150px;
   right:150px;
   top:0px;
   bottom:0px;
   transform: translate3d(-150px, 0px, 0px);
 }
-.right.out {
+.dathumbsContainer .right.out {
   top:0px;
   right:0px;
   left:0px;
