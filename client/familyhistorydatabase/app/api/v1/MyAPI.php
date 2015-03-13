@@ -202,8 +202,18 @@ class MyAPI extends API
           }
         }
       }
+    } else if ($this->method === 'POST') {
+      if ($session->isLoggedIn()&& $session->isAdmin()) {
+        $id = intval(array_shift($args));
+        $picId = intval(array_shift($args));
+        if ($id && is_numeric($id) && $picId && is_numeric($picId)) {
+          $person = Person::getById($id);
+          $person->setProfilePic($picId);
+          return true;
+        }
+      }
     }
-    return $first;
+    return false;
   }
 
   protected function spouses($args){
@@ -356,8 +366,10 @@ class MyAPI extends API
         } else {
           $letter = 'a';
         }
+        $all = array_shift($args);
+        $all = $all === "true"? true: false;
         $names = array();
-        $families = Person::getLastNames($letter);
+        $families = Person::getLastNames($letter, $all);
         if ($families) {
           foreach ($families as $key) {
             $names[] = $key['lastName'];
@@ -452,8 +464,11 @@ class MyAPI extends API
         } else {
           $lastName = 'Law';
         }
+        $all = array_shift($args);
+        $all = $all === "true"? true: false;
+
         $names = array();
-        $familyNames = Person::getFirstNames($lastName);
+        $familyNames = Person::getFirstNames($lastName, $all);
         if ($familyNames) {
           foreach ($familyNames as $key) {
             $key = recast('Person', arrayToObject($key));

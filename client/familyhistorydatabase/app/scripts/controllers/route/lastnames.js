@@ -18,7 +18,7 @@ app.controller('LastnamesCtrl', ['$scope', '$location', 'business', function ($s
 
   $scope.$watch('family', function() {
     if ($scope.family) {
-      Business.individual.getFirstNames($scope.family).then(function(result) {
+      Business.individual.getFirstNames($scope.family, false).then(function(result) {
         if (result) {
           $scope.names = angular.copy(result); 
         } else {

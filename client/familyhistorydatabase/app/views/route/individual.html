@@ -50,10 +50,36 @@
               </div>
             </div>
             <hr class="style-four">
-            <div class="container-fluid">
-              <div class="row" style="margin-left:0px; margin-right:0px;">
-                <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">Year Born:</div>
-                <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.yearBorn}}</div>
+            <div class="container-fluid" ng-show="(data.birth && data.birth.year) || (data.birth && data.birth.place)">
+              <div class="row" style="margin-left:0px; margin-right:0px;" ng-show="data.birth && data.birth.year">
+                <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">Birth Date:</div>
+                <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.birth.toString()}}</div>
+              </div>
+              <div class="row" style="margin-left:0px; margin-right:0px;" ng-show="data.birth && data.birth.place">
+                <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">Birth Place:</div>
+                <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.birth.getPlace()}}</div>
+              </div>
+            </div>
+            <hr class="style-four">
+            <div class="container-fluid" ng-show="(data.death && data.death.year) || (data.death && data.death.place)">
+              <div class="row" style="margin-left:0px; margin-right:0px;" ng-show="data.death && data.death.year">
+                <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">Death Date:</div>
+                <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.death.toString()}}</div>
+              </div>
+              <div class="row" style="margin-left:0px; margin-right:0px;" ng-show="data.death && data.death.place">
+                <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">Death Place:</div>
+                <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.death.getPlace()}}</div>
+              </div>
+            </div>
+            <hr class="style-four">
+            <div class="container-fluid" ng-show="(data.burial && data.burial.year) || (data.burial && data.burial.place)">
+              <div class="row" style="margin-left:0px; margin-right:0px;" ng-show="data.burial && data.burial.year">
+                <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">Burial Date:</div>
+                <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.burial.toString()}}</div>
+              </div>
+              <div class="row" style="margin-left:0px; margin-right:0px;" ng-show="data.burial && data.burial.place">
+                <div class="col-xs-4" style="padding-left:0px; padding-right:0px;">Burial Place:</div>
+                <div class="col-xs-8" style="padding-left:0px; padding-right:0px;">{{data.burial.getPlace()}}</div>
               </div>
             </div>
             <hr class="style-four">
