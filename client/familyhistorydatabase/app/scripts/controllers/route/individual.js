@@ -93,6 +93,10 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', '$timeout',
       Business.individual.getIndData(id).then(function(result) {
         if (result) {
           $scope.data = angular.copy(result);
+          console.log('data', $scope.data);
+          $scope.data.birth = utils.date.set($scope.data.birth);
+          $scope.data.death = utils.date.set($scope.data.death);
+          $scope.data.burial = utils.date.set($scope.data.burial);
           $scope.pretty = JSON.stringify($scope.data, null, 4);
           $scope.links = {};
 
