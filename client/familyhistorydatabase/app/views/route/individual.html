@@ -27,14 +27,14 @@
     </div>
     <div ng-switch="view.trigger" style="position:absolute; top:69px; margin:0px 35px; width: calc(100% - 60px); min-height: calc(100% - 69px); border-left: 1px solid darkgray; border-right:1px solid darkgray;">
       <div ng-switch-when="default">
-        <!-- <img ng-repeat="image in $parent.pictures" ng-src="http://familyhistorydatabase.org/dev/{{image.viewlink}}" style=" width: 250px; height: auto;">
+        <!-- <img ng-repeat="image in $parent.pictures" ng-src="http://familyhistorydatabase.org/{{image.viewlink}}" style=" width: 250px; height: auto;">
         <br>
         <pre>
           {{pretty}}
         </pre> -->
         <div style="position: fixed; font-size: 12px; display: inline-block; width: 300px; height: calc(100% - 82px); padding: 5px; overflow-y: auto; overflow-x: hidden; border-right: 1px solid darkgray; " id="indData">
           <div class="text-center">
-            <img class="img-rounded" ng-src="http://familyhistorydatabase.org/dev/{{data.profilePicture.link}}" onerror="if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';" width="290" height="auto">
+            <img class="img-rounded" ng-src="http://familyhistorydatabase.org/{{data.profilePicture.link}}" onerror="if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';" width="290" height="auto">
           </div>
           <div>
             <h3 class="text-center" style="margin-top:10px;">Information</h3>
