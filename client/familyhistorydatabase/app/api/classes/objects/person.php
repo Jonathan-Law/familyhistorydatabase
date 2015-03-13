@@ -155,12 +155,15 @@ class Person
     }
   }
 
-  public static function getLastNames($letter)
+  public static function getLastNames($letter, $all = false)
   {
     $database = cbSQLConnect::connect('array');
     if (isset($database))
     {
-      $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."%' GROUP BY `lastName`");
+      if ($all) {
+        $letter = $letter."%";
+      }
+      $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."' GROUP BY `lastName`");
       if (count($data) == 0)
       {
         return NULL;
@@ -172,12 +175,15 @@ class Person
     }
   }
 
-  public static function getFirstNames($lastname)
+  public static function getFirstNames($lastname, $all = false)
   {
     $database = cbSQLConnect::connect('array');
     if (isset($database))
     {
-      $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."%' ORDER BY `firstName`");
+      if ($all) {
+        $lastname = $lastname."%";
+      }
+      $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."' ORDER BY `firstName`");
       if (count($data) == 0)
       {
         return NULL;
