@@ -8,6 +8,12 @@ app.directive('breadcrumbs', ['$location', function ($location) {
       ngModel: "="
     },
     link: function postLink(scope, element, attrs) {
+      scope.show = true;
+      scope.$watch('ngModel', function(){
+        if (scope.ngModel && scope.ngModel.letter) {
+          scope.show = true;
+        }
+      })
 
       scope.goToLetter = function() {
         if (scope.ngModel && scope.ngModel.letter) {

@@ -8,3 +8,5 @@ sftp-config.json
 TODOS.txt
 client/familyhistorydatabase/app/api/library/config.php
 client/familyhistorydatabase/app/api/library/paths.php
+client/familyhistorydatabase/app/views/jake.html
+client/familyhistorydatabase/app/scripts/controllers/jake.js

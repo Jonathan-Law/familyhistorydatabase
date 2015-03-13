@@ -272,6 +272,27 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     return deferred.promise;
   }
 
+  service.setProfilePic = function(id, pic){
+    var deferred = $q.defer();
+    if (id && pic)
+    {
+      var url = 'http://familyhistorydatabase.org/api/v1/profilePic/' + id + '/' + pic;
+      $http({
+        method: 'POST',
+        url: url,
+      }).success(function(data, status, headers, config) {
+        if (data !== "false" && !isMaxError(data)) {
+          deferred.resolve(data);
+        } else {
+          deferred.reject(false);
+        }
+      });
+    } else {
+      deferred.reject(false);
+    }
+    return deferred.promise;  
+  }
+
   service.getChildren = function(id, spouseid, override) {
     var deferred = $q.defer();
     if (id && spouseid)
@@ -312,12 +333,16 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     return deferred.promise; 
   }
 
-  service.getFamilies = function(letter) {
+  service.getFamilies = function(letter, all) {
     var deferred = $q.defer();
     if (letter) {
+      var url = 'http://familyhistorydatabase.org/api/v1/individual/families/'+letter;
+      if (all){
+        url = url + '/true';
+      }
       $http({
         method: 'GET',
-        url: 'http://familyhistorydatabase.org/api/v1/individual/families/'+letter
+        url: url
       }).success(function(data, status, headers, config){
         deferred.resolve(data);
       }).error (function(data, status, headers, config){
@@ -344,12 +369,16 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     return deferred.promise;
   }
 
-  service.getFirstNames = function(family) {
+  service.getFirstNames = function(family, all) {
     var deferred = $q.defer();
     if (family) {
+      var url = 'http://familyhistorydatabase.org/api/v1/individual/familyNames/'+family;
+      if (all){
+        url = url + '/true';
+      }
       $http({
         method: 'GET',
-        url: 'http://familyhistorydatabase.org/api/v1/individual/familyNames/'+family
+        url: url
       }).success(function(data, status, headers, config){
         deferred.resolve(data);
       }).error (function(data, status, headers, config){

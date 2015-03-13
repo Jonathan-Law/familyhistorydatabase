@@ -1169,7 +1169,7 @@ angular.module('mgcrea.ngStrap.datepicker', [
                 }
               },
               build: function () {
-                var firstYear = viewDate.year - viewDate.year % (this.split * 3);
+                var firstYear = viewDate.year - viewDate.year % (this.split * 2);
                 var years = [], year;
                 for (var i = 0; i < 50; i++) {
                   year = new Date(firstYear + i, 0, 1);

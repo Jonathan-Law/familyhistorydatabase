@@ -13,7 +13,7 @@ app.controller('FamiliesCtrl', ['$scope', '$location', 'business', function ($sc
       var search = $location.search();
       search.letter = $scope.letter;
       $location.search(search);
-      Business.individual.getFamilies($scope.letter).then(function(result) {
+      Business.individual.getFamilies($scope.letter, true).then(function(result) {
         if (result) {
           $scope.names = angular.copy(result); 
         } else {
