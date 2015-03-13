@@ -4,7 +4,7 @@ if (!isset($session))
    $session = mySession::getInstance();
 }
 else
-   header("Location: http://familyhistorydatabase.org/");
+   header("Location: /");
 if (class_exists('Url'))
 {
    if (Url::full() == Url::base()."pages/home.php")// send them home if this is true.
@@ -15,13 +15,13 @@ $person = Person::getById($session->getVar('indvidual_id'));
 
 <?php 
 //make sure they're going through our controller!
-// require_once("http://familyhistorydatabase.org/includes/initialize.php");     // Include all Necissary Files
+// require_once("/includes/initialize.php");     // Include all Necissary Files
 if (class_exists('mySession'))
 {
    $session = mySession::getInstance();            // get the session
 }
 else
-   header("Location: http://familyhistorydatabase.org/");
+   header("Location: /");
 if (class_exists('Url'))
 {
    if (Url::full() == Url::base()."pages/home.php")// send them home if this is true.

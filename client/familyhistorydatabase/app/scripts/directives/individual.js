@@ -12,9 +12,9 @@ app.directive('individual', ['business', '$timeout', function (Business, $timeou
     if (mode) {
       if (mode === 'picture') {
         if (attrs.zoomable) {
-          return "<div class='image_enlarge_container'><img  data-toggle=\"tooltip\" data-placement=\"bottom\" data-title=\"Click to see more\" data-trigger=\"hover\" data-original-title=\"\" title=\"\" ng-cloak class=\"{{classes}}\" ng-src='{{profilePic}}' onerror=\"if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';\" style='height: {{initialsize}}; width: auto; border-radius: 4px;'></div>";
+          return "<div class='image_enlarge_container'><img  data-toggle=\"tooltip\" data-placement=\"bottom\" data-title=\"Click to see more\" data-trigger=\"hover\" data-original-title=\"\" title=\"\" ng-cloak class=\"{{classes}}\" ng-src='{{profilePic}}' onerror=\"if (this.src != '/images/familytree.jpg') this.src = '/images/familytree.jpg';\" style='height: {{initialsize}}; width: auto; border-radius: 4px;'></div>";
         } else {
-          return "<div class='image_enlarge_container'><img ng-cloak class=\"{{classes}}\" ng-src='{{profilePic}}' onerror=\"if (this.src != 'http://familyhistorydatabase.org/images/familytree.jpg') this.src = 'http://familyhistorydatabase.org/images/familytree.jpg';\" style='height: {{initialsize}}; width: auto; border-radius: 4px;'></div>";
+          return "<div class='image_enlarge_container'><img ng-cloak class=\"{{classes}}\" ng-src='{{profilePic}}' onerror=\"if (this.src != '/images/familytree.jpg') this.src = '/images/familytree.jpg';\" style='height: {{initialsize}}; width: auto; border-radius: 4px;'></div>";
         }
         // return "{{person.displayableName}}";
       }
@@ -84,21 +84,21 @@ app.directive('individual', ['business', '$timeout', function (Business, $timeou
           Business.individual.getProfilePic(result.profile_pic).then(function(profilePic) {
             // console.log('==========result========', profilePic);
             if (profilePic && profilePic.viewlink) {
-              scope.profilePic = "http://familyhistorydatabase.org/" + profilePic.viewlink;
+              scope.profilePic = "/" + profilePic.viewlink;
             } else {
-              scope.profilePic = 'http://familyhistorydatabase.org/images/familytree.jpg';
+              scope.profilePic = '/images/familytree.jpg';
             }
           }, function(result){
-            scope.profilePic = 'http://familyhistorydatabase.org/images/familytree.jpg';
+            scope.profilePic = '/images/familytree.jpg';
             // console.log('Fail result', result);
           });
           setupZommable();
         } else {
-          scope.profilePic = 'http://familyhistorydatabase.org/images/familytree.jpg';
+          scope.profilePic = '/images/familytree.jpg';
           setupZommable();
         }
       }, function(result){
-        scope.profilePic = 'http://familyhistorydatabase.org/images/familytree.jpg';
+        scope.profilePic = '/images/familytree.jpg';
         // console.log('Fail result', result);
       });
 

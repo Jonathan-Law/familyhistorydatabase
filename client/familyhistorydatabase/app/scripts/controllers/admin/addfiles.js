@@ -16,7 +16,7 @@ app.controller('AdminAddfilesCtrl', ['$scope', 'business', '$location', function
 
   $scope.dropzoneConfig = {
     'options': { // passed into the Dropzone constructor
-      'url': 'http://familyhistorydatabase.org/api/v1/file',
+      'url': '/api/v1/file',
       'parallelUploads': 1,
       // 'createImageThumbnails': true,
       // 'thumbnailWidth': 70,

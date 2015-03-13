@@ -6,7 +6,7 @@ if ($session->isLoggedIn())
 {
    echo "<script src=\"javascript/onload.js\"></script>";
    echo "<script src=\"includes/dropzone-master/downloads/dropzone.js\"></script>";
-   echo "<link rel=\"stylesheet\" type='text/css' href=\"http://familyhistorydatabase.org/includes/dropzone-master/downloads/css/dropzone.css\"/>";
+   echo "<link rel=\"stylesheet\" type='text/css' href=\"/includes/dropzone-master/downloads/css/dropzone.css\"/>";
    echo "<div id=\"dropzone\" style='margin-top: 10px !important'>";
    // /?controler=upload"
    echo "<div id=\"uploadDrop\" class=\"uploadDrop clickable\" action=\"\">"; 

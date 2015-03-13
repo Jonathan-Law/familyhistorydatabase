@@ -351,7 +351,7 @@ function objectToArray($d)
             </head>
             <body>
                <p>Something has been uploaded for '.$person->displayName().'</p>
-               <p>Click <a href="'.$link.'">HERE</a> to view the new document, or go to their page to view new content <a href="http://familyhistorydatabase.org/?controller=individual&action=homepage&id='.$person->id.'">HERE</a></p>
+               <p>Click <a href="'.$link.'">HERE</a> to view the new document, or go to their page to view new content <a href="/?controller=individual&action=homepage&id='.$person->id.'">HERE</a></p>
                <br/>
                <p>Thank you for your continued membership!</p>
                <br/>

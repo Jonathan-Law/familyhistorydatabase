@@ -146,11 +146,11 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
         img.onload = function() {
           calculateAspectRatioFit(this.width, this.height, scope.tempWidth, scope.tempHeight);
         }
-        img.src = 'http://familyhistorydatabase.org/'+scope.focus.link;
+        img.src = '/'+scope.focus.link;
       }
 
       scope.openInNewWindow = function() {
-        window.open('http://familyhistorydatabase.org/'+scope.focus.link);
+        window.open('/'+scope.focus.link);
       }
 
       scope.print = function() {
@@ -160,7 +160,7 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
       }
 
       scope.getDownload = function() {
-        var url = 'http://familyhistorydatabase.org/' + scope.focus.link;
+        var url = '/' + scope.focus.link;
         var download = scope.focus.link.replace('upload/', '');
         var a = $("<a>").attr("href", url).attr("download", download).appendTo("body");
         a[0].click();
