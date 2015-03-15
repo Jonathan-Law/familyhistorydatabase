@@ -1214,6 +1214,15 @@ class mySession
         trigger_error("Clonig not allowed");
     }
 
+    /**
+     * Return the string version of the object
+     */
+    public function __toString()
+    {
+      return "This is your session";
+    }
+
+
 
   public function isExpired() {
     $this->SQLStatement_GetSessionInfos->bindParam(':sid', $this->sessionId, PDO::PARAM_STR, $this->sid_len);

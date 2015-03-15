@@ -231,9 +231,10 @@ var app = angular
   $rootScope.checkLogin().then(function(response){
     if (response) {
       Business.user.getUserInfo().then(function(result){
-        $timeout(function(){
+        if (result) {
+          console.log('result', result);
           $rootScope.$emit('$TRIGGEREVENT', '$LOGGEDIN', result);
-        })
+        }
       });
     }
   }, function(){

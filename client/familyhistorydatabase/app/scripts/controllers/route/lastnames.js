@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('LastnamesCtrl', ['$scope', '$location', 'business', function ($scope, $location, Business) {
+app.controller('LastnamesCtrl', ['$scope', '$location', 'business', '$filter', function ($scope, $location, Business, $filter) {
   $scope.family;
   $scope.famLetter = '';
   $scope.letter = null;
@@ -20,7 +20,9 @@ app.controller('LastnamesCtrl', ['$scope', '$location', 'business', function ($s
     if ($scope.family) {
       Business.individual.getFirstNames($scope.family, false).then(function(result) {
         if (result) {
-          $scope.names = angular.copy(result); 
+          console.log('result', result);
+          $scope.names = angular.copy($filter('orderBy')(result, ['firstName','middleName', 'lastName', 'yearBorn'], false));
+          // $scope.names = angular.copy(result); 
         } else {
           $scope.noNames = 'There are currently no individuals in our database with a last name starting with \''+$scope.letter+'\'.';
         }

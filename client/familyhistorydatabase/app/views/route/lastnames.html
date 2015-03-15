@@ -41,10 +41,10 @@
       <div ng-repeat="name in getNames($index)">
         <div style="width: 300px; padding: 0px 25px 0px 25px; display:inline-block; float: none">
           <a href="javascript:void(0);" ng-click="goToIndividual(name.id)">
-            <span class="overflow-pair-right">
+            <span class="overflow-pair-right" style="text-align:right;">
               ({{name.yearBorn}})
             </span>
-            <span class="overflow-pair-left">
+            <span class="overflow-pair-left" style="text-align:left">
               {{name.displayableName}}
             </span>
           </a>

@@ -7,7 +7,7 @@
 * # NavCtrl
 * Controller of the familyhistorydatabaseApp
 */
-app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$location', function ($rootScope, $scope, $aside, Business, $location) { /*jshint unused:false*/
+app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$location', '$timeout', function ($rootScope, $scope, $aside, Business, $location, $timeout) { /*jshint unused:false*/
   $scope.user       = $rootScope.user;
   $scope.searchKey  = null;
 
@@ -23,11 +23,8 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$locat
   })
   $scope.$on('$LOGGEDIN', function(event, user){
     if (user) {
-      $scope.user = user;
+      $scope.user = angular.copy(user);
       $scope.loggedIn = true;
-      console.log('user', user);
-      console.log('Business.user.getIsAdmin', Business.user.getIsAdmin(user));
-      
       if (Business.user.getIsAdmin(user)){
         $scope.admin = true;
       } else {
@@ -35,6 +32,14 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$locat
       }
     }
   })
+
+  $scope.getUserName = function(){
+    if ($scope.user && $scope.user.displayableName) {
+      return $scope.user.displayableName;
+    } else if ($scope.loggedIn) {
+    }
+    return 'Login/Register'
+  }
 
   $scope.logout = function() {
     Business.user.logout();
