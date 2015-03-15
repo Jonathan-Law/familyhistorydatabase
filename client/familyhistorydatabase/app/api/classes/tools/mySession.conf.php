@@ -1,7 +1,8 @@
-<?PHP
+<?php
 
 #Section 1: DATABASE
 $_MYSESSION_CONF['DATABASE_TYPE']   =   'mysql';            //PDO supported DBMS Types (for now only MySql supported)
+
 #Section 1.1: Connection data
 $_MYSESSION_CONF['DB_DATABASE']     =   DB_NAME;            //DB Name
 $_MYSESSION_CONF['DB_PASSWORD']     =   DB_SES_PASS;        //MySql password
@@ -21,7 +22,7 @@ $_MYSESSION_CONF['VALUE']           =   'value';
 
 #Section 2: SCRIPT CONFIGURATION
 #Section 2.1: General configuration
-$_MYSESSION_CONF['OVERWRITE_PHP_FUNCTION'] = 1;             //the class overwrite php session function
+$_MYSESSION_CONF['OVERWRITE_PHP_FUNCTION']   =   1;         //the class overwrite php session function
 $_MYSESSION_CONF['SID_LEN']         =   32;                 //session_id chars length
 $_MYSESSION_CONF['DURATION']        =   1800;               //Session duration (seconds) - Session will expires if no reload was made in this period
 $_MYSESSION_CONF['MAX_DURATION']    =   3600;               //Max session duration (seconds) - Session will expires after this time interval - 0 if no forced expired needed

@@ -1402,7 +1402,7 @@ class mySession
    */
    public function __toString()
    {
-      return "This is your session";
+      return "THIS IS NOT A TEST";
    }
 
 

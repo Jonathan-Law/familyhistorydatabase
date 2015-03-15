@@ -72,7 +72,7 @@ var app = angular
   });
   // $httpProvider.defaults.withCredentials = true;
 }])
-.run(['$rootScope', 'business', '$q', '$route', 'localCache', function($rootScope, Business, $q, $route, localCache) {
+.run(['$rootScope', 'business', '$q', '$route', 'localCache', '$timeout', function($rootScope, Business, $q, $route, localCache, $timeout) {
   localCache.clearAll();
   
   $rootScope.$on('$routeChangeSuccess', function(){
@@ -228,11 +228,16 @@ var app = angular
     }
   }
 
-
   $rootScope.checkLogin().then(function(response){
     if (response) {
-      $rootScope.user = response;
+      Business.user.getUserInfo().then(function(result){
+        $timeout(function(){
+          $rootScope.$emit('$TRIGGEREVENT', '$LOGGEDIN', result);
+        })
+      });
     }
+  }, function(){
+    console.log('call failed to check login');
   });
 
 }]);

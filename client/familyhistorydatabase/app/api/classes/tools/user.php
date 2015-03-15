@@ -1,8 +1,6 @@
 <?php
 
 
-// Require the Database
-
 require_once(TOOLS."cbSQLRetrieveData.php");
 require_once(TOOLS."cbSQLConnectVar.php");
 require_once(TOOLS."cbSQLConnectConfig.php");
@@ -70,7 +68,7 @@ class User{
             $name = self::$table_name;
             $tempId = $this->id;
             $data = $database->Query("SELECT `gender` FROM :table WHERE `username` = :value LIMIT 1;",
-              array(array(':value' => $tempId, ':table' => $name)));
+             array(array(':value' => $tempId, ':table' => $name)));
             echo($data);
             $this->gender = $data['gender'];
          }
@@ -105,6 +103,21 @@ class User{
       }
    }
 
+   public static function getByID($id = '') {
+      $database = cbSQLConnect::connect('object');
+      if (isset($database))
+      {
+         $name = self::$table_name;
+         $user = $database->getObjectById($name, $id);
+         if ($user) {
+            $user = recast('User', $user);
+            $user->displayableName = $user->displayName();
+         }
+         unset($user->password); 
+         return $user;
+      }      
+   }
+
    public static function current_user()
    {
       $session = mySession::getInstance();
@@ -120,7 +133,7 @@ class User{
             $user->displayableName = $user->displayName();
          }
          unset($user->password); 
-            return $user;
+         return $user;
       }
    }
 

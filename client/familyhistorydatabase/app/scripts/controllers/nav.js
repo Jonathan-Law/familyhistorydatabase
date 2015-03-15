@@ -8,7 +8,6 @@
 * Controller of the familyhistorydatabaseApp
 */
 app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$location', function ($rootScope, $scope, $aside, Business, $location) { /*jshint unused:false*/
-
   $scope.user       = $rootScope.user;
   $scope.searchKey  = null;
 
@@ -21,6 +20,20 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$locat
 
   $scope.$on('$NOTLOGGEDIN', function(){
     $scope.logout();
+  })
+  $scope.$on('$LOGGEDIN', function(event, user){
+    if (user) {
+      $scope.user = user;
+      $scope.loggedIn = true;
+      console.log('user', user);
+      console.log('Business.user.getIsAdmin', Business.user.getIsAdmin(user));
+      
+      if (Business.user.getIsAdmin(user)){
+        $scope.admin = true;
+      } else {
+        $scope.admin = false;
+      }
+    }
   })
 
   $scope.logout = function() {
@@ -54,23 +67,6 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$locat
     });
   };
 
-  $rootScope.$watch('user', function() {
-    $scope.user = $rootScope.user;
-    if ($scope.user) {
-      // console.log('$scope.user', $scope.user);
-      
-      $scope.loggedIn = true;
-      if (Business.user.getIsAdmin()){
-        $scope.admin = true;
-      } else {
-        $scope.admin = false;
-      }
-    } else {
-      $scope.logout();
-    }
-  });
-
-
   $scope.onSelect = function(item, model, something) {
     if (typeof $scope.searchKey === 'object' && $scope.searchKey){
       console.log('searchKey', $scope.searchKey);
@@ -85,8 +81,8 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$locat
           // console.log('Typeahead Item Found: ', $scope.searchKey);
           // console.log('Individual: ', result);
         // });
-      }
-    } else {
+}
+} else {
       // console.log('searchKey', $scope.searchKey);
     }
   };

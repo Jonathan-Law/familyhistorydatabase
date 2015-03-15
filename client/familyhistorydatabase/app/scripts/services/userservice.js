@@ -11,23 +11,30 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
   var user = {};
   user.isLoggedIn = false;
   user.getUserInfo = function() {
+    var deferred = $q.defer();
     $http({
       method: 'GET',
       url: '/api/v1/user/'
     }).success(function(data, status, headers, config) {
-      // console.log('data', data);
-
+      if (data) {
+        user.userInfo = data;
+        deferred.resolve(data);
+      }
+    }).error(function(){
+      deferred.resolve(false);
     });
+    return deferred.promise;
   };
 
 
   user.isLoggedInStill = function() {
     var deferred = $q.defer();
-    $http.get('/api/v1/user/isLoggedInStill')
+    $http.get('/api/v1/user/isLoggedIn')
     .success(function(data, status, headers, config){
       if (!data || data === 'false') {
         deferred.resolve(false);
       } else {
+        user.isLoggedIn = true;
         deferred.resolve(true);
       }
     }).error(function(){
@@ -37,20 +44,26 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
   }
 
   user.getIsAdmin = function() {
-    if (!user.isLoggedIn) {
+    if (user) {
+      if (!user.isLoggedIn) {
+        return false;
+      }
+      var isAdmin = false;
+      if (user.userInfo && user.userInfo.rights) {
+        switch(user.userInfo.rights){
+          case 'super':
+          case 'admin':
+          isAdmin = true;
+          break;
+          default:
+          isAdmin = false;
+          break;
+        }
+        return isAdmin;
+      }
       return false;
     }
-    var isAdmin = false;
-    switch(user.userInfo.rights){
-      case 'super':
-      case 'admin':
-        isAdmin = true;
-        break;
-      default:
-        isAdmin = false;
-        break;
-    }
-    return isAdmin;
+    return false;
   }
 
   user.getIsValidated = function() {
@@ -63,11 +76,11 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
       case 'admin':
       case 'high':
       case 'medium':
-        isAdmin = true;
-        break;
+      isAdmin = true;
+      break;
       default:
-        isAdmin = false;
-        break;
+      isAdmin = false;
+      break;
     }
     return isAdmin;
   }
@@ -130,19 +143,7 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
   };
 
   user.checkLoggedIn = function() {
-    var deferred = $q.defer();
-    $http({
-      method: 'GET',
-      url: '/api/v1/user/isLoggedIn',
-      headers: {'Content-Type': 'application/json'}
-    }).success(function(data, status, headers, config) {
-      if (data !== "false") {
-        deferred.resolve(data);
-      } else {
-        deferred.resolve(false);
-      }
-    });
-    return deferred.promise;
+    return user.isLoggedInStill();
   };
 
 

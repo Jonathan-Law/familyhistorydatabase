@@ -119,17 +119,23 @@ class MyAPI extends API
       }
     }
     if ($this->method === 'GET') {
+      if ($this->verb === '') {
+        $session = mySession::getInstance();
+        $user_id = $session->getVar('user_id');
+        if ($user_id) {
+          $user = User::getById($user_id);
+          unset($user->password);
+          return $user;
+        } else {
+          return false;
+        }
+      }
       if ($this->verb === 'validate') {
         $id = getRequest('id');
         $value = getRequest('validate');
         return validate($id, $value);
       }
       if ($this->verb === 'isLoggedIn') {
-        $user = User::current_user();
-        unset($user->password);
-        return $user;
-      }
-      if ($this->verb === 'isLoggedInStill') {
         return $session->isLoggedIn();
       }
       $user = User::current_user();
