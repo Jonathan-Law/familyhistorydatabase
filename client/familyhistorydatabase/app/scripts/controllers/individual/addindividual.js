@@ -44,14 +44,14 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
   $scope.result = {};
   $scope.$parent.$watch('person', function(person){
     if (person) {
-      console.log('person', person);
+      // console.log('person', person);
       
       $scope.person = $scope.$parent.person;
       if ($scope.person.profile_pic && $scope.person.profile_pic !=="") {
         Business.individual.getProfilePic($scope.person.profile_pic).then(function(result){
           if (result) {
             $scope.profile_pic = result;
-            console.log('result', result);
+            // console.log('result', result);
             
           }
         })
@@ -61,14 +61,14 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
   })
 
   var makeDate = function(dateObj) {
-    console.log('date', dateObj);
+    // console.log('date', dateObj);
     
     if (dateObj.year) {
       var date = '' + dateObj.year + '/';
       date = date + ((dateObj.month && dateObj.month !== '0')? dateObj.month + '/': '1' + '/');
       date = date + ((dateObj.day && dateObj.day !== '0')? dateObj.day: '1');
     }
-    console.log('date', date);
+    // console.log('date', date);
     
     date = moment(date).toDate();
     return (checkDate(date));
@@ -78,6 +78,8 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
   $scope.$watch('person', function(person){
     
     if (person) {
+      $timeout(function(){
+        
       $scope.backup = person;      
       var date = null;
       if (person.birth) {
@@ -144,6 +146,7 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
           })
         })
       }
+      })
     }
   });
 
@@ -211,7 +214,7 @@ $scope.onSelectParent = function(item, model, something) {
     Business.individual.getIndData($scope.parents.id).then(function(result) {
       $scope.result.parentList.push(result);
         // console.log('Typeahead Item Found: ', $scope.parents);
-        console.log('Individual: ', result);
+        // console.log('Individual: ', result);
         $scope.parents = '';
       });
   } else {
@@ -223,7 +226,7 @@ $scope.onSelectParent = function(item, model, something) {
       Business.individual.getIndData($scope.spouse.id).then(function(result) {
         $scope.result.spouseList.push(result);
         // console.log('Typeahead Item Found: ', $scope.spouse);
-        console.log('Individual: ', result);
+        // console.log('Individual: ', result);
         $scope.spouse = '';
       });
     } else {
@@ -283,11 +286,11 @@ $scope.onSelectParent = function(item, model, something) {
 
     data.person.yearB = $scope.exactBirthDate? 1:0;
     data.person.yearD = $scope.exactDeathDate? 1:0;
-    console.log('$scope.result.birthDate', $scope.result.birthDate);
+    // console.log('$scope.result.birthDate', $scope.result.birthDate);
     
     if ($scope.result.birthDate) {
-      console.log('$data.birth', data.birth);
-      console.log('$scope.result', $scope.result.birthDate);
+      // console.log('$data.birth', data.birth);
+      // console.log('$scope.result', $scope.result.birthDate);
       
       var date = new Date($scope.result.birthDate);
       if ($scope.exactBirthDate) {
@@ -321,7 +324,7 @@ $scope.onSelectParent = function(item, model, something) {
       // return;
     }
     if ($scope.result.burialDate) {
-      console.log($scope.result.burialDate);
+      // console.log($scope.result.burialDate);
       
       var date = new Date($scope.result.burialDate);
       if ($scope.exactBurialDate) {
@@ -385,7 +388,7 @@ $scope.onSelectParent = function(item, model, something) {
     if ($scope.result.spouseList) {
       var spouses = [];
       _.each($scope.result.spouseList, function(spouse){
-        console.log('spouse', spouse);
+        // console.log('spouse', spouse);
         if (spouse.marriageDate){
           var marriageDate = {};
           var date = new Date(spouse.marriageDate);
@@ -405,7 +408,7 @@ $scope.onSelectParent = function(item, model, something) {
       
       data.spouse = spouses;
     }
-    console.log('data', data);
+    // console.log('data', data);
     Business.individual.updateIndData(data).then(function(result){
       if (result) {
         // console.log('************Result************', result);

@@ -53,17 +53,17 @@
       </div>
       <div class="collapse navbar-collapse navRight" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="#">Link</a></li>
+          <!-- <li><a href="#">Link</a></li> -->
           <li ng-show="!loggedIn">
             <a href="javascript:void(0);" ng-click="login()">Login/Register</a>
           </li>
           <li ng-show="loggedIn" class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="navUserName">{{getUserName()}}&nbsp;<b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li class="divider"></li>
+              <li><a href="#/myfamily">My Family</a></li>
+              <!-- <li><a href="#">Another action</a></li> -->
+              <!-- <li><a href="#">Something else here</a></li> -->
+              <!-- <li class="divider"></li> -->
               <li>
                 <a href="javascript:void(0);" ng-click="logout()">logout</a>
               </li>
@@ -118,6 +118,11 @@
             <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li> -->
           </ul>
         </div>
+      </li>
+      <li class="sidebar-brand">
+        <hr style="margin-top:-1px; margin-bottom:-1px">
+        <a href="#/myfamily" class="imitateLink" id="sidebar-brand-extra" >My Family</a>
+        <hr style="margin-top:-1px">
       </li>
       <li ng-if="admin" class="sidebar-brand">
         <hr style="margin-top:-1px; margin-bottom:-1px">

@@ -177,6 +177,7 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/controllers/admin/addfiles.js"></script>
   <script type="text/javascript" src="scripts/controllers/admin/edit.js"></script>
   <script type="text/javascript" src="scripts/controllers/route/families.js"></script>
+  <script type="text/javascript" src="scripts/controllers/route/family.js"></script>
   <script type="text/javascript" src="scripts/controllers/route/lastnames.js"></script>
   <script type="text/javascript" src="scripts/controllers/route/individual.js"></script>
   <script type="text/javascript" src="scripts/controllers/files/editfile.js"></script>

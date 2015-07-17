@@ -77,7 +77,7 @@
       }
     },
     getPlace: function(format){
-      console.log('this', this);
+      // console.log('this', this);
       
       var result = '';
       if (this.place) {

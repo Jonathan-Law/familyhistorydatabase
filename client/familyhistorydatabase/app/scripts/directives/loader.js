@@ -46,8 +46,8 @@ app.directive('loader', function () {
       scope.$on('$UNLOAD', function(event, value){
         if (value === scope.trigger) {
           if (scope.saveElementPosition) {
-            console.log('scope.saveOverflow', scope.saveOverflow);
-            console.log('scope.saveElementPosition', scope.saveElementPosition);
+            // console.log('scope.saveOverflow', scope.saveOverflow);
+            // console.log('scope.saveElementPosition', scope.saveElementPosition);
 
             $(element).parent().css('position', scope.saveElementPosition);
             if (scope.overflowX || $(element).parent().css('overflow-y')) {

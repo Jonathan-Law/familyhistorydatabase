@@ -61,6 +61,10 @@ var app = angular
     templateUrl: 'views/route/individual.html',
     controller: 'IndividualCtrl'
   })
+  .when('/myfamily', {
+    templateUrl: 'views/route/myfamily.html',
+    controller: 'MyFamilyCtrl'
+  })
   .otherwise({
     redirectTo: '/'
   });
@@ -232,13 +236,13 @@ var app = angular
     if (response) {
       Business.user.getUserInfo().then(function(result){
         if (result) {
-          console.log('result', result);
+          // console.log('result', result);
           $rootScope.$emit('$TRIGGEREVENT', '$LOGGEDIN', result);
         }
       });
     }
   }, function(){
-    console.log('call failed to check login');
+    // console.log('call failed to check login');
   });
 
 }]);
