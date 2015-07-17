@@ -58,7 +58,6 @@ app.directive('date',['$timeout', function ($timeout) {
         scope.ngModel = scope.date.dateValue;
       });
 
-
       var convertDate = function (v) {
         var d = v? new Date(v): new Date();
         var curr_date  = d.getDate();

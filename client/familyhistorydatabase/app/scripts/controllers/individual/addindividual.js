@@ -46,7 +46,7 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
     if (person) {
       // console.log('person', person);
       
-      $scope.person = $scope.$parent.person;
+      $scope.person = angular.copy($scope.$parent.person);
       if ($scope.person.profile_pic && $scope.person.profile_pic !=="") {
         Business.individual.getProfilePic($scope.person.profile_pic).then(function(result){
           if (result) {
@@ -74,11 +74,9 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
     return (checkDate(date));
   }
 
-
-  $scope.$watch('person', function(person){
-    
-    if (person) {
-      $timeout(function(){
+  $scope.setupData = function(){
+    var person = $scope.person;
+    $timeout(function(){
         
       $scope.backup = person;      
       var date = null;
@@ -147,20 +145,25 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
         })
       }
       })
+  }
+
+
+  $scope.$watch('person', function(person){
+    if (person) {
+      $scope.setupData();
+      $scope.exactBirthDate     = false;
+      $scope.exactDeathDate     = false;
+      $scope.exactBurialDate    = false;
+      $scope.parents            = null;
+      $scope.spouse             = null;
+      $scope.result.parentList  = [];
+      $scope.result.spouseList  = [];
+
+      $scope.biHasChanged = -1;
+      $scope.deHasChanged = -1;
+      $scope.buHasChanged = -1;
     }
-  });
-
-$scope.exactBirthDate     = false;
-$scope.exactDeathDate     = false;
-$scope.exactBurialDate    = false;
-$scope.parents            = null;
-$scope.spouse             = null;
-$scope.result.parentList  = [];
-$scope.result.spouseList  = [];
-
-$scope.biHasChanged = -1;
-$scope.deHasChanged = -1;
-$scope.buHasChanged = -1;
+  }, true);
 
 
 $scope.getTypeahead = $rootScope.getTypeahead;

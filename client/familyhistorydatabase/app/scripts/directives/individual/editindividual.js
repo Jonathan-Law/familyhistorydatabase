@@ -6,7 +6,7 @@
 * @description
 * # individual/editIndividual
 */
-app.directive('editIndividual', ['business', function (Business) {
+app.directive('editIndividual', ['business', '$timeout', '$location', function (Business, $timeout, $location) {
   return {
     scope: {
       id: '='
@@ -14,10 +14,21 @@ app.directive('editIndividual', ['business', function (Business) {
     templateUrl: 'views/individual/addindividual.html',
     restrict: 'E',
     link: function postLink(scope, element, attrs) {
-      if (scope.id) {
-        Business.individual.getIndData(scope.id).then(function(result){
-          scope.person = result;
-        });
+      scope.refreshData = function(){
+        scope.person = {};
+        $timeout(function(){
+          if (scope.id) {
+            Business.individual.getIndData(scope.id, true).then(function(result){
+              scope.person = angular.copy(result);
+            });
+          }
+        })
+      }
+      scope.refreshData();
+      scope.closeModal = function(path, search){
+        scope.$emit('$TRIGGEREVENT', '$triggerModalClose');
+        $location.path(path);
+        $location.search(search);
       }
     }
   };
