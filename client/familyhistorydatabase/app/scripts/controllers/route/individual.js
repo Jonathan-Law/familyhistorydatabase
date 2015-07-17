@@ -104,7 +104,7 @@ app.controller('IndividualCtrl', ['$scope', '$location', 'business', '$timeout',
           $scope.links.family = $scope.data.lastName;
           $scope.links.individual = $scope.data;
           
-          console.log('Links', $scope.links)
+          // console.log('Links', $scope.links)
           $scope.getSpouses($scope.data.spouse);
         } else{ //
           $scope.noData = 'We could not grab the individual\'s data.';

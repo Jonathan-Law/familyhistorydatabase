@@ -52,6 +52,8 @@
           this.date = new Date(this.year + '/' + this.month + '/' + this.day);
         }
         this.personId = rhs.personId || this.personId;
+      } else {
+        return false;
       }
       return angular.copy(this);
     },
@@ -77,7 +79,6 @@
       }
     },
     getPlace: function(format){
-      // console.log('this', this);
       
       var result = '';
       if (this.place) {
