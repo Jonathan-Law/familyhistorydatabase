@@ -39,6 +39,35 @@
 
   <input type="text" ng-model="delInd" typeahead-on-select='deleteInd(delInd)' typeahead="delInd as delInd.typeahead for delInd in getTypeahead($viewValue)" class="form-control" placeholder="Select an individual to delete" style=" width: 500px; flaot:none; display:inline-block;">
   <br>
-
+  <br>
+  <br>
+  <br>
+  <h2 ng-if="approveThese.length && approveThese !== 'null'" >Individuals that need to be approved</h2>
+  <div ng-if="approveThese.length && approveThese !== 'null'" >
+    <table class="table table-stripped table-hover">
+      <thead>
+        <tr>
+          <th>Submitter Name</th>
+          <th>Ind. First Name</th>
+          <th>Ind. Middle Name</th>
+          <th>Ind. Last Name</th>
+          <th>Ind. Birth</th>
+          <th>Ind. Death</th>
+          <th>Ind. Gender</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="individual in approveThese track by $index" ng-click="editIndividual(individual.id)">
+          <td>{{individual.displayableName}}</td>
+          <td>{{individual.firstName}} &mdash; ({{individual.id}})</td>
+          <td>{{individual.middleName}}</td>
+          <td>{{individual.lastName}}</td>
+          <td>{{individual.yearBorn}}</td>
+          <td>{{individual.yearDead}}</td>
+          <td>{{individual.sex}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 </div>

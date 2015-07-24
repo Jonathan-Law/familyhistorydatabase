@@ -60,11 +60,11 @@
           <li ng-show="loggedIn" class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="navUserName">{{getUserName()}}&nbsp;<b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="#/myfamily">My Family</a></li>
+              <li ng-show="user"><a href="#/myfamily">My Family</a></li>
               <!-- <li><a href="#">Another action</a></li> -->
               <!-- <li><a href="#">Something else here</a></li> -->
               <!-- <li class="divider"></li> -->
-              <li>
+              <li ng-show="user">
                 <a href="javascript:void(0);" ng-click="logout()">logout</a>
               </li>
             </ul>
@@ -119,20 +119,20 @@
           </ul>
         </div>
       </li>
-      <li class="sidebar-brand">
+      <li ng-show="user" class="sidebar-brand">
         <hr style="margin-top:-1px; margin-bottom:-1px">
         <a href="#/myfamily" class="imitateLink" id="sidebar-brand-extra" >My Family</a>
         <hr style="margin-top:-1px">
       </li>
-      <li ng-if="admin" class="sidebar-brand">
+      <li ng-show="user && user.admin" class="sidebar-brand">
         <hr style="margin-top:-1px; margin-bottom:-1px">
         <a href="javascript:void(0);" ng-click="goTo('admin')" class="imitateLink" id="sidebar-brand-extra" >ADMIN</a>
         <hr style="margin-top:-1px">
       </li>
-      <li ng-if="admin">
+      <li ng-show="user && user.admin">
         <a role="menuitem" tabindex="-1" href="javascript:void(0);" ng-click="goTo('admin/add')">Add Files/Individuals</a>
       </li>
-      <li ng-if="admin">
+      <li ng-show="user && user.admin">
         <a role="menuitem" tabindex="-1" href="javascript:void(0);" ng-click="goTo('admin/edit')">Edit Files/Individuals</a>
       </li>
     </ul>

@@ -119,6 +119,7 @@ class MyAPI extends API
       }
     }
     if ($this->method === 'GET') {
+
       if ($this->verb === '') {
         $session = mySession::getInstance();
         $user_id = $session->getVar('user_id');
@@ -136,7 +137,15 @@ class MyAPI extends API
         return validate($id, $value);
       }
       if ($this->verb === 'isLoggedIn') {
-        return $session->isLoggedIn();
+        return User::current_user();
+      }
+      if ($this->verb === 'getUserInfo' && $session->isAdmin()){
+        $id = intval(array_shift($args));
+        if ($id && is_numeric($id)) {
+          $user = User::getById($id);
+          unset($user->password);
+          return $user;
+        }
       }
       $user = User::current_user();
       unset($user->password);
@@ -309,6 +318,48 @@ class MyAPI extends API
     return false;
   }
 
+  protected function activateIndividual($args) {
+    $session = mySession::getInstance();
+    if (($this->method === 'POST' || $this->method === 'PUT') && $session->isLoggedIn() && $session->isAdmin()){
+      $id = intval(array_shift($args));
+      if ($id && is_numeric($id)) {
+        $person = Person::getById($id);
+        if (isset($person) && $person){
+          $user = User::current_user();
+          $person->activate($user);
+          return $person;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } else {
+      return 'You may only POST/PUT to this endpoint and Admin is required';
+    }
+  }
+
+  protected function deactivateIndividual($args) {
+    $session = mySession::getInstance();
+    if (($this->method === 'POST' || $this->method === 'PUT') && $session->isLoggedIn() && $session->isAdmin()){
+      $id = intval(array_shift($args));
+      if ($id && is_numeric($id)) {
+        $person = Person::getById($id);
+        if (isset($person) && $person){
+          $user = User::current_user();
+          $person->deactivate($user);
+          return $person;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    } else {
+      return 'You may only POST/PUT to this endpoint and Admin is required';
+    }
+  }
+
   protected function individual($args) {
     $session = mySession::getInstance();
     if ($this->method === 'GET') {
@@ -344,6 +395,13 @@ class MyAPI extends API
             return false;
           }
         }
+      } else if ($this->verb === 'submissions') {
+        $user = User::current_user();
+        $submissions = Person::getSubmissions($user);
+        return $submissions;
+      } else if ($this->verb === 'allSubmissions' && $session->isAdmin()) {
+        $submissions = Person::getSubmissions();
+        return $submissions;
       } else if ($this->verb === 'children') {
         if (count($args) > 2 || count($args) < 2) {
           return array();
@@ -474,7 +532,9 @@ class MyAPI extends API
         $all = $all === "true"? true: false;
 
         $names = array();
-        $familyNames = Person::getFirstNames($lastName, $all);
+        $user = User::current_user();
+
+        $familyNames = Person::getFirstNames($lastName, $all, $user);
         if ($familyNames) {
           foreach ($familyNames as $key) {
             $key = recast('Person', arrayToObject($key));
@@ -576,15 +636,25 @@ class MyAPI extends API
         }
       }
       return false;
-    } else if (($this->method === 'POST' || $this->method === 'PUT') && $session->isLoggedIn()&& $session->isAdmin()){
+    } else if (($this->method === 'POST' || $this->method === 'PUT') && $session->isLoggedIn()){
+      $user = User::current_user();
+      if (!$user->id) { return false; };
       $result = $this->file;
       if (empty($result) || empty($result->person) || empty($result->birth) || empty($result->death)) {
         return false;
       }
       // return $result;
       $person = recast('Person', $result->person);
+      if ($person->id) {
+        $tempPerson = Person::getById($person->id);
+        $person->submitter = $tempPerson->submitter;
+        $person->status = $tempPerson->status;
+        if ($person->submitter !== $user->id && !($user->rights === 'super' || $user->rights === 'admin')) {
+          return false;
+        }
+      }
       if (!empty($person)) {
-        $personId = $person->save();
+        $personId = $person->save($user);
       } else {
         return false;
       } 
@@ -616,16 +686,8 @@ class MyAPI extends API
           $birth->place = $birthPlace->save();
           $birth->save();
         } else {
-          if ($birth && $birth->birthPlace) {
-            $birthPlace = Place::getById($birth->birthPlace->id);
-            if ($birthPlace){
-              $birthPlace = recast('Place', $birthPlace);
-              if ($birthPlace) {
-                $birthPlace->delete();
-              }
-            } 
-          }
-          $birthPlace = null;
+          $birth->place = null;
+          $birth->save();
         }
         if ($result->deathPlace) {
           $deathPlace = recast('Place', $result->deathPlace);
@@ -634,14 +696,8 @@ class MyAPI extends API
           $death->place = $deathPlace->save();
           $death->save();
         } else {
-          $deathPlace = Place::getById($death->deathPlace->id);
-          if ($death && $death->deathPlace) {
-            $deathPlace = recast('Place', Place::getById($death->deathPlace->id));
-            if ($deathPlace) {
-              $deathPlace->delete();
-            }
-          }
-          $deathPlace = null;
+          $death->place = null;
+          $death->save();
         }
         if ($burial) {
           if ($result->burialPlace) {
@@ -651,25 +707,13 @@ class MyAPI extends API
             $burial->place = $burialPlace->save();
             $burial->save();
           } else {
-            $burialPlace = Place::getById($burial->place);
-            if ($burial && $burialPlace) {
-              $burialPlace = recast('Place', Place::getById($burial->place));
-              if ($burialPlace) {
-                $burialPlace->delete();
-              }
-            } 
+            $burial->place = null;
+            $burial->save();
           }
         } else {
           $burial = Burial::getById($person->id);
           if ($burial && $burial->id) {
             $burial = recast('Burial', $burial);
-            $burialPlace = Place::getById($burial->place);
-            if ($burialPlace) {
-              $burialPlace = recast('Place', Place::getById($burial->place));
-              if ($burialPlace) {
-                $burialPlace->delete();
-              }
-            } 
             $burial->delete();            
           } 
         }
@@ -784,7 +828,7 @@ class MyAPI extends API
             }
           }
         }
-        return true;
+        return $person;
       }
       return false;
     } else {

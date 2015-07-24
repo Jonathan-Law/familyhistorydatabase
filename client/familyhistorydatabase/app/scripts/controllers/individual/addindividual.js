@@ -20,6 +20,11 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
     var curr_year  = d.getFullYear();
     return curr_month + "/" + curr_date + "/" + curr_year;
   };
+  
+  Business.user.getIsAdmin().then(function(result){
+    console.log('we are admin', result);
+    $scope.isAdmin = result;
+  })
 
   var checkDate = function(d){
     if (!(typeof d === 'object')) {
@@ -45,17 +50,19 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
   $scope.$parent.$watch('person', function(person){
     if (person) {
       // console.log('person', person);
-      
-      $scope.person = angular.copy($scope.$parent.person);
-      if ($scope.person.profile_pic && $scope.person.profile_pic !=="") {
-        Business.individual.getProfilePic($scope.person.profile_pic).then(function(result){
-          if (result) {
-            $scope.profile_pic = result;
+      $scope.$broadcast('$RESETFORM');
+      $timeout(function(){
+        $scope.person = angular.copy($scope.$parent.person);
+        if ($scope.person.profile_pic && $scope.person.profile_pic !=="") {
+          Business.individual.getProfilePic($scope.person.profile_pic).then(function(result){
+            if (result) {
+              $scope.profile_pic = result;
             // console.log('result', result);
             
           }
         })
-      }
+        }
+      },100)
       // console.log('person', $scope.person);
     }
   })
@@ -77,7 +84,7 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
   $scope.setupData = function(){
     var person = $scope.person;
     $timeout(function(){
-        
+
       $scope.backup = person;      
       var date = null;
       if (person.birth) {
@@ -144,26 +151,26 @@ app.controller('IndividualAddindividualCtrl', ['$rootScope', '$scope', '$timeout
           })
         })
       }
-      })
+    })
+}
+
+
+$scope.$watch('person', function(person){
+  if (person) {
+    $scope.setupData();
+    $scope.exactBirthDate     = false;
+    $scope.exactDeathDate     = false;
+    $scope.exactBurialDate    = false;
+    $scope.parents            = null;
+    $scope.spouse             = null;
+    $scope.result.parentList  = [];
+    $scope.result.spouseList  = [];
+
+    $scope.biHasChanged = -1;
+    $scope.deHasChanged = -1;
+    $scope.buHasChanged = -1;
   }
-
-
-  $scope.$watch('person', function(person){
-    if (person) {
-      $scope.setupData();
-      $scope.exactBirthDate     = false;
-      $scope.exactDeathDate     = false;
-      $scope.exactBurialDate    = false;
-      $scope.parents            = null;
-      $scope.spouse             = null;
-      $scope.result.parentList  = [];
-      $scope.result.spouseList  = [];
-
-      $scope.biHasChanged = -1;
-      $scope.deHasChanged = -1;
-      $scope.buHasChanged = -1;
-    }
-  }, true);
+}, true);
 
 
 $scope.getTypeahead = $rootScope.getTypeahead;
@@ -254,6 +261,14 @@ $scope.onSelectParent = function(item, model, something) {
 
 
   $scope.savePerson = function() {
+    console.log('$scope', $scope);
+    
+    if (!$scope.isAdmin && $scope.person.status === 'A') {
+      var cont = window.confirm('If you submit these changes your individual will be inactivated until an admin can approve the changes. Continue?');
+      if (!cont) {
+        return;
+      }
+    }
     var data = {};
     // console.log('person', $scope.person);
 
@@ -415,17 +430,26 @@ $scope.onSelectParent = function(item, model, something) {
     Business.individual.updateIndData(data).then(function(result){
       if (result) {
         // console.log('************Result************', result);
-        
-        if (!$scope.backup) {
-          $scope.$broadcast('$RESETFORM');
-          $scope.result = {};
-          $scope.result.parentList = [];
-          $scope.result.spouseList = [];
-          
+        if (result.status === 'I') {
+          if (!$scope.$parent.maintain) {
+            $scope.$broadcast('$RESETFORM');
+            $scope.$emit('$TRIGGEREVENT', '$INDIVIDUALADDED');
+            $scope.result = {};
+            $scope.result.parentList = [];
+            $scope.result.spouseList = [];
+          }
+          triggerAlert('Your individual\'s data was saved!! An admin has been notified. Changes will be made public once an admin has approved your changes.', 'addIndividual', '#globalModal', 5000);        
+        }else if (result.status === 'A') {
+          triggerAlert('Your individual\'s data was saved!!', 'addIndividual', '#globalModal', 5000);        
+          if (!$scope.backup) {
+            $scope.$broadcast('$RESETFORM');
+            $scope.result = {};
+            $scope.result.parentList = [];
+            $scope.result.spouseList = [];
+          }
         }
-        triggerAlert('Your individual\'s data was saved!!', 'addIndividual', '#globalModal', 5000);        
       }
     })
 
-  }
+}
 }]);

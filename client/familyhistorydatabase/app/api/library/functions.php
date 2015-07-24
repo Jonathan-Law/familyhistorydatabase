@@ -5,13 +5,13 @@
 /////////////////////////////////////////////////////////////////////////
 
 function objectListContains($list, $field, $value) {
-  foreach ($list as $key) {
-    if (isset($key->$field)  && $key->$field === $value)
-    {
-      return true;
-    }
-  }
-  return false;
+ foreach ($list as $key) {
+  if (isset($key->$field)  && $key->$field === $value)
+  {
+   return true;
+}
+}
+return false;
 }
 
 function strip_zeros_from_date($marked_string="")
@@ -357,16 +357,16 @@ function objectToArray($d)
             $message = '
             <html>
             <head>
-               <title>Recent upload to a person on your watch list.</title>
+            <title>Recent upload to a person on your watch list.</title>
             </head>
             <body>
-               <p>Something has been uploaded for '.$person->displayName().'</p>
-               <p>Click <a href="'.$link.'">HERE</a> to view the new document, or go to their page to view new content <a href="/?controller=individual&action=homepage&id='.$person->id.'">HERE</a></p>
-               <br/>
-               <p>Thank you for your continued membership!</p>
-               <br/>
-               <p>Sincerely</p>
-               <p>-The Familyhistorydatabase crew</p>
+            <p>Something has been uploaded for '.$person->displayName().'</p>
+            <p>Click <a href="'.$link.'">HERE</a> to view the new document, or go to their page to view new content <a href="/?controller=individual&action=homepage&id='.$person->id.'">HERE</a></p>
+            <br/>
+            <p>Thank you for your continued membership!</p>
+            <br/>
+            <p>Sincerely</p>
+            <p>-The Familyhistorydatabase crew</p>
             </body>
             </html>
             ';
@@ -412,6 +412,33 @@ function objectToArray($d)
          return null;
    }
    function getStream() {
-    return json_decode(file_get_contents("php://input"));
-   }
-   ?>
+     return json_decode(file_get_contents("php://input"));
+  }
+
+  function sendOwnerUpdate($message, $subject)
+  {
+   $from = "noreply@familyhistorydatabase.org";
+   $headers  = 'MIME-Version: 1.0' . "\r\n";
+   $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+   $headers .= "From: " . $from;
+   mail('jedwondle@gmail.com',$subject,$message,$headers);
+}
+function recursive_array_diff($a1, $a2) { 
+   $r = array(); 
+   foreach ($a1 as $k => $v) {
+      if (array_key_exists($k, $a2)) { 
+         if (is_array($v)) { 
+            $rad = recursive_array_diff($v, $a2[$k]); 
+            if (count($rad)) { $r[$k] = $rad; } 
+         } else { 
+            if ($v != $a2[$k]) { 
+               $r[$k] = $v; 
+            }
+         }
+      } else { 
+         $r[$k] = $v; 
+      } 
+   } 
+   return $r; 
+}
+?>

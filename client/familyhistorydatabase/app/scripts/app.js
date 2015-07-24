@@ -197,12 +197,12 @@ var app = angular
     return deferred.promise;
   }
 
-  $rootScope.editIndividual = function(id) {
+  $rootScope.editIndividual = function(id, maintain) {
     var title = 'Edit This Individual';
     if (!id) {
       title = 'Add an Individual';
     }
-    var content = '<edit-individual id="'+id+'"></edit-individual>';
+    var content = '<edit-individual id="'+id+'" maintain="'+maintain+'"></edit-individual>';
     var body = {
       'modalTitle': title,
       'modalBodyContent': content,

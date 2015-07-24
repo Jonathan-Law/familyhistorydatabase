@@ -1,10 +1,12 @@
 'use strict';
 
 app.controller('AdminCtrl', ['$scope', 'business', '$location', function ($scope, Business, $location) {
-  
-  if (!Business.user.getIsAdmin()) {
-    $location.path('/');
-  }
+
+  Business.user.getIsAdmin().then(function(result){
+    if (!result) {
+      $location.path('/');
+    }
+  })
   $scope.$on('$LOGOUT', function() {
     $location.path('/');
   })

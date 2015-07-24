@@ -19,10 +19,14 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
 
       scope.isUserAdmin = false;
 
-      scope.isUserAdmin = Business.user.getIsAdmin() || false;
+      scope.getIsAdmin = function(){
+        Business.user.getIsAdmin().then(function(result){
+          scope.isUserAdmin = result;
+        })
+      }
 
       scope.$on('$LOGGEDIN', function(){
-        scope.isUserAdmin = Business.user.getIsAdmin() || false;
+        scope.getIsAdmin();
       })
 
       scope.setProfilePicture = function(){
@@ -58,70 +62,70 @@ app.directive('photoalbum', ['business', '$timeout', function (Business, $timeou
         }
       });
 
-      scope.$on('$destroy', function handleDestroyEvent() {
+scope.$on('$destroy', function handleDestroyEvent() {
         // console.log('we destroyed the photo-album');
         $(window).off('keydown', function(){
 
         });
       });
 
-      scope.interval = 1;
-      scope.size = 5;
+scope.interval = 1;
+scope.size = 5;
 
-      scope.start = 0;
-      scope.stop = scope.size;
+scope.start = 0;
+scope.stop = scope.size;
 
-      scope.active = 0;
-      scope.focus;
+scope.active = 0;
+scope.focus;
 
-      scope.imgWidth;
-      scope.imgHeight;
+scope.imgWidth;
+scope.imgHeight;
 
-      scope.moreAfter = function(){
-        return (scope.pictures.length - scope.start) > scope.size;
-      }
-      scope.moreBefore = function(){
-        return scope.start > 0;
-      }
-      var timeout;
-      $(window).resize(function() {
-        clearTimeout(timeout);
-        timeout =  setTimeout(function() {
-          scope.setDimensions();
-          scope.setActiveImage(scope.active, scope.focus);
-        }, 500);
-      });
+scope.moreAfter = function(){
+  return (scope.pictures.length - scope.start) > scope.size;
+}
+scope.moreBefore = function(){
+  return scope.start > 0;
+}
+var timeout;
+$(window).resize(function() {
+  clearTimeout(timeout);
+  timeout =  setTimeout(function() {
+    scope.setDimensions();
+    scope.setActiveImage(scope.active, scope.focus);
+  }, 500);
+});
 
-      scope.setDimensions = function() {
-        scope.tempWidth = element.find('#display').width();
-        scope.tempHeight = 600;
-      };
+scope.setDimensions = function() {
+  scope.tempWidth = element.find('#display').width();
+  scope.tempHeight = 600;
+};
 
 
-      var calculateAspectRatioFit = function(srcWidth, srcHeight, maxWidth, maxHeight) {
-        var ratio = [maxWidth / srcWidth, maxHeight / srcHeight ];
-        ratio = Math.min(ratio[0], ratio[1]);
-        scope.imgWidth = srcWidth*ratio;
-        scope.imgHeight = (srcHeight*ratio) - 2;
-        scope.$apply();
-      }
+var calculateAspectRatioFit = function(srcWidth, srcHeight, maxWidth, maxHeight) {
+  var ratio = [maxWidth / srcWidth, maxHeight / srcHeight ];
+  ratio = Math.min(ratio[0], ratio[1]);
+  scope.imgWidth = srcWidth*ratio;
+  scope.imgHeight = (srcHeight*ratio) - 2;
+  scope.$apply();
+}
 
-      jQuery.fn.animateAuto = function(prop, speed, callback){
-        var elem, height, width;
-        return this.each(function(i, el){
-          el = jQuery(el), elem = el.clone().css({"height":"auto","width":"auto"}).appendTo("body");
-          height = elem.css("height"),
-          width = elem.css("width"),
-          elem.remove();
+jQuery.fn.animateAuto = function(prop, speed, callback){
+  var elem, height, width;
+  return this.each(function(i, el){
+    el = jQuery(el), elem = el.clone().css({"height":"auto","width":"auto"}).appendTo("body");
+    height = elem.css("height"),
+    width = elem.css("width"),
+    elem.remove();
 
-          if(prop === "height")
-            el.animate({"height":height}, speed, callback);
-          else if(prop === "width")
-            el.animate({"width":width}, speed, callback);  
-          else if(prop === "both")
-            el.animate({"width":width,"height":height}, speed, callback);
-        });  
-      }
+    if(prop === "height")
+      el.animate({"height":height}, speed, callback);
+    else if(prop === "width")
+      el.animate({"width":width}, speed, callback);  
+    else if(prop === "both")
+      el.animate({"width":width,"height":height}, speed, callback);
+  });  
+}
 
       // element.find('#display').on('mouseenter', function(){
       //   $('.photoAlbumData').stop(true, true).animate({
