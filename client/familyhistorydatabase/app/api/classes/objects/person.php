@@ -186,8 +186,7 @@ class Person
 
   public static function getLastNames($letter, $all = false, $user = null)
   {
-    return $user;
-    $allStatus = (isset($user) && ($user->rights === 'super' || $user->rights === 'admin'))? true: false;
+    $allStatus = (isset($user) && isset($user->rights) && ($user->rights === 'super' || $user->rights === 'admin'))? true: false;
     $database = cbSQLConnect::connect('array');
     if (isset($database))
     {
@@ -196,7 +195,7 @@ class Person
       }
       if ($allStatus){
         $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."' GROUP BY `lastName`");
-      } else if(isset($user)) {
+      } else if(isset($user) && isset($user->id)) {
         $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."' AND (`status`='A' OR `submitter`='".$user->id."') GROUP BY `lastName`");
       } else {
         $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."' AND (`status`='A') GROUP BY `lastName`");
@@ -214,7 +213,7 @@ class Person
 
   public static function getFirstNames($lastname, $all = false, $user = null)
   {
-    $allStatus = (isset($user) && ($user->rights === 'super' || $user->rights === 'admin'))? true: false;
+    $allStatus = (isset($user) && isset($user->rights) && ($user->rights === 'super' || $user->rights === 'admin'))? true: false;
     $database = cbSQLConnect::connect('array');
     if (isset($database))
     {
@@ -223,7 +222,7 @@ class Person
       }
       if ($allStatus){
         $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."' ORDER BY `firstName`");
-      } else if(isset($user)) {
+      } else if(isset($user) && isset($user->id)) {
         $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."' AND (`status`='A' OR `submitter`='".$user->id."') ORDER BY `firstName`");
       } else {
         $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."' AND `status`='A' ORDER BY `firstName`");
