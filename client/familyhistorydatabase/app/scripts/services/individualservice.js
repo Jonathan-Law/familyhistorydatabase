@@ -353,7 +353,6 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
   }
 
   service.getFamily = function(id) {
-    console.log('id', id);
 
     var deferred = $q.defer();
     if (id) {

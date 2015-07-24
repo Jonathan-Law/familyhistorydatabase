@@ -1,8 +1,11 @@
 <div ng-controller="IndividualAddindividualCtrl">
   <div class="container-fluid">
+    <button class="btn btn-default" ng-click="refreshData()"><i class="fa fa-refresh"></i>&nbsp;Refresh/Reload Data</button>
     <div class="form-group row">
       <div class="col-sm-12 initial" ng-show="profile_pic">
-        <img ng-src="/{{profile_pic.viewlink}}" alt="Profile Picture" width="auto" height="150" style="border-radius:4px; border: 1px solid darkgray;">
+        <a ng-click="closeModal('/individual', {individual: person.id, tab: 'default'})" href="javascript:void(0);">
+          <img ng-src="/{{profile_pic.viewlink}}" alt="Profile Picture" width="auto" height="150" style="border-radius:4px; border: 1px solid darkgray;">
+        </a>
       </div>
       <div class="col-sm-12 initial" ng-show="!profile_pic">
         Upload a profile picture...

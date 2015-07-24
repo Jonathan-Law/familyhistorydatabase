@@ -12,7 +12,7 @@ app.directive('spouse', ['business', function (Business) {
     link: function postLink(scope, element, attrs) {
       Business.individual.getSpouses(scope.ngModel.id, scope.individual).then(function(result){
         if (result) {
-          console.log('result', result);
+          // console.log('result', result);
           
           if (result.year && result.year !=='')
           {
@@ -21,7 +21,7 @@ app.directive('spouse', ['business', function (Business) {
             dateString = dateString + '-' + ((result.day && result.day !== '')? result.day : '1');
             dateString = dateString + '-' + ((result.year)? result.year : '1700');
             scope.ngModel.marriageDate = new Date(dateString);
-            console.log('ngModel.marriagedate', scope.ngModel.marriageDate);
+            // console.log('ngModel.marriagedate', scope.ngModel.marriageDate);
           }
           if (result.yearM ===  '1' || result.yearM === 'true')
           {
@@ -29,7 +29,7 @@ app.directive('spouse', ['business', function (Business) {
           }
 
           Business.individual.getPlace(result.place).then(function(place){
-            console.log('place', place);
+            // console.log('place', place);
             scope.ngModel.marriagePlace = place;
           });
         }
