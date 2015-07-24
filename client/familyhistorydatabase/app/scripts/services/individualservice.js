@@ -424,5 +424,107 @@ app.factory('individualService', ['localCache', '$http', '$q', function (localCa
     return deferred.promise; 
   }
 
+  service.getAllSubmissions = function() {
+    var deferred = $q.defer();
+    var url = '/api/v1/individual/allSubmissions';
+    $http({
+      method: 'GET',
+      url: url,
+    }).success(function(data, status, headers, config) {
+      if (data !== "false" && !isMaxError(data)) {
+        deferred.resolve(data);
+      } else {
+        if (isMaxError(data)) {
+          var returnCall = angular.copy(utils.httpObj);
+          returnCall.method = 'GET';
+          returnCall.url = url;
+          handleQueue(returnCall).then(function(result){
+            deferred.resolve(result);
+          });
+        } else {
+          deferred.resolve([]);
+        }
+      }
+    });
+    return deferred.promise; 
+  }
+
+  service.getMySubmissions = function() {
+    var deferred = $q.defer();
+    var url = '/api/v1/individual/submissions';
+    $http({
+      method: 'GET',
+      url: url,
+    }).success(function(data, status, headers, config) {
+      if (data !== "false" && !isMaxError(data)) {
+        deferred.resolve(data);
+      } else {
+        if (isMaxError(data)) {
+          var returnCall = angular.copy(utils.httpObj);
+          returnCall.method = 'GET';
+          returnCall.url = url;
+          handleQueue(returnCall).then(function(result){
+            deferred.resolve(result);
+          });
+        } else {
+          deferred.resolve([]);
+        }
+      }
+    });
+    return deferred.promise; 
+  }
+  service.activateSubmission = function(id) {
+    var deferred = $q.defer();
+    var url = '/api/v1/activateIndividual/'+id;
+    if (id){
+      $http({
+        method: 'POST',
+        url: url,
+      }).success(function(data, status, headers, config) {
+        if (data !== "false" && !isMaxError(data)) {
+          deferred.resolve(data);
+        } else {
+          if (isMaxError(data)) {
+            var returnCall = angular.copy(utils.httpObj);
+            returnCall.method = 'GET';
+            returnCall.url = url;
+            handleQueue(returnCall).then(function(result){
+              deferred.resolve(result);
+            });
+          } else {
+            deferred.resolve([]);
+          }
+        }
+      });
+    } else {
+      deferred.resolve([]);
+    }
+    return deferred.promise; 
+  }
+  service.deactivateSubmission = function(id) {
+    var deferred = $q.defer();
+    var url = '/api/v1/deactivateIndividual/'+id;
+    $http({
+      method: 'POST',
+      url: url,
+    }).success(function(data, status, headers, config) {
+      if (data !== "false" && !isMaxError(data)) {
+        deferred.resolve(data);
+      } else {
+        if (isMaxError(data)) {
+          var returnCall = angular.copy(utils.httpObj);
+          returnCall.method = 'GET';
+          returnCall.url = url;
+          handleQueue(returnCall).then(function(result){
+            deferred.resolve(result);
+          });
+        } else {
+          deferred.resolve([]);
+        }
+      }
+    });
+    return deferred.promise; 
+  }
+
   return service;
 }]);

@@ -13,6 +13,10 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$locat
 
   $scope.loggedIn   = false;
 
+  if ($scope.user) {
+    $scope.user.admin = false;
+  }
+
   $scope.aside = {
     'title': 'Title',
     'content': 'Hello Aside<br />This is a multiline message!'
@@ -25,11 +29,7 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$locat
     if (user) {
       $scope.user = angular.copy(user);
       $scope.loggedIn = true;
-      if (Business.user.getIsAdmin(user)){
-        $scope.admin = true;
-      } else {
-        $scope.admin = false;
-      }
+      $scope.user.admin = $scope.user.rights === 'super' || $scope.user.rights === 'admin';
     }
   })
 

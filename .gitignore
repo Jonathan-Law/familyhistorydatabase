@@ -10,3 +10,4 @@ client/familyhistorydatabase/app/api/library/config.php
 client/familyhistorydatabase/app/api/library/paths.php
 client/familyhistorydatabase/app/views/jake.html
 client/familyhistorydatabase/app/scripts/controllers/jake.js
+client/familyhistorydatabase/app/test.php

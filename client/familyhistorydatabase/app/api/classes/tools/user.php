@@ -54,6 +54,12 @@ class User{
       }
    }
 
+   public function isAdmin() {
+      if($this->rights === 'super' || $this->rights === 'admin') {
+         return true;
+      }
+   }
+
    public function gender()
    {
       if (isset($this->gender))

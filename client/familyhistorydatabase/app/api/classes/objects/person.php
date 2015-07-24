@@ -10,10 +10,10 @@ class Person
 {
 
   protected static $table_name = "person";
-  protected static $db_fields = array('id', 'firstName', 'middleName', 'lastName', 'yearBorn', 'yearDead', 'yearB', 'yearD', 'relationship','profile_pic', 'sex');
+  protected static $db_fields = array('id', 'submitter', 'status', 'firstName', 'middleName', 'lastName', 'yearBorn', 'yearDead', 'yearB', 'yearD', 'relationship','profile_pic', 'sex');
   public static function get_db_fields()
   {
-    $fields = array('id', 'firstName', 'middleName', 'lastName', 'yearBorn', 'yearDead', 'yearB', 'yearD', 'relationship','profile_pic', 'sex');
+    $fields = array('id', 'submitter', 'status', 'firstName', 'middleName', 'lastName', 'yearBorn', 'yearDead', 'yearB', 'yearD', 'relationship','profile_pic', 'sex');
     return $fields;
   }
   public static function nameMe()
@@ -23,6 +23,8 @@ class Person
 
   // Attributes in person table
   public $id;
+  public $submitter;
+  public $status;
   public $firstName;
   public $middleName;
   public $lastName;
@@ -67,6 +69,8 @@ class Person
           $temp[] = $aperson->yearBorn;
           $temp[] = $aperson->yearDead;
           $temp[] = $aperson->id;
+          $temp[] = $aperson->submitter;
+          $temp[] = $aperson->status;
           $temp[] = $aperson->middleName;
           $temp['data'] = $aperson;
           $result[] = $temp;
@@ -92,8 +96,9 @@ class Person
       // Here we have to prepare the statment using PDO 'quote'... Apparently the AGAINST
       // must have a constant string to work with or it breaks... so we can't prepare the statement...
       $target = $database->prepareQuote($target);
-
-      $people = $database->QuerySingle("SELECT *, MATCH(firstName, middleName, lastName) AGAINST(".$target." IN BOOLEAN MODE) AS score FROM `person` WHERE MATCH(firstName, middleName, lastName) AGAINST(".$target." IN BOOLEAN MODE) ORDER BY score DESC LIMIT 0, 10");
+      $user = User::current_user();
+      $searchCrit = $user->isAdmin()? "" : "AND (`status`='A' OR `submitter`='".$user->id."')";
+      $people = $database->QuerySingle("SELECT *, MATCH(firstName, middleName, lastName) AGAINST(".$target." IN BOOLEAN MODE) AS score FROM `person` WHERE MATCH(firstName, middleName, lastName) AGAINST(".$target." IN BOOLEAN MODE) ".$searchCrit." ORDER BY score DESC LIMIT 0, 10");
       if ($people) {
         foreach($people as $aperson) {
           $aperson = recast("Person", $aperson);
@@ -155,15 +160,19 @@ class Person
     }
   }
 
-  public static function getLastNames($letter, $all = false)
+  public static function getSubmissions($user = null)
   {
     $database = cbSQLConnect::connect('array');
     if (isset($database))
     {
-      if ($all) {
-        $letter = $letter."%";
+      if (isset($user) && isset($user->id)){
+        $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `submitter`='".$user->id."'");
+      } else {
+        $user = User::current_user();
+        if (isset($user) && ($user->rights === 'super' || $user->rights === 'admin')) {
+          $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `status`='I'");
+        }
       }
-      $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."' GROUP BY `lastName`");
       if (count($data) == 0)
       {
         return NULL;
@@ -175,15 +184,50 @@ class Person
     }
   }
 
-  public static function getFirstNames($lastname, $all = false)
+  public static function getLastNames($letter, $all = false, $user = null)
   {
+    return $user;
+    $allStatus = (isset($user) && ($user->rights === 'super' || $user->rights === 'admin'))? true: false;
+    $database = cbSQLConnect::connect('array');
+    if (isset($database))
+    {
+      if ($all) {
+        $letter = $letter."%";
+      }
+      if ($allStatus){
+        $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."' GROUP BY `lastName`");
+      } else if(isset($user)) {
+        $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."' AND (`status`='A' OR `submitter`='".$user->id."') GROUP BY `lastName`");
+      } else {
+        $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `lastName` LIKE '".$letter."' AND (`status`='A') GROUP BY `lastName`");
+      }
+      if (count($data) == 0)
+      {
+        return NULL;
+      }
+      else
+      {
+        return $data;
+      }
+    }
+  }
+
+  public static function getFirstNames($lastname, $all = false, $user = null)
+  {
+    $allStatus = (isset($user) && ($user->rights === 'super' || $user->rights === 'admin'))? true: false;
     $database = cbSQLConnect::connect('array');
     if (isset($database))
     {
       if ($all) {
         $lastname = $lastname."%";
       }
-      $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."' ORDER BY `firstName`");
+      if ($allStatus){
+        $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."' ORDER BY `firstName`");
+      } else if(isset($user)) {
+        $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."' AND (`status`='A' OR `submitter`='".$user->id."') ORDER BY `firstName`");
+      } else {
+        $data = $database->QuerySingle("SELECT * FROM `person` WHERE `lastName` LIKE '".$lastname."' AND `status`='A' ORDER BY `firstName`");
+      }
       if (count($data) == 0)
       {
         return NULL;
@@ -329,10 +373,10 @@ class Person
 
   }
 
-  public function save()
+  public function save($user = null)
   {
     // return $this->id;
-    return isset($this->id) ? $this->update() : $this->create();
+    return isset($this->id) ? $this->update($user) : $this->create($user);
   }
 
   public function setProfilePic($pic_id)
@@ -346,13 +390,15 @@ class Person
   }
 
   // create the object if it doesn't already exits.
-  protected function create()
+  protected function create($user)
   {
     $database = cbSQLConnect::connect('object');
     if (isset($database))
     {
       $fields = self::$db_fields;
       $data = array();
+      $this->submitter = (int)$user->id;
+      $this->status = ($user->rights === 'super' || $user->rights === 'admin')? 'A': 'I';
       foreach($fields as $key)
       {
         if ($this->{$key})
@@ -363,8 +409,12 @@ class Person
           $data[$key] = NULL;
 
       }
-
-      // return $data;
+      // send email to admin here that an individual has been submitted by a non-admin;
+      $message = "A new Individual has been added:<br><br>";
+      $message .= $this->displayName() ."<br><br>";
+      $message .= "by ".$user->username." ".$user->email;
+      $subject = "New Individual for approval";
+      sendOwnerUpdate($message, $subject);
       // return true if sucess or false
       $insert = $database->SQLInsert($data, "person");
       if ($insert)
@@ -379,12 +429,74 @@ class Person
   }
 
   // update the object if it does already exist.
-  protected function update()
+  protected function update($user)
   {
     $database = cbSQLConnect::connect('object');
     if (isset($database))
     {
       $fields = self::$db_fields;
+      // $this->submitter = (int)$user->id;
+      if (!($user->rights === 'super' || $user->rights === 'admin')){
+        $this->status = 'I';
+        // $message = "An old Individual has been updated and requires aproval to the changes:<br><br>";
+        // $message .= $this->displayName() ."<br><br>";
+        // $message .= "by ".$user->username." ".$user->email;
+        // $message .= "<br><br>Changes Include:<br>";
+        // $message .= print_r(recursive_array_diff((array)$this, (array)Person::getById($this->id)), true);
+        // $subject = "Old Individual for approval";
+        // sendOwnerUpdate($message, $subject);
+      }
+      foreach($fields as $key)
+      {
+        $flag = $database->SQLUpdate("person", $key, $this->{$key}, "id", $this->id);
+        if ($flag == "fail")
+        {
+          break;
+        }
+      }
+      if ($flag == "fail")
+      {
+        return false;
+      }
+      else
+        return $this->id;
+    }
+  }
+
+  // update the object if it does already exist.
+  public function activate($user)
+  {
+    $database = cbSQLConnect::connect('object');
+    if (isset($database) && $user && ($user->rights === 'super' || $user->rights === 'admin'))
+    {
+      $fields = self::$db_fields;
+      // $this->submitter = (int)$user->id;
+      $this->status = 'A';
+      foreach($fields as $key)
+      {
+        $flag = $database->SQLUpdate("person", $key, $this->{$key}, "id", $this->id);
+        if ($flag == "fail")
+        {
+          break;
+        }
+      }
+      if ($flag == "fail")
+      {
+        return false;
+      }
+      else
+        return $this->id;
+    }
+  }
+
+  public function deactivate($user)
+  {
+    $database = cbSQLConnect::connect('object');
+    if (isset($database) && $user && ($user->rights === 'super' || $user->rights === 'admin'))
+    {
+      $fields = self::$db_fields;
+      // $this->submitter = (int)$user->id;
+      $this->status = 'I';
       foreach($fields as $key)
       {
         $flag = $database->SQLUpdate("person", $key, $this->{$key}, "id", $this->id);
@@ -419,6 +531,8 @@ class Person
     $init = new Person();
 
     $init->id          = NULL;
+    $init->submitter   = NULL;
+    $init->status      = 'I';
     $init->firstName   = $data['fninput'];
     $init->middleName  = $data['mninput'];
     $init->lastName    = $data['lninput'];

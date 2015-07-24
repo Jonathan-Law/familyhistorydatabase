@@ -1,9 +1,16 @@
 'use strict';
 
-app.controller('AdminAddfilesCtrl', ['$scope', 'business', '$location', function ($scope, Business, $location) {
-  if (!Business.user.getIsAdmin()) {
-    $location.path('/');
-  }
+app.controller('AdminAddfilesCtrl', ['$scope', 'business', '$location', '$timeout', function ($scope, Business, $location, $timeout) {
+  $timeout(function(){
+    Business.user.checkLoggedIn().then(function(){
+      Business.user.getIsAdmin().then(function(result){
+        console.log('result', result);
+        if (!result) {
+          $location.path('/');
+        }
+      })
+    })
+  },100)
   $scope.$on('$LOGOUT', function() {
     $location.path('/');
   })

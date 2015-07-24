@@ -7,7 +7,7 @@
 * # user
 * Factory in the familyhistorydatabaseApp.
 */
-app.factory('userService', ['localCache', '$http', '$q', function (localCache, $http, $q) { /*jshint unused: false*/
+app.factory('userService', ['$rootScope', 'localCache', '$http', '$q', function ($rootScope, localCache, $http, $q) { /*jshint unused: false*/
   var user = {};
   user.isLoggedIn = false;
   user.getUserInfo = function() {
@@ -16,8 +16,27 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
       method: 'GET',
       url: '/api/v1/user/'
     }).success(function(data, status, headers, config) {
+      // console.log('we got user info', data);
+      
       if (data) {
         user.userInfo = data;
+        deferred.resolve(data);
+      } else  {
+        deferred.resolve('Grabbing user info failed');
+      }
+    }).error(function(){
+      deferred.resolve('Grabbing user info failed');
+    });
+    return deferred.promise;
+  };
+
+  user.getUserInfoId = function(id) {
+    var deferred = $q.defer();
+    $http({
+      method: 'GET',
+      url: '/api/v1/user/getUserInfo/'+id
+    }).success(function(data, status, headers, config) {
+      if (data) {
         deferred.resolve(data);
       }
     }).error(function(){
@@ -35,7 +54,8 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
         deferred.resolve(false);
       } else {
         user.isLoggedIn = true;
-        deferred.resolve(true);
+        $rootScope.$emit('$triggerEvent', '$LOGGEDIN', data);
+        deferred.resolve(data);
       }
     }).error(function(){
       deferred.resolve(false);
@@ -44,12 +64,20 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
   }
 
   user.getIsAdmin = function() {
+    var deferred = $q.defer();
+    // console.log('user service', user);
+    
     if (user) {
-      if (!user.isLoggedIn) {
-        return false;
-      }
       var isAdmin = false;
-      if (user.userInfo && user.userInfo.rights) {
+      if (!user.userInfo) {
+        user.getUserInfo().then(function(data){
+          if (data){
+            deferred.resolve(true);
+          } else {
+            deferred.resolve(false);
+          }
+        });
+      } else if (user.userInfo && user.userInfo.rights) {
         switch(user.userInfo.rights){
           case 'super':
           case 'admin':
@@ -59,11 +87,12 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
           isAdmin = false;
           break;
         }
-        return isAdmin;
+        deferred.resolve(isAdmin);
       }
-      return false;
+      deferred.resolve(false);
     }
-    return false;
+    deferred.resolve(false);
+    return deferred.promise;
   }
 
   user.getIsValidated = function() {
@@ -101,7 +130,7 @@ app.factory('userService', ['localCache', '$http', '$q', function (localCache, $
         headers: {'Content-Type': 'application/json'}
       }).success(function(data, status, headers, config) {
         if (data !== "false") {
-          user.userInfo = data;
+          user.getUserInfo();
           user.isLoggedIn = true;
           deferred.resolve(data);
         } else {

@@ -10,6 +10,10 @@
       <div class="col-sm-12 initial" ng-show="!profile_pic">
         Upload a profile picture...
       </div>
+      <div class="col-sm-12 initial" ng-show="isAdmin">
+        <button class="btn btn-default" ng-show="person && person.status && person.status !== 'I'" ng-click="deactivateSubmission(person.id);">Deactivate Individual</button>
+        <button class="btn btn-danger" ng-show="person && person.status && person.status !== 'A'" ng-click="activateSubmission(person.id);">Activate Individual</button>
+      </div>
     </div>
     <form name="addAPersonForm" role="form" ng-submit="savePerson()" class="">
       <div class="form-group row">
