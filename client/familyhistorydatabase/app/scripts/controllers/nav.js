@@ -107,6 +107,47 @@ app.controller('NavCtrl', ['$rootScope', '$scope', '$aside', 'business', '$locat
   });
 
 
+  var closeMenu = function() {
+    var menuItems = $('.side-wrapper-nav');
+    var dropdowns = $('.sidebar-nav li .dropdown.open a[dropdowntoggle]');
+    menuItems.each(function() {
+      $(this).removeClass('active');
+    });
+    dropdowns.each(function(){
+      var id = $(this).attr('dropdown-tog');
+      $scope.$emit('$TRIGGEREVENT', '$TOGDROP', id);
+    })
+  }
+  var openMenu = function() {
+    var menuItems = $('.side-wrapper-nav');
+    menuItems.each(function() {
+      $(this).addClass('active');
+    });
+  }
+
+  $(document).ready(function() {
+    $('#sidebar-wrapper').on('mouseleave', function(e) {
+      closeMenu();
+    });
+    $("#menu-toggle").on( 'click, mouseenter', function(e) {
+      // e.stopPropagation();
+      openMenu();
+    });
+    $(document).on('click', function(e) {
+      var attr = $(e.target).attr('dropdowntoggle');
+      if (('menu-toggle' !== $(e.target).attr('id'))
+        && ( 'sideNavSearch' !== $(e.target).attr('id'))
+        && ( 'sidebar-brand' !== $(e.target).attr('id'))
+        && !(typeof attr !== typeof undefined && attr !== false)) {
+        closeMenu();
+        //
+      } else {
+        e.stopPropagation();
+      }
+    });
+
+  });
+
   // Pre-fetch an external template populated with a custom scope
   // var myOtherAside = $aside({scope: $scope, template: 'views/navAside.html'});
   // // Show when some event occurs (use $promise property to ensure the template has been loaded)
