@@ -208,6 +208,7 @@ $session = mySession::getInstance();
   <script type="text/javascript" src="scripts/directives/individual/family.js"></script>
   <script type="text/javascript" src="scripts/directives/individual/documents.js"></script>
   <script type="text/javascript" src="scripts/directives/loader.js"></script>
+  <script type="text/javascript" src="scripts/directives/content/dropdown.js"></script>
   
   <script type="text/javascript" src="scripts/filters/partition.js"></script>
 

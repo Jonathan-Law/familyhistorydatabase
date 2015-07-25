@@ -58,7 +58,7 @@
             <a href="javascript:void(0);" ng-click="login()">Login/Register</a>
           </li>
           <li ng-show="loggedIn" class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="navUserName">{{getUserName()}}&nbsp;<b class="caret"></b></a>
+            <a href="#" dropdowntoggle="username" id="navUserName">{{getUserName()}}&nbsp;<b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li ng-show="user"><a href="#/myfamily">My Family</a></li>
               <!-- <li><a href="#">Another action</a></li> -->
@@ -107,7 +107,7 @@
       </li>
       <li>
         <div class="dropdown">
-          <a style="color: #ccc" href="javascript:void(0);" ng-disabled="true" class="dropdown-toggle imitateLink" type="button" id="dropdownMenu1" data-toggle="dropdown">
+          <a style="color: #ccc" href="#" dropdowntoggle="hiddenMenu" id="dropdownMenu1" >
             About (coming soon)
             <span class="caret"></span>
           </a>
@@ -139,65 +139,3 @@
   </div>
   <!-- /Side Menu -->
 </div>
-
-
-<!-- JavaScript -->
-<!-- Custom JavaScript for the Side Menu -->
-<script>
-var closeMenu = function() {
-  var menuItems = $('.side-wrapper-nav');
-  var dropdownItems = $('#sidebar-wrapper ul li .dropdown.open .dropdown-toggle')
-  menuItems.each(function() {
-    $(this).removeClass('active');
-  });
-  // dropdownItems.each(function() {
-  //   $(this).dropdown('toggle');
-  // });
-}
-var openMenu = function() {
-  var menuItems = $('.side-wrapper-nav');
-  menuItems.each(function() {
-    $(this).addClass('active');
-  });
-}
-
-$(document).ready(function() {
-  $('#sidebar-wrapper').on('mouseleave', function(e) {
-    closeMenu();
-  });
-  $("#menu-toggle").on( 'click, mouseenter', function(e) {
-    // e.stopPropagation();
-    openMenu();
-  });
-  $(document).on('click', function(e) {
-    if (('menu-toggle' !== $(e.target).attr('id'))
-      && ( 'sideNavSearch' !== $(e.target).attr('id'))
-      && ( 'sidebar-brand' !== $(e.target).attr('id'))) {
-      closeMenu();
-      //
-    } else {
-      e.stopPropagation();
-    }
-  });
-
-});
-</script>
-
-<!--  and Smooth Scrolling -->
-<script>
-    // $(function() {
-    //   $('a[href*=#]:not([href=#])').click(function() {
-    //     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') || location.hostname == this.hostname) {
-
-    //       var target = $(this.hash);
-    //       target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
-    //       if (target.length) {
-    //         $('html,body').animate({
-    //           scrollTop: target.offset().top
-    //         }, 1000);
-    //         return false;
-    //       }
-    //     }
-    //   });
-    // });
-</script>
