@@ -13,6 +13,10 @@
   text-transform: uppercase;
   text-align: center;
   line-height: 20px;
+  -ms-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
   transform: rotate(-45deg);
   width: 127px;
   display: block;
@@ -44,15 +48,15 @@
 
 .ribbon.large {
   left: -5px; top: -5px;
-  width: 95px; height: 95px;
+  width: 105px; height: 105px;
 }
 .ribbon.large span {
   font-size: 10px;
   font-weight: bold;
   line-height: 20px;
-  width: 127px;
-  top: 28px; 
-  left: -26px;
+  width: 140px;
+  top: 33px; 
+  left: -27px;
 }
 .ribbon.large span::before {
   position: absolute; left: 0px; top: 100%;
