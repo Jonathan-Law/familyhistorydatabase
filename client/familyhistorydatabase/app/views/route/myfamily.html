@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="individual in approveThese track by $index" ng-click="editIndividual(individual.id, true)">
+        <tr style="cursor:pointer" ng-repeat="individual in approveThese track by $index" ng-click="editIndividual(individual.id, true)">
           <td>{{individual.displayableName}}</td>
           <td>{{individual.firstName}} &mdash; ({{individual.id}})</td>
           <td>{{individual.middleName}}</td>

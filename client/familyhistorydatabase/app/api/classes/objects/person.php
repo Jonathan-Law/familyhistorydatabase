@@ -171,11 +171,13 @@ class Person
         $user = User::current_user();
         if (isset($user) && isset($user->rights) && ($user->rights === 'super' || $user->rights === 'admin')) {
           $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `status`='I'");
+        } else {
+          $data = array();
         }
-      }
+      } 
       if (count($data) == 0)
       {
-        return NULL;
+        return false;
       }
       else
       {
