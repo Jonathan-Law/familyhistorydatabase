@@ -421,7 +421,7 @@ function objectToArray($d)
    $headers  = 'MIME-Version: 1.0' . "\r\n";
    $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
    $headers .= "From: " . $from;
-   mail('jedwondle@gmail.com',$subject,$message,$headers);
+   mail('lawpioneer@gmail.com',$subject,$message,$headers);
 }
 function recursive_array_diff($a1, $a2) { 
    $r = array(); 

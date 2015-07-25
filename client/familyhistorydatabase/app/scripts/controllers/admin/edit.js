@@ -35,7 +35,7 @@ app.controller('AdminEditCtrl', ['$scope', 'business', '$location', '$timeout', 
     Business.individual.getAllSubmissions().then(function(result){
       if (result && result.length && result !== 'null') {
         _.each(result, function(submission){
-          Business.user.getUserInfoId(submission.id).then(function(data){
+          Business.user.getUserInfoId(submission.submitter).then(function(data){
             if (data){
               submission.displayableName = data.displayableName;
             }

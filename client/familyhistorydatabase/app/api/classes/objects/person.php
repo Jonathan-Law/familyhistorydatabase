@@ -169,7 +169,7 @@ class Person
         $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `submitter`='".$user->id."'");
       } else {
         $user = User::current_user();
-        if (isset($user) && ($user->rights === 'super' || $user->rights === 'admin')) {
+        if (isset($user) && isset($user->rights) && ($user->rights === 'super' || $user->rights === 'admin')) {
           $data = $database->QuerySingle("SELECT DISTINCT * FROM `person` WHERE `status`='I'");
         }
       }
@@ -409,11 +409,13 @@ class Person
 
       }
       // send email to admin here that an individual has been submitted by a non-admin;
-      $message = "A new Individual has been added:<br><br>";
-      $message .= $this->displayName() ."<br><br>";
-      $message .= "by ".$user->username." ".$user->email;
-      $subject = "New Individual for approval";
-      sendOwnerUpdate($message, $subject);
+      if (!($user->rights === 'super' || $user->rights === 'admin')){
+        $message = "A new Individual has been added by a non-admin:<br><br>";
+        $message .= "<a href='http://dev.familyhistorydatabase.org/#/individual?individual=".$this->id."&tab=default'>".$this->displayName()."</a><br><br>";
+        $message .= "by ".$user->username." ".$user->email;
+        $subject = "New Individual for approval";
+        sendOwnerUpdate($message, $subject);
+      }
       // return true if sucess or false
       $insert = $database->SQLInsert($data, "person");
       if ($insert)
@@ -437,13 +439,16 @@ class Person
       // $this->submitter = (int)$user->id;
       if (!($user->rights === 'super' || $user->rights === 'admin')){
         $this->status = 'I';
-        // $message = "An old Individual has been updated and requires aproval to the changes:<br><br>";
-        // $message .= $this->displayName() ."<br><br>";
-        // $message .= "by ".$user->username." ".$user->email;
-        // $message .= "<br><br>Changes Include:<br>";
-        // $message .= print_r(recursive_array_diff((array)$this, (array)Person::getById($this->id)), true);
-        // $subject = "Old Individual for approval";
-        // sendOwnerUpdate($message, $subject);
+        $tempPerson = Person::getById($this->id);
+        if ($tempPerson->status === 'A') {
+          $message = "An old Individual has been updated and will require aproval to the changes:<br><br>";
+          $message .= "<a href='http://dev.familyhistorydatabase.org/#/individual?individual=".$this->id."&tab=default'>".$this->displayName()."</a><br><br>";
+          $message .= "by ".$user->username." ".$user->email;
+          $message .= "<br><br>Changes Include:<br>";
+          $message .= print_r(recursive_array_diff((array)$this, (array)$tempPerson), true);
+          $subject = "Old Individual for approval";
+          sendOwnerUpdate($message, $subject);
+        }
       }
       foreach($fields as $key)
       {
