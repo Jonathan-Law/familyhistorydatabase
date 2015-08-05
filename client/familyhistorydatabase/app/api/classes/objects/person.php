@@ -377,6 +377,9 @@ class Person
   public function save($user = null)
   {
     // return $this->id;
+    if ($user === null){
+      $user = User::current_user();
+    }
     return isset($this->id) ? $this->update($user) : $this->create($user);
   }
 
@@ -393,6 +396,9 @@ class Person
   // create the object if it doesn't already exits.
   protected function create($user)
   {
+    if ($user === null){
+      $user = User::current_user();
+    }
     $database = cbSQLConnect::connect('object');
     if (isset($database))
     {
@@ -434,12 +440,15 @@ class Person
   // update the object if it does already exist.
   protected function update($user)
   {
+    if ($user === null){
+      $user = User::current_user();
+    }
     $database = cbSQLConnect::connect('object');
     if (isset($database))
     {
       $fields = self::$db_fields;
       // $this->submitter = (int)$user->id;
-      if (!($user->rights === 'super' || $user->rights === 'admin')){
+      if (isset($user) && !isset($user->rights) || !($user->rights === 'super' || $user->rights === 'admin')){
         $this->status = 'I';
         $tempPerson = Person::getById($this->id);
         if ($tempPerson->status === 'A') {
@@ -451,6 +460,8 @@ class Person
           $subject = "Old Individual for approval";
           sendOwnerUpdate($message, $subject);
         }
+      } else if (!isset(user)){
+        return false;
       }
       foreach($fields as $key)
       {
