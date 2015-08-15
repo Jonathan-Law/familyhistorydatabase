@@ -34,7 +34,7 @@ app.directive('date',['$timeout', function ($timeout) {
       $scope.date = {};
     }],
     link: function postLink(scope, element, attrs) {
-
+      
       scope.$on('$RESETFORM', function() {
         scope.date.dateValue = '';
       })
