@@ -20,7 +20,8 @@
 # with AJAX withCredentials=true (cookies sent, SSL allowed...)
     SetEnvIfNoCase ORIGIN (.*) ORIGIN=$1
     Header always set Access-Control-Allow-Methods "POST, GET, PUT, OPTIONS, PATCH, DELETE"
-    Header always set Access-Control-Allow-Origin "http://localhost:9000"
+    SetEnvIf Origin "http(s)?://(www\.)?(dev.familyhistorydatabase.org|localhost:9000)$" AccessControlAllowOrigin=$0
+    Header add Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
     Header always set Access-Control-Allow-Credentials "true"
     Header always set Access-Control-Allow-Headers "X-Accept-Charset,X-Accept,Content-Type,Cache-Control,X-Requested-With"
     RewriteEngine On

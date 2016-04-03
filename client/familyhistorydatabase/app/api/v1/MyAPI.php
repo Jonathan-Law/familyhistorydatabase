@@ -93,6 +93,30 @@ class MyAPI extends API
     }
   }
 
+  /**
+  * Example of an Endpoint
+  */
+  protected function session($args) {
+    $session = mySession::getInstance();
+    if ($this->method == 'GET') {
+      return $session->getSessionId();
+    } else {
+      return "Only accepts GET requests";
+    }
+  }
+
+  /**
+  * Example of an Endpoint
+  */
+  protected function cookies($args) {
+    $session = mySession::getInstance();
+    if ($this->method == 'GET') {
+      return $_COOKIE;
+    } else {
+      return "Only accepts GET requests";
+    }
+  }
+
 
   protected function user($args) {
     $session = mySession::getInstance();
@@ -100,8 +124,14 @@ class MyAPI extends API
     if ($this->method === 'POST') {
       if ($this->verb === 'login') {
         $result = $this->file;
+        if (empty($result)) {
+          $result = new stdClass();
+          $result->username = $_POST['username'];
+          $result->password = $_POST['password'];
+        }
         $result = login(isset($result->username)? $result->username: null,
           isset($result->password)? $result->password: null);
+        return $result;
         return User::current_user();
       } else if ($this->verb === 'logout') {
         return $session->logout();

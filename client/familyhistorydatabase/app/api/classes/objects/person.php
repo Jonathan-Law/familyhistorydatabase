@@ -97,7 +97,11 @@ class Person
       // must have a constant string to work with or it breaks... so we can't prepare the statement...
       $target = $database->prepareQuote($target);
       $user = User::current_user();
-      $searchCrit = $user->isAdmin()? "" : "AND (`status`='A' OR `submitter`='".$user->id."')";
+      if (is_object($user)) {
+        $searchCrit = "AND (`status`='A' OR `submitter`='".$user->id."')";
+      } else {
+        $searchCrit = ""; 
+      }
       $people = $database->QuerySingle("SELECT *, MATCH(firstName, middleName, lastName) AGAINST(".$target." IN BOOLEAN MODE) AS score FROM `person` WHERE MATCH(firstName, middleName, lastName) AGAINST(".$target." IN BOOLEAN MODE) ".$searchCrit." ORDER BY score DESC LIMIT 0, 10");
       if ($people) {
         foreach($people as $aperson) {
@@ -112,6 +116,7 @@ class Person
         return false;
       }
     }
+    return false;
   }
 
   public function getParentsGen($i){
@@ -460,7 +465,7 @@ class Person
           $subject = "Old Individual for approval";
           sendOwnerUpdate($message, $subject);
         }
-      } else if (!isset(user)){
+      } else if (null !== user){
         return false;
       }
       foreach($fields as $key)

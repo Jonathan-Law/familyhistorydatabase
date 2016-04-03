@@ -38,6 +38,7 @@ function login($username, $password){
     {
       unset($found_user->password);
       // return 1;
+      $found_user->ssId = $session->getSessionId();
       return $found_user;
       exit;
     }
